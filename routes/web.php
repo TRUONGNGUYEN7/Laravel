@@ -18,11 +18,15 @@ use App\Http\Middleware\CheckAdminLogin;
 |
 */
 //homeuser
-Route::get('/', [Homecontroller::class, 'index']);
-Route::get('/trangchu', [Homecontroller::class, 'index']);
+Route::prefix('/')->group(function () {
+     Route::get('/', [Homecontroller::class, 'index']);
+     Route::get('/trangchu', [Homecontroller::class, 'index']);
+});
 
-//user/hienthidanhmuc
-Route::get('/user/danhmuc/danhmuc/{id}', [Homecontroller::class, 'hienthidanhmuc']);
+Route::prefix('/user')->group(function () {
+     Route::get('/danhmuc/danhmuc/{id}', [Homecontroller::class, 'hienthidanhmuc']);
+});
+
 
 //admin
 Route::get('/admin', function () {
@@ -32,12 +36,11 @@ Route::get('/admin', function () {
 Route::prefix('/admin')->group(function () {
      Route::get('/login', [AdminController::class, 'login']);
      Route::get('/logout', [AdminController::class, 'logout']);
-
      Route::post('/loginaction', [AdminController::class, 'loginaction']);
 });
 
 //admin-danhmuc
-Route::prefix('/admin/danhmuc')->group(function () {
+Route::prefix('/admin/danhmuc')->middleware('checkadminlogin')->group(function () {
      Route::get('/hienthi', [CategoryController::class, 'hienthi']);
      Route::get('/them', [CategoryController::class, 'them']);
      Route::get('/sua/{id}', [CategoryController::class, 'sua']);
@@ -47,11 +50,10 @@ Route::prefix('/admin/danhmuc')->group(function () {
      Route::post('/action_them', [CategoryController::class, 'action_them']);
      Route::post('/action_sua/{id}', [CategoryController::class, 'action_sua']);
      Route::post('/xoa/{id}', [CategoryController::class, 'xoa']);
-
 });
 
 //admin-chude
-Route::prefix('/admin/chude')->group(function () {
+Route::prefix('/admin/chude')->middleware('checkadminlogin')->group(function () {
      Route::get('/hienthi', [SubcategoryController::class, 'hienthi']);
      Route::get('/them', [SubcategoryController::class, 'them']);
      Route::get('/sua/{id}', [SubcategoryController::class, 'sua']);
@@ -61,10 +63,10 @@ Route::prefix('/admin/chude')->group(function () {
      Route::post('/action_sua/{id}', [SubcategoryController::class, 'action_sua']);
      Route::post('/xoa/{id}', [SubcategoryController::class, 'xoa']);
      Route::post('/action_them', [SubcategoryController::class, 'action_them']);
- }); 
+}); 
 
 //admin-baiviett
-Route::prefix('/admin/baiviet')->group(function () {
+Route::prefix('/admin/baiviet')->middleware('checkadminlogin')->group(function () {
      Route::get('/hienthi', [PostController::class, 'hienthi']);
      Route::get('/them', [PostController::class, 'them']);
      Route::get('/sua/{id}', [PostController::class, 'sua']);
