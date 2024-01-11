@@ -13,20 +13,28 @@ class HomeController extends Controller
         ->orderByDesc('tblbaiviet.IDBV')
         ->take(1)
         ->get();
-
-        $SecondPost = Post::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
-        ->where('tblbaiviet.IDBV', '<>', $maxViewPosts->first()->IDBV)
-        ->orderByDesc('tblbaiviet.IDBV')
-        ->take(1)
-        ->get();
-
-        $ThirdPost = Post::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
-        ->where('tblbaiviet.IDBV', '<>', $maxViewPosts->first()->IDBV)
-        ->where('tblbaiviet.IDBV', '<>', $SecondPost->first()->IDBV)
-        ->orderByDesc('tblbaiviet.IDBV')
-        ->take(2)
-        ->get();
-
+    
+        $SecondPost = collect(); // Tạo một Collection trống mặc định.
+        
+        if (!$maxViewPosts->isEmpty()) {
+            $SecondPost = Post::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
+                ->where('tblbaiviet.IDBV', '<>', $maxViewPosts->first()->IDBV)
+                ->orderByDesc('tblbaiviet.IDBV')
+                ->take(1)
+                ->get();
+        }
+        
+        $ThirdPost = collect(); // Tạo một Collection trống mặc định.
+        
+        if (!$maxViewPosts->isEmpty() && !$SecondPost->isEmpty()) {
+            $ThirdPost = Post::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
+                ->where('tblbaiviet.IDBV', '<>', $maxViewPosts->first()->IDBV)
+                ->where('tblbaiviet.IDBV', '<>', $SecondPost->first()->IDBV)
+                ->orderByDesc('tblbaiviet.IDBV')
+                ->take(2)
+                ->get();
+        }
+        
         $menuCategory = Category::where('TrangThaiDM', 1)->get();
         $fourCategoryContent = Category::where('TrangThaiDM', 1)->take(2)->get();
         
@@ -37,7 +45,7 @@ class HomeController extends Controller
         } else {
             // Không có danh mục nào được tìm thấy.
         }
-
+        
         return view('user.page.home', [
             'menuCategory' => $menuCategory,
             'maxViewPosts' => $maxViewPosts,
@@ -45,6 +53,7 @@ class HomeController extends Controller
             'ThirdPost' => $ThirdPost,
             'fourCategoryContent' => $fourCategoryContent,
         ]);
+    
     
     }
 

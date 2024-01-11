@@ -36,7 +36,7 @@ class AdminController extends Controller
                 return back();
             } else {
                 Session::put('admin_username', $result -> Ten);
-                Session::put('admin_id', $result -> ID);
+                Session::put('admin_id', $result -> IDAD);
             
                 return Redirect::to('/admin');
             }
