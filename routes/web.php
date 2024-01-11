@@ -27,18 +27,18 @@ Route::prefix('/user')->group(function () {
      Route::get('/danhmuc/danhmuc/{id}', [Homecontroller::class, 'hienthidanhmuc']);
 });
 
-
 //admin
-Route::get('/admin', function () {
-     return view('admin.pages.home');
-})->middleware('checkadminlogin::class');
-
+Route::middleware('checkadminlogin')->group(function () {
+     Route::get('/admin/index', [AdminController::class, 'showhome']);
+});
+ 
 Route::prefix('/admin')->group(function () {
+     Route::get('/', [AdminController::class, 'login']);
      Route::get('/login', [AdminController::class, 'login']);
      Route::get('/logout', [AdminController::class, 'logout']);
      Route::post('/loginaction', [AdminController::class, 'loginaction']);
 });
-
+ 
 //admin-danhmuc
 Route::prefix('/admin/danhmuc')->middleware('checkadminlogin')->group(function () {
      Route::get('/hienthi', [CategoryController::class, 'hienthi']);
@@ -66,7 +66,7 @@ Route::prefix('/admin/chude')->middleware('checkadminlogin')->group(function () 
 }); 
 
 //admin-baiviett
-Route::prefix('/admin/baiviet')->middleware('checkadminlogin')->group(function () {
+Route::prefix('/admin/baiviet')->group(function () {
      Route::get('/hienthi', [PostController::class, 'hienthi']);
      Route::get('/them', [PostController::class, 'them']);
      Route::get('/sua/{id}', [PostController::class, 'sua']);
