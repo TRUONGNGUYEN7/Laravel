@@ -6,6 +6,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\PostController;
+
+use App\Http\Middleware\CheckAdminLogin;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,50 +21,58 @@ use App\Http\Controllers\PostController;
 //homeuser
 Route::get('/', [Homecontroller::class, 'index']);
 Route::get('/trangchu', [Homecontroller::class, 'index']);
+
 //user/hienthidanhmuc
 Route::get('/user/danhmuc/danhmuc/{id}', [Homecontroller::class, 'hienthidanhmuc']);
 
-
 //admin
-Route::get('/admin', [AdminController::class, 'showhome']);
-Route::get('/admin/login', [AdminController::class, 'login']);
-Route::get('/admin/logout', [AdminController::class, 'logout']);
-Route::post('/admin/login', [AdminController::class, 'home']);
+Route::get('/admin', function () {
+     return view('admin.pages.home');
+})->middleware('checkadminlogin::class');
 
+Route::prefix('/admin')->group(function () {
+     Route::get('/login', [AdminController::class, 'login']);
+     Route::get('/logout', [AdminController::class, 'logout']);
+
+     Route::post('/loginaction', [AdminController::class, 'loginaction']);
+});
 
 //admin-danhmuc
-Route::get('/admin/danhmuc/hienthi', [CategoryController::class, 'hienthi']);
-Route::get('/admin/danhmuc/them', [CategoryController::class, 'them']);
-Route::post('/admin/danhmuc/action_them', [CategoryController::class, 'action_them']);
-Route::post('/admin/danhmuc/action_sua/{id}', [CategoryController::class, 'action_sua']);
-Route::get('/admin/danhmuc/sua/{id}', [CategoryController::class, 'suadm']);
-Route::post('/admin/danhmuc/xoa/{id}', [CategoryController::class, 'xoadm']);
-Route::get('/admin/danhmuc/hidden/{id}', [CategoryController::class, 'hidden']);
-Route::get('/admin/danhmuc/show/{id}', [CategoryController::class, 'show']);
-Route::get('/chi-tiet-san-pham/{idsp}', [CategoryController::class, 'chitietsp']);
-Route::get('/admin/danhmuc/hidden/{id}', [CategoryController::class, 'hidden']);
-Route::get('/admin/danhmuc/show/{id}', [CategoryController::class, 'show']);
+Route::prefix('/admin/danhmuc')->group(function () {
+     Route::get('/hienthi', [CategoryController::class, 'hienthi']);
+     Route::get('/them', [CategoryController::class, 'them']);
+     Route::get('/sua/{id}', [CategoryController::class, 'sua']);
+     Route::get('/hidden/{id}', [CategoryController::class, 'hidden']);
+     Route::get('/show/{id}', [CategoryController::class, 'show']);
+
+     Route::post('/action_them', [CategoryController::class, 'action_them']);
+     Route::post('/action_sua/{id}', [CategoryController::class, 'action_sua']);
+     Route::post('/xoa/{id}', [CategoryController::class, 'xoa']);
+
+});
 
 //admin-chude
-Route::get('/admin/chude/hienthi', [SubcategoryController::class, 'chudehienthi']);
-Route::get('/admin/chude/them', [SubcategoryController::class, 'chudethem']);
-Route::post('/admin/chude/action_them', [SubcategoryController::class, 'chudeaction_them']);
-Route::post('/admin/chude/action_sua/{id}', [SubcategoryController::class, 'chudeaction_sua']);
-Route::get('/admin/chude/sua/{id}', [SubcategoryController::class, 'chudesuadm']);
-Route::post('/admin/chude/xoa/{id}', [SubcategoryController::class, 'chudexoadm']);
-Route::get('/admin/chude/hiden/{id}', [SubcategoryController::class, 'chudehidden']);
-Route::get('/admin/chude/show/{id}', [SubcategoryController::class, 'chudeshow']);
-Route::get('/chi-tiet-san-pham/{idsp}', [SubcategoryController::class, 'chudechitietsp']);
-Route::get('/admin/chude/hiden/{id}', [SubcategoryController::class, 'chudehidden']);
-Route::get('/admin/chude/show/{id}', [SubcategoryController::class, 'chudeshow']);
+Route::prefix('/admin/chude')->group(function () {
+     Route::get('/hienthi', [SubcategoryController::class, 'hienthi']);
+     Route::get('/them', [SubcategoryController::class, 'them']);
+     Route::get('/sua/{id}', [SubcategoryController::class, 'sua']);
+     Route::get('/hidden/{id}', [SubcategoryController::class, 'hidden']);
+     Route::get('/show/{id}', [SubcategoryController::class, 'show']);
+
+     Route::post('/action_sua/{id}', [SubcategoryController::class, 'action_sua']);
+     Route::post('/xoa/{id}', [SubcategoryController::class, 'xoa']);
+     Route::post('/action_them', [SubcategoryController::class, 'action_them']);
+ }); 
 
 //admin-baiviet
-Route::get('/admin/baiviet/hienthi', [PostController::class, 'baiviethienthi']);
-Route::get('/admin/baiviet/them', [PostController::class, 'baivietthem']);
-Route::post('/admin/baiviet/action_them', [PostController::class, 'baivietaction_them']);
-Route::post('/admin/baiviet/action_sua/{id}', [PostController::class, 'baivietaction_sua']);
-Route::get('/admin/baiviet/sua/{id}', [PostController::class, 'baivietsuadm']);
-Route::post('/admin/baiviet/xoa/{id}', [PostController::class, 'baivietxoadm']);
-Route::get('/admin/baiviet/hidden/{id}', [PostController::class, 'baiviethidden']);
-Route::get('/admin/baiviet/show/{id}', [PostController::class, 'baivietshow']);
-Route::get('/chi-tiet-san-pham/{idsp}', [PostController::class, 'baivietchitietsp']);
+Route::prefix('/admin/baiviet')->group(function () {
+     Route::get('/hienthi', [PostController::class, 'hienthi']);
+     Route::get('/them', [PostController::class, 'them']);
+     Route::get('/sua/{id}', [PostController::class, 'sua']);
+     Route::get('/hidden/{id}', [PostController::class, 'hidden']);
+     Route::get('/show/{id}', [PostController::class, 'show']);
+
+     Route::post('/action_sua/{id}', [PostController::class, 'action_sua']);
+     Route::post('/xoa/{id}', [PostController::class, 'xoa']);
+     Route::post('/action_them', [PostController::class, 'action_them']);
+});
