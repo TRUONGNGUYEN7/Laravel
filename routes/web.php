@@ -6,7 +6,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\PostController;
-
 use App\Http\Middleware\CheckAdminLogin;
 /*
 |--------------------------------------------------------------------------
@@ -64,7 +63,7 @@ Route::prefix('/admin/chude')->group(function () {
      Route::post('/action_them', [SubcategoryController::class, 'action_them']);
  }); 
 
-//admin-baiviet
+//admin-baiviett
 Route::prefix('/admin/baiviet')->group(function () {
      Route::get('/hienthi', [PostController::class, 'hienthi']);
      Route::get('/them', [PostController::class, 'them']);
