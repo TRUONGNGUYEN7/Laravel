@@ -7,16 +7,11 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
+use App\Http\Requests\AdminLoginRequest;
+use App\Models\Admin\Admin;
+
 class AdminController extends Controller
 {
-    public function Authlogin(){
-        $admin_username = Session::get('admin_username');
-        if($admin_username){
-            return Redirect::to('admin') -> send();
-        } else {
-            return Redirect::to('admin/login') -> send();;
-        }
-    }
 
     public function showhome(){
         return view('admin.pages.home');
@@ -25,31 +20,38 @@ class AdminController extends Controller
         return view('admin.pages.login');
     }
 
-    public function home(Request $request){
+    public function loginaction(AdminLoginRequest $request)
+    {
         $adminname = $request->adminname;
-        $adminpass = md5($request->adminpass);
+        $adminpass = $request->adminpass;
 
-        $result = DB::table('tbladmin')-> where('Ten',$adminname)->where('MatKhau',$adminpass) ->first();
-        if($result) {
-            if($result-> TrangThai == 0){
+        $authenticatedAdmin = Admin::Authenticate($adminname, $adminpass);
+
+        if ($authenticatedAdmin) {
+            if ($authenticatedAdmin->TrangThai == 0) {
                 Session::put('message', 'Bạn chưa có quyền đăng nhập!!!');
                 return back();
             } else {
-                Session::put('admin_username', $result -> Ten);
-                Session::put('admin_id', $result -> IDAD);
-            
-                return Redirect::to('/admin');
+
+                $adminData = [
+                    'admin_username' => $authenticatedAdmin->Ten,
+                    'admin_id' => $authenticatedAdmin->IDAD,
+                ];
+                
+                Session::put('admin_data', $adminData);
+
+                return redirect()->to('/admin/index');
             }
         } else {
-
             Session::put('message', 'Tài khoản hoặc mật khẩu của bạn không đúng, vui lòng thử lại!!!');
-            return Redirect::to('/admin/login');
+            return redirect()->to('/admin/login');
         }
     }
+    
     public function logout(){
 
         session() -> flush();
-        return redirect('/admin/login');
+        return redirect('/admin');
     }
 
 

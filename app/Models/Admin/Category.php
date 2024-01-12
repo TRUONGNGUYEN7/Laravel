@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -62,23 +62,21 @@ class Category extends Model
         }
     }
 
-    public static function hideCategoryById($id)
+    public static function StatusCategoryById($id, $value)
     {
         $category = self::find($id);
 
         if ($category) {
-            $category->TrangThaiDM = 0;
-            $category->save();
-        }
-    }
+            if($value == 0)
+            {
+                $category->TrangThaiDM = 1;
+                $category->save();
+            }else
+            {
+                $category->TrangThaiDM = 0;
+                $category->save();
+            }
 
-    public static function showCategoryById($id)
-    {
-        $category = self::find($id);
-
-        if ($category) {
-            $category->TrangThaiDM = 1;
-            $category->save();
         }
     }
 

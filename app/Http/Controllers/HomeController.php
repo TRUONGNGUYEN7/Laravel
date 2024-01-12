@@ -38,14 +38,6 @@ class HomeController extends Controller
         $menuCategory = Category::where('TrangThaiDM', 1)->get();
         $fourCategoryContent = Category::where('TrangThaiDM', 1)->take(2)->get();
         
-        $firstCategory = Category::where('TrangThaiDM', 1)->first();
-        if ($firstCategory) {
-            $firstCategoryId = $firstCategory->IDDM;
-            // Tiếp tục xử lý hoặc trả giá trị $firstCategoryId theo nhu cầu của bạn.
-        } else {
-            // Không có danh mục nào được tìm thấy.
-        }
-        
         return view('user.page.home', [
             'menuCategory' => $menuCategory,
             'maxViewPosts' => $maxViewPosts,
@@ -53,8 +45,6 @@ class HomeController extends Controller
             'ThirdPost' => $ThirdPost,
             'fourCategoryContent' => $fourCategoryContent,
         ]);
-    
-    
     }
 
     public function hienthidanhmuc($id)
@@ -65,15 +55,18 @@ class HomeController extends Controller
         ->orderByDesc('tblbaiviet.IDBV')
         ->take(1)
         ->get();
-    
-        // Lấy 4 bài viết khác trong cùng danh mục
-        $fourPosts = Post::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
-        ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
-        ->where('tbldanhmuc.IDDM', $id)
-        ->where('tblbaiviet.IDBV', '<>', $maxViewPost->first()->IDBV)
-        ->orderByDesc('tblbaiviet.IDBV')
-        ->take(4)
-        ->get();
+        
+        $fourPosts = collect(); // Tạo một Collection trống mặc định.
+        if (!$maxViewPost->isEmpty()) {
+            // Lấy 4 bài viết khác trong cùng danh mục
+            $fourPosts = Post::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+            ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
+            ->where('tbldanhmuc.IDDM', $id)
+            ->where('tblbaiviet.IDBV', '<>', $maxViewPost->first()->IDBV)
+            ->orderByDesc('tblbaiviet.IDBV')
+            ->take(4)
+            ->get();
+        }
 
         $menuCategory = Category::where('TrangThaiDM', 1)->get();
         $ttdanhmuc = Category::find($id);

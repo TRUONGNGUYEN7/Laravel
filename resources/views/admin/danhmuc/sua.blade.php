@@ -25,14 +25,18 @@
      }
      ?>
      @foreach ($dsdanhmuc as $key => $item)
-     <form action="{{URL::to('/admin/danhmuc/action_sua/'.$item -> IDDM  )}}" method="POST" class="form-horizontal ">
+     <form action="{{ route('admin.danhmuc.action_sua', ['id' => $item->IDDM]) }}" method="POST" class="form-horizontal ">
           {{ csrf_field() }}
-          <div class="form-group has-success">
+          <div class="form-group has-success {{ $errors->has('tendanhmuc') ? 'has-error' : '' }}">
                <label class="col-lg-3 control-label">Tên danh mục</label>
                <div class="col-lg-6">
                     <input type="text" value="{{$item -> TenDanhMuc}}" name="tendanhmuc" placeholder="" class="form-control custom-width">
+                    @if ($errors->has('tendanhmuc'))
+                         <span class="help-block">{{ $errors->first('tendanhmuc') }}</span>
+                    @endif
                </div>
           </div>
+
           <div class="form-group has-warning">
                <label class="col-lg-3 control-label">Trạng thái</label>
                <div class="form-group row">

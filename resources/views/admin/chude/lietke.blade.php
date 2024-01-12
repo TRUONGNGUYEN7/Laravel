@@ -33,12 +33,9 @@
           <div class="">
                <div style="" class="panel panel-default">
                     <div class="row w3-res-tb">
-
-                         <div class="col-sm-4">
-                         </div>
                          <div class="col-sm-3">
                               <div class="input-group">
-                                   <input type="text" id="myInput" style="width: 600px; height: 47px;margin-left:-130px" class="form-control" placeholder="Tìm kiếm....">
+                                   <input type="text" id="myInput" class="inputsearch form-control" placeholder="Tìm kiếm....">
                               </div>
                          </div>
                     </div>
@@ -61,19 +58,19 @@
                                         <td>
                                              <div style="width: 30px;">
                                                   @if ($item->TrangThaiCD == 1)
-                                                  <a href="{{URL::to('/admin/chude/hiden/'.$item->IDCD)}}">
+                                                  <a href="{{ route('admin.chude.status', ['id' => $item->IDCD, 'value' => 1]) }}">
                                                        <input type="checkbox" checked name="hienthi" class="switch-btn" data-size="small" data-color="#0099ff">
                                                   </a>
                                                   @else
-                                                  <a href="{{URL::to('/admin/chude/show/'.$item->IDCD)}}">
+                                                  <a href="{{ route('admin.chude.status', ['id' => $item->IDCD, 'value' => 0]) }}">
                                                        <input type="checkbox" name="hienthi" class="switch-btn" data-size="small" data-color="#0099ff">
                                                   </a>
                                                   @endif
                                              </div>
                                         </td>
                                         <td>
-                                             <a href="{{URL::to('admin/chude/sua/'.$item->IDCD)}}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
-                                             <form action="{{URL::to('/admin/chude/xoa/'.$item->IDCD)}}" method="POST" style="display: inline;">
+                                             <a href="{{ route('admin.chude.sua', ['id' => $item->IDCD]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
+                                             <form action="{{ route('admin.chude.xoa', ['id' => $item->IDCD]) }}" method="POST" style="display: inline;">
                                                   @csrf
                                                   <button type="submit" class="btn btn-danger show-alert-delete-box" data-toggle="tooltip" title='Delete'><i class="dw dw-delete-3"></i>Delete</button>
                                              </form>

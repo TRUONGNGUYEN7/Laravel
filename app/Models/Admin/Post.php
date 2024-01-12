@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,9 +25,6 @@ class Post extends Model
 
         if ($postCheck) {
             return redirect()->back()->with('error', 'Chủ đề đã tồn tại');
-        } elseif (empty($tenBaiViet)) {
-            Session::put('message', 'Các trường không được để trống!!!');
-            return back();
         } else {
             $post = new self();
 
@@ -107,14 +104,23 @@ class Post extends Model
             self::destroy($id);
         }
     }
-    public static function hidePostById($id)
-    {
-        self::where('IDBV', $id)->update(['TrangThaiBV' => 0]);
-    }
 
-    public static function showPostById($id)
+    public static function StatusPostById($id, $value)
     {
-        self::where('IDBV', $id)->update(['TrangThaiBV' => 1]);
+        $post = self::find($id);
+
+        if ($post) {
+            if($value == 0)
+            {
+                $post->TrangThaiBV = 1;
+                $post->save();
+            }else
+            {
+                $post->TrangThaiBV = 0;
+                $post->save();
+            }
+
+        }
     }
 
 

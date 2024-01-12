@@ -24,40 +24,36 @@
                 Session::put('message', null);
             }
         ?>
-        <form action="{{ URL::to('/admin/chude/action_them') }}" method="POST" class="form-horizontal ">
+        <form action="{{ route('admin.chude.action_them') }}" method="POST" class="form-horizontal ">
             {{ csrf_field() }}
-            <div class="form-group has-success">
+            <div class="form-group {{ $errors->has('tenchude') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Tên chủ đề</label>
                 <div class="col-lg-6">
-                    <input type="text" name="tenchude" required minlength="5" placeholder="" id="tenchude" class="form-control custom-width">
+                    <input type="text" name="tenchude" placeholder="" id="tenchude" class="form-control custom-width">
+                    @if ($errors->has('tenchude'))
+                        <span class="help-block">{{ $errors->first('tenchude') }}</span>
+                    @endif
                 </div>
             </div>
 
-            <div class="form-group has-success">
+            <div class="form-group {{ $errors->has('idchude') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Danh mục</label>
                 <div class="form-group row">
-                    <div class="col-lg-6"> <!-- Adjust the column width as needed -->
-                        <select class="form-control" name="idchude" id="idchude" class="form-select">
-                            <option value="capnhat" selected>------đang cập nhật------</option>
+                    <div class="col-lg-6">
+                        <select class="form-control" name="idchude" id="idchude">
+                            <option value="chude" selected>------Chọn------</option>
                             @foreach ($dsdanhmuc as $key => $item)
                                 <option value="{{ $item->IDDM }}">{{ $item->TenDanhMuc }}</option>
                             @endforeach
                         </select>
+                        @if ($errors->has('idchude'))
+                            <span class="help-block">{{ $errors->first('idchude') }}</span>
+                        @endif
                     </div>
                 </div>
             </div>
 
 
-            <script>
-                const email = document.getElementById("mota");
-                email.addEventListener("input", (event) => {
-                    if (email.validity.typeMismatch) {
-                        email.setCustomValidity("Điền địa chỉ email!");
-                    } else {
-                        email.setCustomValidity("");
-                    }
-                });
-            </script>
             <div class="form-group has-warning">
                 <label class="col-lg-3 control-label">Trạng thái</label>
                 <div class="form-group row">

@@ -23,38 +23,50 @@
                 Session::put('message', null);
             }
         ?>
-        <form action="{{ URL::to('/admin/baiviet/action_them') }}" method="POST" enctype="multipart/form-data"  class="form-horizontal ">
+        <form action="{{ route('admin.baiviet.action_them') }}" method="POST" enctype="multipart/form-data"  class="form-horizontal ">
             {{ csrf_field() }}
-            <div class="form-group has-success">
+            <div class="form-group {{ $errors->has('tenbaiviet') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Tên bài viết</label>
                 <div class="col-lg-6">
-                    <input type="text" name="tenbaiviet" required minlength="5" placeholder="" id="tendanhmuc" class="form-control custom-width">
+                    <input type="text" name="tenbaiviet" minlength="5" placeholder="" id="tenbaiviet" class="form-control custom-width">
+                    @if ($errors->has('tenbaiviet'))
+                        <span class="help-block">{{ $errors->first('tenbaiviet') }}</span>
+                    @endif
                 </div>
             </div>
 
-            <div class="form-group has-success">
+            <div class="form-group {{ $errors->has('mota') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Mô tả bài viết</label>
                 <div class="col-lg-6">
-                    <input type="text" name="mota" required placeholder="" id="mota" class="form-control custom-width">
+                    <input type="text" name="mota" placeholder="" id="mota" class="form-control custom-width">
+                    @if ($errors->has('mota'))
+                        <span class="help-block">{{ $errors->first('mota') }}</span>
+                    @endif
                 </div>
             </div>
 
-            <div class="form-group has-success">
+            <div class="form-group {{ $errors->has('hinhanh') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Hình ảnh mô tả</label>
                 <div class="col-lg-6">
-                    <input type="file" class="form-control" id="hinhanh" name="hinhanh" required class="form-control custom-width">
+                    <input type="file" class="form-control" id="hinhanh" name="hinhanh" class="form-control custom-width">
+                    @if ($errors->has('hinhanh'))
+                        <span class="help-block">{{ $errors->first('hinhanh') }}</span>
+                    @endif
                 </div>
             </div>
 
-            <div class="form-group has-success">
+            <div class="form-group {{ $errors->has('noidung') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Nội dung bài viết</label>
                 <div class="col-lg-6">
-                    <textarea type="text" name="noidung" placeholder="" id="ckeditor" class="form-control">
-                    </textarea>
+                    <textarea type="text" name="noidung" placeholder="" id="ckeditor" class="form-control"></textarea>
+                    @if ($errors->has('noidung'))
+                        <span class="help-block">{{ $errors->first('noidung') }}</span>
+                    @endif
                 </div>
             </div>
 
-            <div class="form-group has-success">
+
+            <div class="form-group {{ $errors->has('idchude') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Chủ đề</label>
                 <div class="col-lg-6">
                     <select class="form-control custom-width" name="idchude" id="idchude">
@@ -63,6 +75,9 @@
                             <option value="{{ $item->IDCD }}">{{ $item->TenChuDe }}</option>
                         @endforeach
                     </select>
+                    @error('idchude')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 

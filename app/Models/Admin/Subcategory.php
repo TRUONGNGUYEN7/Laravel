@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,9 +24,6 @@ class Subcategory extends Model
 
         if ($subCategoryCheck) {
             return redirect()->back()->with('error', 'Chủ đề đã tồn tại');
-        } elseif (empty($tenChuDe)) {
-            Session::put('message', 'Các trường không được để trống!!!');
-            return back();
         } else {
             $subcategory = new self();
             $subcategory->TrangThaiCD = $request->has('hienthi') ? 1 : 0;
@@ -70,23 +67,21 @@ class Subcategory extends Model
         self::destroy($id);
     }
 
-    public static function hideSubcategoryById($id)
+    public static function StatusSubcategoryById($id, $value)
     {
         $subcategory = self::find($id);
 
         if ($subcategory) {
-            $subcategory->TrangThaiCD = 0;
-            $subcategory->save();
-        }
-    }
+            if($value == 0)
+            {
+                $subcategory->TrangThaiCD = 1;
+                $subcategory->save();
+            }else
+            {
+                $subcategory->TrangThaiCD = 0;
+                $subcategory->save();
+            }
 
-    public static function showSubcategoryById($id)
-    {
-        $subcategory = self::find($id);
-
-        if ($subcategory) {
-            $subcategory->TrangThaiCD = 1;
-            $subcategory->save();
         }
     }
 

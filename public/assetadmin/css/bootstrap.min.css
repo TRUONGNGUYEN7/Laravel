@@ -235,8 +235,8 @@ th {
 
 @media print {
     *,
-    :after,
-    :before {
+     :after,
+     :before {
         color: #000!important;
         text-shadow: none!important;
         background: 0 0!important;
@@ -4663,12 +4663,20 @@ tbody.collapse.in {
     padding-left: 0
 }
 
-.input-group .form-control {
-    position: relative;
-    z-index: 2;
-    float: left;
-    width: 100%;
-    margin-bottom: 0
+.inputsearch {
+    width: 600px;
+    height: 47px;
+    border-radius: 15px;
+    margin-left: 70%;
+    display: flex;
+    /* Use flexbox to align items horizontally */
+    align-items: center;
+    /* Center items vertically */
+}
+
+.inputsearch .input-group-append {
+    margin-left: -30px;
+    /* Adjust the margin to position the magnifying glass icon */
 }
 
 .input-group-lg>.form-control,
@@ -4778,8 +4786,8 @@ textarea.input-group-sm>.input-group-btn>.btn {
 .input-group-btn:first-child>.dropdown-toggle,
 .input-group-btn:last-child>.btn-group:not(:last-child)>.btn,
 .input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0
+    border-top-right-radius: 2;
+    border-bottom-right-radius: 2
 }
 
 .input-group-addon:first-child {
@@ -4793,8 +4801,8 @@ textarea.input-group-sm>.input-group-btn>.btn {
 .input-group-btn:last-child>.btn,
 .input-group-btn:last-child>.btn-group>.btn,
 .input-group-btn:last-child>.dropdown-toggle {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0
+    border-top-left-radius: 2;
+    border-bottom-left-radius: 2
 }
 
 .input-group-addon:last-child {

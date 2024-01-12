@@ -12,8 +12,10 @@ class CheckAdminLogin
 {
     public function handle($request, Closure $next)
     {
-        $admin_username = Session::get('admin_username');
-        if ($admin_username) {
+
+        $adminData = Session::get('admin_data');
+
+        if ($adminData) {
             return $next($request);
         } else {
             return redirect("/admin/login");

@@ -98,16 +98,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				}
 			?> -->
 			</div>
-		
-		<form action="{{ URL::to('admin/login') }}" method="post" id="loginForm">
-			{{ csrf_field() }}
-			<input type="text" class="ggg" name="adminname" placeholder="E-MAIL" required>
-			<input type="password" class="ggg" name="adminpass" placeholder="PASSWORD" required>
-			<span><input type="checkbox" id="rememberMe">Remember Me</span>
-			<h6><a href="#">Forgot Password?</a></h6>
-			<div class="clearfix"></div>
-			<input type="submit" value="Sign In" name="login">
-		</form>
+	
+			<form action="{{ URL::to('admin/loginaction') }}" method="post" id="loginForm">
+				{{ csrf_field() }}
+				<input type="text" class="ggg" name="adminname" placeholder="E-MAIL" >
+				@error('adminname')
+					<div class="alert alert-danger">{{ $message }}</div>
+				@enderror
+
+				<input type="password" class="ggg" name="adminpass" placeholder="PASSWORD" >
+				@error('adminpass')
+					<div class="alert alert-danger">{{ $message }}</div>
+				@enderror
+
+				<span><input type="checkbox" id="rememberMe">Remember Me</span>
+				<h6><a href="#">Forgot Password?</a></h6>
+				<div class="clearfix"></div>
+				<input type="submit" value="Sign In" name="login">
+			</form>
+
 			<p>Don't Have an Account ?<a href="registration.html">Create an account</a></p>
 		</div>
 	</div>

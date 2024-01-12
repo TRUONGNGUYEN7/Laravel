@@ -33,14 +33,11 @@
           <div class="table-agile-info">
                <div class="panel panel-default">
                <div class="row w3-res-tb">
-
-               <div class="col-sm-4">
-               </div>
                     <div class="col-sm-3">
                          <div class="input-group">
-                              <input type="text" id="myInput" style="width: 600px; height: 47px;margin-left:-130px" class="form-control" placeholder="Tìm kiếm....">
+                              <input placeholder="Tìm kiếm...." type="text" id="myInput" class="inputsearch form-control">
                          </div>
-                    </div>
+                    </div>   
                </div>
                <div class="table-responsive">
                          <div class="container">
@@ -63,11 +60,11 @@
                                         <td>
                                              <div style="width: 30px;">
                                                   @if ($item -> TrangThaiBV == 1)
-                                                  <a href="{{URL::to('/admin/baiviet/hidden/'.$item -> IDBV)}}">
+                                                  <a href="{{ route('admin.baiviet.status', ['id' => $item->IDBV, 'value' => 1]) }}">
                                                        <input type="checkbox" checked name="hienthi" class="switch-btn" data-size="small" data-color="#0099ff">
                                                   </a>
                                                   @else
-                                                  <a href="{{URL::to('/admin/baiviet/show/'.$item -> IDBV)}}">
+                                                  <a href="{{ route('admin.baiviet.status', ['id' => $item->IDBV, 'value' => 0]) }}">
                                                        <input type="checkbox" name="hienthi" class="switch-btn" data-size="small" data-color="#0099ff">
                                                   </a>
                                                   @endif
@@ -75,8 +72,8 @@
 
                                         </td>
                                         <td>
-                                             <a href="{{URL::to('admin/baiviet/sua/'.$item -> IDBV)}}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
-                                             <form action="{{URL::to('/admin/baiviet/xoa/'.$item -> IDBV)}}" method="POST" style="display: inline;">
+                                             <a href="{{ route('admin.baiviet.sua', ['id' => $item->IDBV]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
+                                             <form action="{{ route('admin.baiviet.xoa', ['id' => $item->IDBV]) }}" method="POST" style="display: inline;">
                                                   @csrf
                                                   <button type="submit" class="btn btn-danger show-alert-delete-box" data-toggle="tooltip" title='Delete'><i class="dw dw-delete-3"></i>Delete</button>
                                              </form>

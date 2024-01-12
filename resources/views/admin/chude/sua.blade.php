@@ -24,23 +24,34 @@
           Session::put('message', null);
      }
      ?>
-     @foreach ($dsdanhmucsua as $key => $item)
-     <form action="{{URL::to('/admin/chude/action_sua/'.$item -> IDCD  )}}" method="POST" class="form-horizontal ">
+     @foreach ($dschudesua as $key => $item)
+     <form action="{{ route('admin.chude.action_sua', ['id' => $item->IDCD]) }}" method="POST" class="form-horizontal ">
           {{ csrf_field() }}
-          <div class="form-group has-success">
+          <div class="form-group {{ $errors->has('tenchude') ? 'has-error' : 'has-success' }}">
                <label class="col-lg-3 control-label">Tên chủ đề</label>
                <div class="col-lg-6">
                     <input type="text" value="{{$item -> TenChuDe}}" name="tenchude" placeholder="" class="form-control custom-width">
+                    @if ($errors->has('tenchude'))
+                        <span class="help-block">{{ $errors->first('tenchude') }}</span>
+                    @endif
                </div>
           </div>
 
-          <div class="form-group has-warning">
-               <label class="col-lg-3 control-label">Danh mục sản phẩm</label>
+          <div class="form-group {{ $errors->has('idchude') ? 'has-error' : 'has-success' }}">
+               <label class="col-lg-3 control-label">Danh mục</label>
                <div class="col-lg-6">
-                    <select style="height: 45px;" class="form-control" name="iddanhmuc" id="iddanhmuc" class="form-select">
-                         <option value="capnhat" selected>------đang cập nhật------</option>
-                         <option selected value="{{ $item->DanhMucID }}">{{ $item->TenDanhMuc }}</option>
-                    </select>
+               <select style="height: 45px;" class="form-control" name="iddanhmuc" id="iddanhmuc" class="form-select">
+                    @foreach ($dsdanhmuc as $key => $dm)
+                         @if ($dm->IDDM == $item->DanhMucID)
+                              <option value="{{ $dm->IDDM }}" selected>{{ $dm->TenDanhMuc }}</option>
+                         @else
+                              <option value="{{ $dm->IDDM }}">{{ $dm->TenDanhMuc }}</option>
+                         @endif
+                    @endforeach
+               </select>
+               @if ($errors->has('idchude'))
+                    <span class="help-block">{{ $errors->first('idchude') }}</span>
+               @endif
                </div>
           </div>
 

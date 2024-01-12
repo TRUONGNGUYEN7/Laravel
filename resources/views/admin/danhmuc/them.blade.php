@@ -23,15 +23,20 @@
             Session::put('message', null);
         }
         ?>
-        <form action="{{ URL::to('/admin/danhmuc/action_them') }}" method="POST" class="form-horizontal ">
+        <form action="{{ route('admin.danhmuc.action_them') }}" method="POST" class="form-horizontal ">
             {{ csrf_field() }}
-            <div class="form-group has-success">
+
+            
+            <div class="form-group has-success {{ $errors->has('tendanhmuc') ? 'has-error' : '' }}">
                 <label class="col-lg-3 control-label">Tên danh mục</label>
                 <div class="col-lg-6">
-                    <input type="text" name="tendanhmuc" required minlength="5" placeholder="" id="tendanhmuc" class="form-control custom-width">
+                    <input type="text" name="tendanhmuc" minlength="5" placeholder="" id="tendanhmuc" class="form-control custom-width">
+                    @if ($errors->has('tendanhmuc'))
+                        <span class="help-block">{{ $errors->first('tendanhmuc') }}</span>
+                    @endif
                 </div>
             </div>
-            
+
             <script>
                 const email = document.getElementById("mota");
                 email.addEventListener("input", (event) => {

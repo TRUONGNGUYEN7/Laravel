@@ -104,13 +104,13 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <img alt="" src="images/2.png">
                             <span class="username">
+                            <?php
+                                $adminData = Session::get('admin_data');
+                                $adminUsername = isset($adminData['admin_username']) ? $adminData['admin_username'] : null;
+                                $adminId = isset($adminData['admin_id']) ? $adminData['admin_id'] : null;
+                            ?>
+                            {{ $adminUsername }}
 
-                                <?php
-                                $name = Session::get('admin_username');
-                                if ($name) {
-                                    echo $name;
-                                }
-                                ?>
                             </span>
                             <b class="caret"></b>
                         </a>
@@ -147,9 +147,8 @@
                                 <span class="sizetextdm">Danh Mục</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ URL::to('/admin/danhmuc/them') }}">Thêm danh mục</a></li>
-                                <li><a href="{{ URL::to('admin/danhmuc/hienthi') }}">Liệt kê danh mục</a></li>
-                            </ul>
+                                <li><a href="{{ route('admin.danhmuc.them') }}">Thêm danh mục</a></li>
+                                <li><a href="{{ route('admin.danhmuc.lietke') }}">Liệt kê danh mục</a></li>                            </ul>
                         </li>
 
                         <li class="sub-menu">
@@ -158,8 +157,8 @@
                                 <span class="sizetextdm">Chủ Đề</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ URL::to('/admin/chude/them') }}">Thêm chủ đề</a></li>
-                                <li><a href="{{ URL::to('admin/chude/hienthi') }}">Liệt kê chủ đề</a></li>
+                                <li><a href="{{ route('admin.chude.them') }}">Thêm chủ đề</a></li>
+                                <li><a href="{{ route('admin.chude.lietke') }}">Liệt kê chủ đề</a></li>
                             </ul>
                         </li>
 
@@ -169,8 +168,8 @@
                                 <span class="sizetextdm">Bài Viết</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ URL::to('admin/baiviet/them') }}">Thêm bài viết</a></li>
-                                <li><a href="{{ URL::to('admin/baiviet/hienthi') }}">Danh sách bài viết</a></li>
+                                <li><a href="{{ route('admin.baiviet.them') }}">Thêm bài viết</a></li>
+                                <li><a href="{{ route('admin.baiviet.lietke') }}">Danh sách bài viết</a></li>
                             </ul>
                         </li>
                     </ul>

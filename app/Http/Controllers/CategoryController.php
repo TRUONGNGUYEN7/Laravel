@@ -6,63 +6,49 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use App\Models\Category;
+
+use App\Models\Admin\Category;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
-    public function Authlogin()
-    {
-        $admin_username = Session::get('admin_username');
-        if (!$admin_username) {
-            return Redirect::to('admin/login')->send();
-        }
-    }
 
-    public function hienthi()
+    public function index()
     {
-        $this->Authlogin();
         $dsdanhmuc = DB::table('tbldanhmuc')->get();
         return view('admin.danhmuc.lietke')->with('dsdanhmuc', $dsdanhmuc);
     }
 
-    public function them()
+    public function create()
     {
         return view('admin.danhmuc.them');
     }
 
-    public function action_them(Request $request)
+    public function store(CategoryRequest $request)
     {
-        return Category::checkAndCreateCategory($request);
+        Category::checkAndCreateCategory($request);
+        return back();
     }
+    
 
-    public function hidden($id)
+    public function status($id, $value)
     {
-        $this->Authlogin();
-        Category::hideCategoryById($id);
-        return redirect()->to('admin/danhmuc/hienthi');
+        Category::StatusCategoryById($id, $value);
+        return back();
     }
 
-    public function show($id)
-    {
-        $this->Authlogin();
-        Category::showCategoryById($id);
-        return redirect()->to('admin/danhmuc/hienthi');
+    public function action_sua(CategoryRequest $request, $id){
+        Category::updateCategory($id, $request);
+        return back();
     }
 
-    public function action_sua(Request $request, $id){
-        return Category::updateCategory($id, $request);
-    }
-
-    public function suadm($id){
-        $this -> Authlogin();
+    public function sua($id){
         $dsdanhmuc = Category::where('IDDM', $id)->get();
-        // $dsdanhmuc = DB::table('tbldanhmuc') -> where('IDDM', $id) -> get();
         return view('admin.danhmuc.sua') -> with('dsdanhmuc', $dsdanhmuc);
     }
 
-    public function xoadm($id)
+    public function xoa($id)
     {
-        $this->Authlogin();
         Category::deleteCategoryById($id);
         return back();
     }
