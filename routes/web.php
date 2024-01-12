@@ -40,40 +40,42 @@ Route::prefix('/admin')->group(function () {
 });
  
 //admin-danhmuc
-Route::prefix('/admin/danhmuc')->middleware('checkadminlogin')->group(function () {
-     Route::get('/hienthi', [CategoryController::class, 'hienthi']);
-     Route::get('/them', [CategoryController::class, 'them']);
-     Route::get('/sua/{id}', [CategoryController::class, 'sua']);
-     Route::get('/hidden/{id}', [CategoryController::class, 'hidden']);
-     Route::get('/show/{id}', [CategoryController::class, 'show']);
-
-     Route::post('/action_them', [CategoryController::class, 'action_them']);
-     Route::post('/action_sua/{id}', [CategoryController::class, 'action_sua']);
-     Route::post('/xoa/{id}', [CategoryController::class, 'xoa']);
+Route::prefix('/admin')->middleware('checkadminlogin')->group(function () {
+     Route::resource('categories', CategoryController::class)->names([
+         'index' => 'admin.danhmuc.lietke',
+         'create' => 'admin.danhmuc.them',
+         'store' => 'admin.danhmuc.action_them',
+     ]);
+     Route::get('/sua/{id}', [CategoryController::class, 'sua'])->name('admin.danhmuc.sua');
+     Route::post('/action_sua/{id}', [CategoryController::class, 'action_sua'])->name('admin.danhmuc.action_sua');
+     Route::post('/xoa/{id}', [CategoryController::class, 'xoa'])->name('admin.danhmuc.xoa');
+     Route::get('danhmuc/status/{id}/{value}', [CategoryController::class, 'status'])->name('admin.danhmuc.status');
 });
 
 //admin-chude
 Route::prefix('/admin/chude')->middleware('checkadminlogin')->group(function () {
-     Route::get('/hienthi', [SubcategoryController::class, 'hienthi']);
-     Route::get('/them', [SubcategoryController::class, 'them']);
-     Route::get('/sua/{id}', [SubcategoryController::class, 'sua']);
-     Route::get('/hidden/{id}', [SubcategoryController::class, 'hidden']);
-     Route::get('/show/{id}', [SubcategoryController::class, 'show']);
-
-     Route::post('/action_sua/{id}', [SubcategoryController::class, 'action_sua']);
-     Route::post('/xoa/{id}', [SubcategoryController::class, 'xoa']);
-     Route::post('/action_them', [SubcategoryController::class, 'action_them']);
-}); 
+     Route::resource('chude', SubcategoryController::class)->names([
+         'index' => 'admin.chude.lietke',
+         'create' => 'admin.chude.them',
+         'store' => 'admin.chude.action_them',
+     ]);
+     Route::get('sua/{id}', [SubcategoryController::class, 'sua'])->name('admin.chude.sua');
+     Route::post('action_sua/{id}', [SubcategoryController::class, 'action_sua'])->name('admin.chude.action_sua');
+     Route::post('xoa/{id}', [SubcategoryController::class, 'xoa'])->name('admin.chude.xoa');
+     Route::get('status/{id}/{value}', [SubcategoryController::class, 'status'])->name('admin.chude.status');
+});
+ 
 
 //admin-baiviett
-Route::prefix('/admin/baiviet')->group(function () {
-     Route::get('/hienthi', [PostController::class, 'hienthi']);
-     Route::get('/them', [PostController::class, 'them']);
-     Route::get('/sua/{id}', [PostController::class, 'sua']);
-     Route::get('/hidden/{id}', [PostController::class, 'hidden']);
-     Route::get('/show/{id}', [PostController::class, 'show']);
-
-     Route::post('/action_sua/{id}', [PostController::class, 'action_sua']);
-     Route::post('/xoa/{id}', [PostController::class, 'xoa']);
-     Route::post('/action_them', [PostController::class, 'action_them']);
+Route::prefix('/admin/baiviet')->middleware('checkadminlogin')->group(function () {
+     Route::resource('baiviet', PostController::class)->names([
+         'index' => 'admin.baiviet.lietke',
+         'create' => 'admin.baiviet.them',
+         'store' => 'admin.baiviet.action_them',
+     ]);
+     Route::get('sua/{id}', [PostController::class, 'sua'])->name('admin.baiviet.sua');
+     Route::post('action_sua/{id}', [PostController::class, 'action_sua'])->name('admin.baiviet.action_sua');
+     Route::post('xoa/{id}', [PostController::class, 'xoa'])->name('admin.baiviet.xoa');
+     Route::get('status/{id}/{value}', [PostController::class, 'status'])->name('admin.baiviet.status');
 });
+
