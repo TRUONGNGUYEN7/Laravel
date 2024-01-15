@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\Post;
+use App\Models\Admin\Category;
+use App\Models\Admin\Post;
 class HomeController extends Controller
 {
     public function index()
