@@ -33,6 +33,7 @@ Route::prefix('/admin')->group(function () {
      Route::get('/login', [AdminController::class, 'login']);
      Route::post('/loginaction', [AdminController::class, 'loginaction']);
      Route::get('/logout', [AdminController::class, 'logout']);
+     Route::get('/signup', [AdminController::class, 'signup']);
 });
 
 // Admin

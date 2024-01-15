@@ -112,7 +112,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<input type="submit" value="Sign In" name="login">
 			</form>
 
-			<p>Don't Have an Account ?<a href="registration.html">Create an account</a></p>
+			<!-- <p>Don't Have an Account ?<a href="">Create an account</a></p> -->
 		</div>
 	</div>
 	<script src="{{asset('assetadmin/js/bootstrap.js')}}"></script>

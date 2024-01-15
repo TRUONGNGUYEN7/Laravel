@@ -84,11 +84,11 @@
 									<a href="" class="dis-block how1-child1 trans-03"></a>
 									<div class="flex-col-e-s s-full p-rl-25 p-tb-20">
 										<a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-										{{ $ThirdPost->isEmpty() ? 'No Category' : $post->TenChuDe }}
+											{{ $ThirdPost->isEmpty() ? 'No Category' : $post->TenChuDe }}
 										</a>
 										<h3 class="how1-child2 m-t-14">
 											<a href="" class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03 csstieude34">
-											{{ $ThirdPost->isEmpty() ? 'No Title' : $post->TenBV }}
+												{{ $ThirdPost->isEmpty() ? 'No Title' : $post->TenBV }}
 											</a>
 										</h3>
 									</div>						
