@@ -107,9 +107,8 @@
                             <?php
                                 $adminData = Session::get('admin_data');
                                 $adminUsername = isset($adminData['admin_username']) ? $adminData['admin_username'] : null;
-                                $adminId = isset($adminData['admin_id']) ? $adminData['admin_id'] : null;
                             ?>
-                            {{ $adminUsername }}
+                            {{ $adminData['admin_username'] ?? '' }}
 
                             </span>
                             <b class="caret"></b>

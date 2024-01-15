@@ -43,7 +43,7 @@ class AdminController extends Controller
                 return redirect()->to('/admin/index');
             }
         } else {
-            Session::put('message', 'Tài khoản hoặc mật khẩu của bạn không đúng, vui lòng thử lại!!!');
+            $request->session()->flash('message', 'Tài khoản hoặc mật khẩu của bạn không đúng, vui lòng thử lại!!!');
             return redirect()->to('/admin/login');
         }
     }

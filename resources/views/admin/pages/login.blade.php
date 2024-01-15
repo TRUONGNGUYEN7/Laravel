@@ -84,24 +84,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
 <body>
 	<div id="flash-message" class="alertsuccess">
-        {{ session('message') }}
+	   {{ session('message') ?? '' }}
+
     </div>
 	<div style=" margin-top: 200px " class="log-w3">
 		<div class="w3layouts-main">
 			<h2>Sign In Now</h2>
 			<div style="width: 1100px;">
-			<!-- <?php
-				$message = Session::get('message');
-				if ($message) {
-					echo '<span class="warning_mes">' . $message . '</span>';
-					Session::put('message', null);
-				}
-			?> -->
+
 			</div>
 	
 			<form action="{{ URL::to('admin/loginaction') }}" method="post" id="loginForm">
 				{{ csrf_field() }}
-				<input type="text" class="ggg" name="adminname" placeholder="E-MAIL" >
+				<input type="text" class="ggg" name="adminname" placeholder="NAME" >
 				@error('adminname')
 					<div class="alert alert-danger">{{ $message }}</div>
 				@enderror
