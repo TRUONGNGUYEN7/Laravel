@@ -23,7 +23,7 @@ class SubcategoryRequest extends FormRequest
     {
         return [
             'tenchude' => ['required', 'regex:/^[a-zA-Z0-9]+$/i', 'min:5'],
-            'idchude' => 'required|not_in:chude',
+            'idchude' => ['required', 'not_in:chude'],
         ];
     }
 

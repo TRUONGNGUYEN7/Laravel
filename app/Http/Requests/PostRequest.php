@@ -26,7 +26,7 @@ class PostRequest extends FormRequest
             'mota' => ['required', 'min:5'],
             'noidung' => ['required', 'min:5'],
             'hinhanh' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            'idchude' => 'required|not_in:capnhat',
+            'idchude' => ['required', 'not_in:capnhat'],
         ];
     }
 
