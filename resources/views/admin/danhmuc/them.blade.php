@@ -30,7 +30,7 @@
             <div class="form-group has-success {{ $errors->has('tendanhmuc') ? 'has-error' : '' }}">
                 <label class="col-lg-3 control-label">Tên danh mục</label>
                 <div class="col-lg-6">
-                    <input type="text" name="tendanhmuc" minlength="5" placeholder="" id="tendanhmuc" class="form-control custom-width">
+                    <input type="text" name="tendanhmuc" value="{{ old('tendanhmuc') }}" id="tendanhmuc" class="form-control custom-width">
                     @if ($errors->has('tendanhmuc'))
                         <span class="help-block">{{ $errors->first('tendanhmuc') }}</span>
                     @endif

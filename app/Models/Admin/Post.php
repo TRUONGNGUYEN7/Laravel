@@ -14,7 +14,48 @@ class Post extends Model
     protected $fillable = [
           'IDBV',  'TenBV', 'Mota', 'NoiDung', 'HinhAnh', 'ChuDeID', 'LuotXem', 'TrangThaiBV'
     ];
- 
+
+    public static function getFourPostsByChuDe($idchude)
+    {
+        return self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+            ->where('tblchude.IDCD', $idchude)
+            ->orderByDesc('tblbaiviet.IDBV')
+            ->take(4)
+            ->get();
+    }
+
+    public static function getChuDeData($idchude, $idanhmuc)
+    {
+        $maxViewPost = self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+        ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
+        ->where('tbldanhmuc.IDDM', $idanhmuc)
+        ->orderByDesc('tblbaiviet.IDBV')
+        ->take(1)
+        ->get();
+
+        $fourPosts = collect(); // Tạo một Collection trống mặc định.
+        if (!$maxViewPost->isEmpty()) {
+            // Lấy 4 bài viết khác trong cùng danh mục
+            $fourPosts = self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+                ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
+                ->where('tbldanhmuc.IDDM', $idanhmuc)
+                ->where('tblbaiviet.IDBV', '<>', $maxViewPost->first()->IDBV)
+                ->orderByDesc('tblbaiviet.IDBV')
+                ->take(4)
+                ->get();
+        }
+
+        $menuCategory = Category::where('TrangThaiDM', 1)->get();
+        $ttdanhmuc = Category::find($idanhmuc);
+
+        return [
+            'menuCategory' => $menuCategory,
+            'ttdanhmuc' => $ttdanhmuc,
+            'maxViewPost' => $maxViewPost,
+            'FourPosts' => $fourPosts,
+        ];
+    }
+
     protected $primaryKey = 'IDBV';
     protected $table = 'tblbaiviet';
 
@@ -28,8 +69,8 @@ class Post extends Model
         } else {
             $post = new self();
 
-            if ($request->hasFile('hinhanh')) {
-                $file = $request->file('hinhanh');
+            if ($request->hasFile('hinhanhthem')) {
+                $file = $request->file('hinhanhthem');
                 $filename = date('YmdHi') . $file->getClientOriginalName();
                 $file->move(public_path('hinhanh'), $filename);
                 $post->HinhAnh = $filename;
@@ -66,8 +107,8 @@ class Post extends Model
         if ($kiemTraTonTai) {
             Session::put('message', 'Tên bài viết đã tồn tại!!!');
         } else {
-            if ($request->hasFile('hinhanh')) {
-                $file = $request->file('hinhanh');
+            if ($request->hasFile('hinhanhsua')) {
+                $file = $request->file('hinhanhsua');
                 $filename = date('YmdHi') . $file->getClientOriginalName();
                 $file->move(public_path('hinhanh'), $filename);
                 $oldImagePath = public_path('hinhanh/') . $currentImageName;
@@ -123,5 +164,9 @@ class Post extends Model
         }
     }
 
-
+    public function chude()
+    {
+        return $this->belongsTo(Subcategory::class, 'ChuDeID');
+        
+    }
 }

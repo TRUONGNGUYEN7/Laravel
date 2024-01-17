@@ -6,14 +6,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="icon" type="image/png" href="{{ asset('UserAssets/images/icons/favicon.png') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/vendor/bootstrap/css/bootstrap.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/fonts/fontawesome-5.0.8/css/fontawesome-all.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/fonts/iconic/css/material-design-iconic-font.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/vendor/animate/animate.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/vendor/css-hamburgers/hamburgers.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/vendor/animsition/css/animsition.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/css/util.min.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/css/main.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/vendor/bootstrap/css/bootstrap.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/fonts/fontawesome-5.0.8/css/fontawesome-all.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/fonts/iconic/css/material-design-iconic-font.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/vendor/animate/animate.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/vendor/css-hamburgers/hamburgers.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/vendor/animsition/css/animsition.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/css/util.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/css/main.css') }}">
 
 	<!-- </head><body class="animsition"> -->
 	
@@ -198,29 +198,9 @@
 				</ul>
 			</div>
 
-			<!--  -->
-			<div class="wrap-main-nav">
-				<div class="main-nav">
-					<!-- Menu desktop -->
-					<nav class="menu-desktop">
-						<ul class="main-menu">
-							@foreach($menuCategory as $category)
-								<li>
-								<a href="{{URL::to('user/danhmuc/danhmuc/'.$category -> IDDM)}}">{{ $category->TenDanhMuc }}</a>								
-								@if($category->chudes->isNotEmpty())
-									<ul class="sub-menu">
-										@foreach($category->chudes as $chude)
-											<li><a href="{{URL::to('admin/baiviet/sua/'.$chude -> IDCD)}}">{{ $chude->TenChuDe }}</a></li>
-										@endforeach
-									</ul>
-								@endif
-								</li>
-							@endforeach
+			@include('user.page.header')	
 
-						</ul>
-					</nav>
-				</div>
-			</div>	
+			
 		</div>
 	</header>
 	@yield('contentuser')
@@ -244,12 +224,12 @@
 			</div>
 		</div>
 	</div>
-<!--===============================================================================================-->	
-<script src="{{ asset('UserAssets/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
-<script src="{{ asset('UserAssets/vendor/animsition/js/animsition.min.js') }}"></script>
-<script src="{{ asset('UserAssets/vendor/bootstrap/js/popper.js') }}"></script>
-<script src="{{ asset('UserAssets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('UserAssets/js/main.js') }}"></script>
+	<!--===============================================================================================-->	
+	<script src="{{ asset('UserAssets/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+	<script src="{{ asset('UserAssets/vendor/animsition/js/animsition.min.js') }}"></script>
+	<script src="{{ asset('UserAssets/vendor/bootstrap/js/popper.js') }}"></script>
+	<script src="{{ asset('UserAssets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+	<script src="{{ asset('UserAssets/js/main.js') }}"></script>
 
-</body>
+	</body>
 </html>

@@ -19,17 +19,27 @@ class PostRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+
+    public function rules()
     {
-        return [
+        $rules = [
             'tenbaiviet' => ['required', 'min:5'],
             'mota' => ['required', 'min:5'],
             'noidung' => ['required', 'min:5'],
-            'hinhanh' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'idchude' => ['required', 'not_in:capnhat'],
         ];
+    
+        if ($this->hasFile('hinhanhthem')) {
+            $rules['hinhanhthem'] = ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'];
+        }
+    
+        if ($this->hasFile('hinhanhsua')) {
+            $rules['hinhanhsua'] = ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'];
+        }
+    
+        return $rules;
     }
-
+    
     public function messages()
     {
         return [
@@ -39,13 +49,17 @@ class PostRequest extends FormRequest
             'mota.required' => 'Mô tả là bắt buộc.',
             'mota.min' => 'Mô tả phải có ít nhất 5 ký tự.',
 
-            'noidung.required' => 'Mô tả là bắt buộc.',
-            'noidung.min' => 'Mô tả phải có ít nhất 5 ký tự.',
+            'noidung.required' => 'Nội dung là bắt buộc.',
+            'noidung.min' => 'Nội dung phải có ít nhất 5 ký tự.',
 
-            'hinhanh.required' => 'Hình ảnh là bắt buộc.',
-            'hinhanh.image' => 'Tệp phải là hình ảnh.',
-            'hinhanh.mimes' => 'Chỉ chấp nhận hình ảnh có định dạng: jpeg, png, jpg, gif.',
-            'hinhanh.max' => 'Kích thước hình ảnh không được vượt quá 2MB.',
+            'hinhanhthem.required' => $this->hasFile('hinhanhthem') ? 'Hình ảnh chọn.' : '',
+            'hinhanhthem.image' => $this->hasFile('hinhanhthem') ? 'Tệp phải là hình ảnh.' : '',
+            'hinhanhthem.mimes' => $this->hasFile('hinhanhthem') ? 'Chỉ chấp nhận hình ảnh có định dạng: jpeg, png, jpg, gif.' : '',
+            'hinhanhthem.max' => $this->hasFile('hinhanhthem') ? 'Kích thước hình ảnh không được vượt quá 2MB.' : '',
+        
+            'hinhanhsua.image' => $this->hasFile('hinhanhsua') ? 'Tệp phải là hình ảnh.' : '',
+            'hinhanhsua.mimes' => $this->hasFile('hinhanhsua') ? 'Chỉ chấp nhận hình ảnh có định dạng: jpeg, png, jpg, gif.' : '',
+            'hinhanhsua.max' => $this->hasFile('hinhanhsua') ? 'Kích thước hình ảnh không được vượt quá 2MB.' : '',        
 
             'idchude.required' => 'Chủ đề là bắt buộc.',
             'idchude.not_in' => 'Vui lòng chọn một chủ đề khác với giá trị mặc định.',

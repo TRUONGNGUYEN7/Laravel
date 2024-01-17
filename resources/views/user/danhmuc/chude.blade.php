@@ -2,7 +2,17 @@
 @section('contentuser')
 
 	@include('user.danhmuc.header', ['selectedChudeID' => $selectedChudeID])
-	
+
+	<div class="container p-t-4 p-b-40">
+		<h2 class="f1-l-1 cl2">
+			@if ($ttchude)
+				{{ $ttchude->TenChuDe }}
+			@else
+				Danh mục không tồn tại
+			@endif
+		</h2>
+	</div>
+			
 	<!-- Feature post -->
 	<section class="bg0">
 		<div class="container">

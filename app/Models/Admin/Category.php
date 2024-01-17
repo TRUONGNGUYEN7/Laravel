@@ -80,6 +80,38 @@ class Category extends Model
         }
     }
 
+    public static function getDanhMucData($id)
+    {
+        $maxViewPost = Post::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+            ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
+            ->where('tbldanhmuc.IDDM', $id)
+            ->orderByDesc('tblbaiviet.IDBV')
+            ->take(1)
+            ->get();
+
+        $fourPosts = collect(); // Tạo một Collection trống mặc định.
+        if (!$maxViewPost->isEmpty()) {
+            // Lấy 4 bài viết khác trong cùng danh mục
+            $fourPosts = Post::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+                ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
+                ->where('tbldanhmuc.IDDM', $id)
+                ->where('tblbaiviet.IDBV', '<>', $maxViewPost->first()->IDBV)
+                ->orderByDesc('tblbaiviet.IDBV')
+                ->take(4)
+                ->get();
+        }
+
+        $menuCategory = Category::where('TrangThaiDM', 1)->get();
+        $ttdanhmuc = Category::find($id);
+
+        return [
+            'menuCategory' => $menuCategory,
+            'ttdanhmuc' => $ttdanhmuc,
+            'maxViewPost' => $maxViewPost,
+            'FourPosts' => $fourPosts,
+        ];
+    }
+
     public static function deleteCategoryById($id)
     {
         self::destroy($id);
@@ -89,4 +121,6 @@ class Category extends Model
     {
         return $this->hasMany(Subcategory::class, 'DanhMucID');
     }
+
+
 }

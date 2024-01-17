@@ -29,7 +29,7 @@
             <div class="form-group {{ $errors->has('tenchude') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Tên chủ đề</label>
                 <div class="col-lg-6">
-                    <input type="text" name="tenchude" placeholder="" id="tenchude" class="form-control custom-width">
+                    <input type="text" name="tenchude" value="{{ old('tenchude') }}" id="tenchude" class="form-control custom-width">
                     @if ($errors->has('tenchude'))
                         <span class="help-block">{{ $errors->first('tenchude') }}</span>
                     @endif
@@ -41,9 +41,11 @@
                 <div class="form-group row">
                     <div class="col-lg-6">
                         <select class="form-control" name="idchude" id="idchude">
-                            <option value="chude" selected>------Chọn------</option>
+                            <option value="chude" {{ old('idchude') == 'chude' ? 'selected' : '' }}>------Chọn------</option>
                             @foreach ($dsdanhmuc as $key => $item)
-                                <option value="{{ $item->IDDM }}">{{ $item->TenDanhMuc }}</option>
+                                <option value="{{ $item->IDDM }}" {{ old('idchude') == $item->IDDM ? 'selected' : '' }}>
+                                    {{ $item->TenDanhMuc }}
+                                </option>
                             @endforeach
                         </select>
                         @if ($errors->has('idchude'))
@@ -52,7 +54,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="form-group has-warning">
                 <label class="col-lg-3 control-label">Trạng thái</label>

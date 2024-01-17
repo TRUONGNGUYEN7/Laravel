@@ -25,7 +25,8 @@ Route::prefix('/')->group(function () {
 
 //User-danhmuc
 Route::prefix('/user')->group(function () {
-     Route::get('/danhmuc/danhmuc/{id}', [Homecontroller::class, 'hienthidanhmuc']);
+     Route::get('/danhmuc/{id}', [Homecontroller::class, 'hienthidanhmuc'])->name('admin.hienthidanhmuc');
+     Route::get('/chude/{id}/{iddm}', [Homecontroller::class, 'hienthichude'])->name('admin.hienthichude');
 });
 
 Route::prefix('/admin')->group(function () {

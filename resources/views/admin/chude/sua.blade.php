@@ -9,8 +9,8 @@
                <nav aria-label="breadcrumb" role="navigation">
                     <ol class="breadcrumb">
                          <li class="breadcrumb-item"><a href="#">Quản lý</a></li>
-                         <li class="breadcrumb-item" aria-current="page">Danh mục bài viết</li>
-                         <li class="breadcrumb-item active" aria-current="page">Sửa danh mục</li>
+                         <li class="breadcrumb-item" aria-current="page">Danh mục chủ đề</li>
+                         <li class="breadcrumb-item active" aria-current="page">Sửa chủ đề</li>
                     </ol>
                </nav>
           </div>

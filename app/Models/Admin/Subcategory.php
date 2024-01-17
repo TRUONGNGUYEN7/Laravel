@@ -87,6 +87,13 @@ class Subcategory extends Model
 
     public function danhmuc()
     {
-        return $this->belongsTo(Category::class, 'DanhMucID');
+        return $this->belongsTo(Category::class, 'IDDM');
+
     }
+
+    public function baiviets()
+    {
+        return $this->hasMany(Post::class, 'ChuDeID');
+    }
+
 }

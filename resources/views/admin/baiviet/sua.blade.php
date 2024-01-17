@@ -26,10 +26,10 @@
      ?>
      @foreach ($dsdanhmucsua as $key => $value)
 
-          <form action="{{ route('admin.baiviet.action_sua', ['id' => $value->IDBV]) }}" method="POST"
-               enctype="multipart/form-data" class="form-horizontal">
-                {{ csrf_field() }}
-                
+     <form action="{{ route('admin.baiviet.action_sua', ['id' => $value->IDBV]) }}" method="POST"
+          enctype="multipart/form-data" class="form-horizontal">
+               {{ csrf_field() }}
+               
                <div class="form-group {{ $errors->has('tenbaiviet') ? 'has-error' : 'has-success' }}">
                <label class="col-lg-3 control-label">Tên bài viết</label>
                <div class="col-lg-6">
@@ -40,18 +40,17 @@
                </div>
           </div>
 
-
           <div class="form-group {{ $errors->has('mota') ? 'has-error' : 'has-success' }}">
                <label class="col-lg-3 control-label">Mô tả bài viết</label>
                <div class="col-lg-6">
                     <input type="text" value="{{$value -> Mota}}" name="mota" placeholder="" id="mota" class="form-control custom-width">
                     @if ($errors->has('mota'))
-                        <span class="help-block">{{ $errors->first('mota') }}</span>
+                    <span class="help-block">{{ $errors->first('mota') }}</span>
                     @endif
                </div>
           </div>
 
-          <div class="form-group {{ $errors->has('hinhanh') ? 'has-error' : 'has-success' }}">
+          <div class="form-group {{ $errors->has('hinhanhsua') ? 'has-error' : 'has-success' }}">
                <label class="col-lg-3 control-label">Hình ảnh mô tả</label>
                <div class="col-lg-6">
                <!-- Display current image -->
@@ -64,9 +63,9 @@
                @endif
 
                <!-- Allow users to upload a new image -->
-                    <input type="file" value="{{$value -> HinhAnh}}" id="hinhanh" name="hinhanh" class="form-control" >
-                    @if ($errors->has('hinhanh'))
-                        <span class="help-block">{{ $errors->first('hinhanh') }}</span>
+                    <input type="file" value="{{$value -> HinhAnh}}" id="hinhanhsua" name="hinhanhsua" class="form-control" >
+                    @if ($errors->has('hinhanhsua'))
+                        <span class="help-block">{{ $errors->first('hinhanhsua') }}</span>
                     @endif
                </div>
           </div>

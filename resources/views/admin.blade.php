@@ -56,6 +56,7 @@
         width: 100%;
         position: relative;
         color: pink; /* Add this line to set the text color to pink */
+        
     }
 
 
@@ -127,14 +128,14 @@
         </aside>
         <!--sidebar end-->
 
-        <section id="main-content">
+        <section id="main-content" style="margin-bottom: 100px">
             <section class="wrapper">
                 @yield('adcontent')
             </section>
             <!-- Include footer -->
-            @include('admin.pages.footer')
+           
         </section>
-
+        @include('admin.pages.footer')
     </section>
     <script src="{{ asset('assetadmin/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assetadmin/js/jquery.dcjqaccordion.2.7.js') }}"></script>

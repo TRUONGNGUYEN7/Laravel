@@ -23,7 +23,7 @@ class SubcategoryRequest extends FormRequest
     {
         return [
             'tenchude' => ['required', 'regex:/^[a-zA-Z0-9]+$/i', 'min:5'],
-            'idchude' => ['required', 'not_in:chude'],
+
         ];
     }
 
@@ -34,8 +34,6 @@ class SubcategoryRequest extends FormRequest
             'tenchude.regex' => 'Tên danh mục không được chứa ký tự đặc biệt.',
             'tenchude.min' => 'Tên danh mục phải có ít nhất 5 ký tự.',
 
-            'idchude.required' => 'Danh mục là bắt buộc.',
-            'idchude.not_in' => 'Vui lòng chọn một danh mục khác với giá trị mặc định.',
         ];
     }
 }
