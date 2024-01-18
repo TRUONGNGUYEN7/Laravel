@@ -23,7 +23,7 @@
             Session::put('message', null);
         }
         ?>
-        <form action="{{ route('admin.danhmuc.action_them') }}" method="POST" class="form-horizontal ">
+        <form action="{{ route('admin.danhmuc.store') }}" method="POST" class="form-horizontal ">
             {{ csrf_field() }}
 
             

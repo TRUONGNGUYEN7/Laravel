@@ -96,8 +96,8 @@
                                 <span class="sizetextdm">Danh Mục</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ route('admin.danhmuc.them') }}">Thêm danh mục</a></li>
-                                <li><a href="{{ route('admin.danhmuc.lietke') }}">Liệt kê danh mục</a></li>                            </ul>
+                                <li><a href="{{ route('admin.danhmuc.create') }}">Thêm danh mục</a></li>
+                                <li><a href="{{ route('admin.danhmuc.index') }}">Liệt kê danh mục</a></li>                            </ul>
                         </li>
 
                         <li class="sub-menu">
@@ -106,8 +106,8 @@
                                 <span class="sizetextdm">Chủ Đề</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ route('admin.chude.them') }}">Thêm chủ đề</a></li>
-                                <li><a href="{{ route('admin.chude.lietke') }}">Liệt kê chủ đề</a></li>
+                                <li><a href="{{ route('admin.chude.create') }}">Thêm chủ đề</a></li>
+                                <li><a href="{{ route('admin.chude.index') }}">Liệt kê chủ đề</a></li>
                             </ul>
                         </li>
 
@@ -117,8 +117,8 @@
                                 <span class="sizetextdm">Bài Viết</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="{{ route('admin.baiviet.them') }}">Thêm bài viết</a></li>
-                                <li><a href="{{ route('admin.baiviet.lietke') }}">Danh sách bài viết</a></li>
+                                <li><a href="{{ route('admin.baiviet.create') }}">Thêm bài viết</a></li>
+                                <li><a href="{{ route('admin.baiviet.index') }}">Danh sách bài viết</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -24,7 +24,7 @@
                 Session::put('message', null);
             }
         ?>
-        <form action="{{ route('admin.chude.action_them') }}" method="POST" class="form-horizontal ">
+        <form action="{{ route('admin.chude.store') }}" method="POST" class="form-horizontal ">
             {{ csrf_field() }}
             <div class="form-group {{ $errors->has('tenchude') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Tên chủ đề</label>

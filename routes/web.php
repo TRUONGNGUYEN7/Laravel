@@ -36,49 +36,49 @@ Route::prefix('/admin')->group(function () {
      Route::get('/logout', [AdminController::class, 'logout']);
 });
 
-// Admin
-Route::middleware('checkadminlogin')->group(function () {
-     Route::prefix('/admin')->group(function () {
-          Route::get('/index', [AdminController::class, 'showhome'])->name('admin.showhome');
-          
-          // Admin Danhmuc
-          Route::prefix('/danhmuc')->group(function () {
-               Route::resource('danhmuc', CategoryController::class)->names([
-                    'index' => 'admin.danhmuc.lietke',
-                    'create' => 'admin.danhmuc.them',
-                    'store' => 'admin.danhmuc.action_them',
-               ]);
-               Route::get('/sua/{id}', [CategoryController::class, 'sua'])->name('admin.danhmuc.sua');
-               Route::post('/action_sua/{id}', [CategoryController::class, 'action_sua'])->name('admin.danhmuc.action_sua');
-               Route::post('/xoa/{id}', [CategoryController::class, 'xoa'])->name('admin.danhmuc.xoa');
-               Route::get('/status/{id}/{value}', [CategoryController::class, 'status'])->name('admin.danhmuc.status');
-          });
-     
-          // Admin Chude
-          Route::prefix('/chude')->group(function () {
-               Route::resource('chude', SubcategoryController::class)->names([
-                    'index' => 'admin.chude.lietke',
-                    'create' => 'admin.chude.them',
-                    'store' => 'admin.chude.action_them',
-               ]);
-               Route::get('/sua/{id}', [SubcategoryController::class, 'sua'])->name('admin.chude.sua');
-               Route::post('/action_sua/{id}', [SubcategoryController::class, 'action_sua'])->name('admin.chude.action_sua');
-               Route::post('/xoa/{id}', [SubcategoryController::class, 'xoa'])->name('admin.chude.xoa');
-               Route::get('/status/{id}/{value}', [SubcategoryController::class, 'status'])->name('admin.chude.status');
-          });
-     
-          // Admin Baiviet
-          Route::prefix('/baiviet')->group(function () {
-               Route::resource('baiviet', PostController::class)->names([
-                    'index' => 'admin.baiviet.lietke',
-                    'create' => 'admin.baiviet.them',
-                    'store' => 'admin.baiviet.action_them',
-               ]);
-               Route::get('/sua/{id}', [PostController::class, 'sua'])->name('admin.baiviet.sua');
-               Route::post('/action_sua/{id}', [PostController::class, 'action_sua'])->name('admin.baiviet.action_sua');
-               Route::post('/xoa/{id}', [PostController::class, 'xoa'])->name('admin.baiviet.xoa');
-               Route::get('/status/{id}/{value}', [PostController::class, 'status'])->name('admin.baiviet.status');
-          });
-     });
+//Admin
+$adminController = AdminController::class;
+$categoryController = CategoryController::class;
+$subcategoryController = SubcategoryController::class;
+$postController = PostController::class;
+
+$adminRoutePrefix = 'admin';
+Route::group(['prefix' => "/$adminRoutePrefix", 'middleware' => 'checkadminlogin'], function () use ($adminRoutePrefix, $adminController, $categoryController, $subcategoryController, $postController) {
+    Route::get('/index', [$adminController, 'showhome'])->name("$adminRoutePrefix.showhome");
+
+    // Admin Danhmuc
+    $danhmucRoute = 'danhmuc';
+    Route::resource($danhmucRoute, $categoryController)->names([
+        'index' => "$adminRoutePrefix.$danhmucRoute.index",
+        'create' => "$adminRoutePrefix.$danhmucRoute.create",
+        'store' => "$adminRoutePrefix.$danhmucRoute.store",
+    ]);
+    Route::get("/$danhmucRoute/sua/{id}", [$categoryController, 'sua'])->name("$adminRoutePrefix.$danhmucRoute.sua");
+    Route::post("/$danhmucRoute/action_sua/{id}", [$categoryController, 'action_sua'])->name("$adminRoutePrefix.$danhmucRoute.action_sua");
+    Route::post("/$danhmucRoute/xoa/{id}", [$categoryController, 'xoa'])->name("$adminRoutePrefix.$danhmucRoute.xoa");
+    Route::get("/$danhmucRoute/status/{id}/{value}", [$categoryController, 'status'])->name("$adminRoutePrefix.$danhmucRoute.status");
+
+    // Admin Chude
+    $chudeRoute = 'chude';
+    Route::resource($chudeRoute, $subcategoryController)->names([
+        'index' => "$adminRoutePrefix.$chudeRoute.index",
+        'create' => "$adminRoutePrefix.$chudeRoute.create",
+        'store' => "$adminRoutePrefix.$chudeRoute.store",
+    ]);
+    Route::get("/$chudeRoute/sua/{id}", [$subcategoryController, 'sua'])->name("$adminRoutePrefix.$chudeRoute.sua");
+    Route::post("/$chudeRoute/action_sua/{id}", [$subcategoryController, 'action_sua'])->name("$adminRoutePrefix.$chudeRoute.action_sua");
+    Route::post("/$chudeRoute/xoa/{id}", [$subcategoryController, 'xoa'])->name("$adminRoutePrefix.$chudeRoute.xoa");
+    Route::get("/$chudeRoute/status/{id}/{value}", [$subcategoryController, 'status'])->name("$adminRoutePrefix.$chudeRoute.status");
+
+    // Admin Baiviet
+    $baivietRoute = 'baiviet';
+    Route::resource($baivietRoute, $postController)->names([
+        'index' => "$adminRoutePrefix.$baivietRoute.index",
+        'create' => "$adminRoutePrefix.$baivietRoute.create",
+        'store' => "$adminRoutePrefix.$baivietRoute.store",
+    ]);
+    Route::get("/$baivietRoute/sua/{id}", [$postController, 'sua'])->name("$adminRoutePrefix.$baivietRoute.sua");
+    Route::post("/$baivietRoute/action_sua/{id}", [$postController, 'action_sua'])->name("$adminRoutePrefix.$baivietRoute.action_sua");
+    Route::post("/$baivietRoute/xoa/{id}", [$postController, 'xoa'])->name("$adminRoutePrefix.$baivietRoute.xoa");
+    Route::get("/$baivietRoute/status/{id}/{value}", [$postController, 'status'])->name("$adminRoutePrefix.$baivietRoute.status");
 });
- 

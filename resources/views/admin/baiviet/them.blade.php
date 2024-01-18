@@ -26,7 +26,7 @@
             }
         ?>
         
-        <form action="{{ route('admin.baiviet.action_them') }}" method="POST" enctype="multipart/form-data"  class="form-horizontal ">
+        <form action="{{ route('admin.baiviet.store') }}" method="POST" enctype="multipart/form-data"  class="form-horizontal ">
             {{ csrf_field() }}
             <div class="form-group {{ $errors->has('tenbaiviet') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Tên bài viết</label>
