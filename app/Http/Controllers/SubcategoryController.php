@@ -43,7 +43,7 @@ class SubcategoryController extends Controller
         return back();
     }
 
-    public function sua($id){
+    public function edit($id){
         $dschudesua = Subcategory::join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
             ->where('tblchude.IDCD', $id)
             ->get();

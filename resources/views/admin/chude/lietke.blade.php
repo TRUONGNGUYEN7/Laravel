@@ -69,8 +69,8 @@
                                              </div>
                                         </td>
                                         <td>
-                                             <a href="{{ route('admin.chude.sua', ['id' => $item->IDCD]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
-                                             <form action="{{ route('admin.chude.xoa', ['id' => $item->IDCD]) }}" method="POST" style="display: inline;">
+                                             <a href="{{ route('admin.chude.sua', ['chude' => $item->IDCD]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
+                                             <form action="{{ route('admin.chude.xoa', ['chude' => $item->IDCD]) }}" method="POST" style="display: inline;">
                                                   @csrf
                                                   <button type="submit" class="btn btn-danger show-alert-delete-box" data-toggle="tooltip" title='Delete'><i class="dw dw-delete-3"></i>Delete</button>
                                              </form>

@@ -42,7 +42,7 @@ class CategoryController extends Controller
         return back();
     }
 
-    public function sua($id){
+    public function edit($id){
         $dsdanhmuc = Category::getCategoryById($id);
         return view('admin.danhmuc.sua') -> with('dsdanhmuc', $dsdanhmuc);
     }

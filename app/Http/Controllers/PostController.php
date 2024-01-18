@@ -45,7 +45,7 @@ class PostController extends Controller
         return back();
     }
 
-    public function sua($id) {
+    public function edit($id) {
         $dsdanhmucsua = Post::getPostForEdit($id);
         $dsChude = Subcategory::getActiveSubcategories();
     

@@ -72,8 +72,8 @@
 
                                         </td>
                                         <td>
-                                             <a href="{{ route('admin.baiviet.sua', ['id' => $item->IDBV]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
-                                             <form action="{{ route('admin.baiviet.xoa', ['id' => $item->IDBV]) }}" method="POST" style="display: inline;">
+                                             <a href="{{ route('admin.baiviet.sua', ['baiviet' => $item->IDBV]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
+                                             <form action="{{ route('admin.baiviet.xoa', ['baiviet' => $item->IDBV]) }}" method="POST" style="display: inline;">
                                                   @csrf
                                                   <button type="submit" class="btn btn-danger show-alert-delete-box" data-toggle="tooltip" title='Delete'><i class="dw dw-delete-3"></i>Delete</button>
                                              </form>

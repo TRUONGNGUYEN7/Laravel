@@ -73,11 +73,11 @@
                                    <div class="row">
                                         <div class="col-md-2">
                                              
-                                             <a  href="{{ route('admin.danhmuc.sua', ['id' => $item->IDDM]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
+                                             <a  href="{{ route('admin.danhmuc.sua', ['danhmuc' => $item->IDDM]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
                                         
                                         </div>
                                         <div class="col-md-6">
-                                        <form action="{{ route('admin.danhmuc.xoa', ['id' => $item->IDDM]) }}" method="POST">
+                                        <form action="{{ route('admin.danhmuc.xoa', ['danhmuc' => $item->IDDM]) }}" method="POST">
                                              @csrf
                                              <button type="submit" class="btn btn-danger show-alert-delete-box" data-toggle="tooltip" title='Delete'><i class="dw dw-delete-3"></i>Delete</button>
                                         </form>
