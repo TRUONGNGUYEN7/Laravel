@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
-use App\Models\Admin\Subcategory;
-use App\Models\Admin\Category;
+use App\Models\Subcategory;
+use App\Models\Category;
 use App\Http\Requests\SubcategoryRequest;
 
 class SubcategoryController extends Controller

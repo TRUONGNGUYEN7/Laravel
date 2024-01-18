@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +22,47 @@ class Post extends Model
             ->orderByDesc('tblbaiviet.IDBV')
             ->take(4)
             ->get();
+    }
+
+    public static function getActivePosts() {
+        return self::where('TrangThaiBV', 1)->get();
+    }
+
+    public static function getPostForEdit($id) {
+        return self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+            ->where('tblbaiviet.IDBV', $id)
+            ->get();
+    }
+    
+    public static function getPostsWithChudeInfo() {
+        return self::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')->get();
+    }
+
+    public static function getLatestPosts()
+    {
+        return self::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
+            ->orderByDesc('tblbaiviet.IDBV')
+            ->take(4)
+            ->get();
+    }
+
+    public static function getPostsCate($id)
+    {
+        return Post::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+        ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
+        ->where('tbldanhmuc.IDDM', $id)
+        ->orderByDesc('tblbaiviet.IDBV')
+        ->take(4)
+        ->get();
+    }
+
+    public static function getPostSubCate($id, $iddm)
+    {
+        return self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+        ->where('tblchude.IDCD', $id)
+        ->orderByDesc('tblbaiviet.IDBV')
+        ->take(4)
+        ->get();
     }
 
     public static function getChuDeData($idchude, $idanhmuc)

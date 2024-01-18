@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +35,10 @@ class Category extends Model
             Session::put('message', 'Thêm thành công');
             return back();
         }
+    }
+    
+    public static function getCategoryById($id) {
+        return self::where('IDDM', $id)->get();
     }
 
     public static function updateCategory($id, $request)
@@ -110,6 +114,22 @@ class Category extends Model
             'maxViewPost' => $maxViewPost,
             'FourPosts' => $fourPosts,
         ];
+    }
+    public function getCategoriesById($id)
+    {
+        return $this->where('IDDM', $id)->get();
+    }
+    public static function getActiveCategories()
+    {
+        return self::where('TrangThaiDM', 1)->get();
+    }
+
+    public static function getTwoActiveCategories()
+    {
+        return self::where('TrangThaiDM', 1)
+        ->orderByDesc('tbldanhmuc.IDDM')
+        ->take(2)
+        ->get(); 
     }
 
     public static function deleteCategoryById($id)

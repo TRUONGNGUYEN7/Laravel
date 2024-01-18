@@ -35,67 +35,80 @@
 	<section class="bg0">
 		<div class="container">
 			<div class="row m-rl--1">
-				@foreach($maxViewPosts as $post)
+
 					<div class="col-md-6 p-rl-1 p-b-2">
-						<div class="bg-img1 size-a-3 how1 pos-relative" style="background-image: url({{ asset("hinhanh/$post->HinhAnh") }});">
-							<a href="{{URL::to('admin/baiviet/sua/'.$post -> IDBV)}}" class="dis-block how1-child1 trans-03"></a>
+						<div class="bg-img1 size-a-3 how1 pos-relative" style="background-image: url({{ asset('hinhanh/'.$FourPosts[1]->HinhAnh) }});">
+							<a href="{{URL::to('admin/baiviet/sua/'.$FourPosts[1] -> IDBV)}}" class="dis-block how1-child1 trans-03"></a>
 
 							<div class="flex-col-e-s s-full p-rl-25 p-tb-20">
 								<a href="#" style="box-shadow: inset;" class=" dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-									{{ $post->TenChuDe }}
+									{{ $FourPosts[1]->TenChuDe }}
 								</a>
 
 								<h3 class="how1-child2 m-t-14 m-b-10">
-									<a href="{{URL::to('admin/baiviet/sua/'.$post -> IDBV)}}" class=" csstieude12 how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03">
-										{{ $post->TenBV }}
+									<a href="{{URL::to('admin/baiviet/sua/'.$FourPosts[1] -> IDBV)}}" class=" csstieude12 how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03">
+										{{ $FourPosts[1]->TenBV }}
 									</a>
 								</h3>
 							</div>
 						</div>
 					</div>
-				@endforeach
+			
 
 				<div class="col-md-6 p-rl-1">
 					<div class="row m-rl--1">
 						<div class="col-12 p-rl-1 p-b-2">
 							<!-- Assuming this is inside your Blade view file -->
-							@foreach($SecondPost as $post)
-								<div class="bg-img1 size-a-4 how1 pos-relative" style="background-image: url({{ asset("hinhanh/$post->HinhAnh") }});">
-									<a href="" class="dis-block how1-child1 trans-03"></a>
-
-									<div class="flex-col-e-s s-full p-rl-25 p-tb-24">
-										<a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-											{{ $post->TenChuDe }}
-										</a>
-
-										<h3 class="how1-child2 m-t-14">
-											<a href="" class="how-txt1 size-a-7 f1-l-2 cl0 hov-cl10 trans-03 csstieude12">
-												{{ $post->TenBV }}
-											</a>
-										</h3>
-									</div>
-								</div>
-						   @endforeach
-						</div>
 						
-						@foreach($ThirdPost as $post)
-							<div class="col-sm-6 p-rl-1 p-b-2">
-								<div class="bg-img1 size-a-5 how1 pos-relative" style="background-image: url({{ asset("hinhanh/$post->HinhAnh") }});">
-									<a href="" class="dis-block how1-child1 trans-03"></a>
-									<div class="flex-col-e-s s-full p-rl-25 p-tb-20">
-										<a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-										{{ $ThirdPost->isEmpty() ? 'No Category' : $post->TenChuDe }}
+							<div class="bg-img1 size-a-4 how1 pos-relative" style="background-image: url({{ asset('hinhanh/'.$FourPosts[0]->HinhAnh) }});">
+								<a href="" class="dis-block how1-child1 trans-03"></a>
+
+								<div class="flex-col-e-s s-full p-rl-25 p-tb-24">
+									<a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+										{{ $FourPosts[0]->TenChuDe }}
+									</a>
+
+									<h3 class="how1-child2 m-t-14">
+										<a href="" class="how-txt1 size-a-7 f1-l-2 cl0 hov-cl10 trans-03 csstieude12">
+											{{ $FourPosts[0]->TenBV }}
 										</a>
-										<h3 class="how1-child2 m-t-14">
-											<a href="" class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03 csstieude34">
-											{{ $ThirdPost->isEmpty() ? 'No Title' : $post->TenBV }}
-											</a>
-										</h3>
-									</div>						
+									</h3>
 								</div>
 							</div>
+						</div>
+						
+						<div class="col-sm-6 p-rl-1 p-b-2">
+							<div class="bg-img1 size-a-5 how1 pos-relative" style="background-image: url({{ asset('hinhanh/'.$FourPosts[2]->HinhAnh) }});">
+								<a href="" class="dis-block how1-child1 trans-03"></a>
+								<div class="flex-col-e-s s-full p-rl-25 p-tb-20">
+									<a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+									{{ $FourPosts->isEmpty() ? 'No Category' : $FourPosts[2]->TenChuDe }}
+									</a>
+									<h3 class="how1-child2 m-t-14">
+										<a href="" class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03 csstieude34">
+										{{ $FourPosts->isEmpty() ? 'No Title' : $FourPosts[2]->TenBV }}
+										</a>
+									</h3>
+								</div>						
+							</div>
+						</div>
+
+						<div class="col-sm-6 p-rl-1 p-b-2">
+							<div class="bg-img1 size-a-5 how1 pos-relative" style="background-image: url({{ asset('hinhanh/'.$FourPosts[3]->HinhAnh) }});">
+								<a href="" class="dis-block how1-child1 trans-03"></a>
+								<div class="flex-col-e-s s-full p-rl-25 p-tb-20">
+									<a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+									{{ $FourPosts->isEmpty() ? 'No Category' : $FourPosts[3]->TenChuDe }}
+									</a>
+									<h3 class="how1-child2 m-t-14">
+										<a href="" class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03 csstieude34">
+										{{ $FourPosts->isEmpty() ? 'No Title' : $FourPosts[3]->TenBV }}
+										</a>
+									</h3>
+								</div>						
+							</div>
+						</div>
 					
-						@endforeach
 					</div>
 				</div>
 			</div>
@@ -108,65 +121,62 @@
 			<div class="row justify-content-center">
 				<div class="col-md-10 col-lg-8">
 					<div class="p-b-20">
-						<!-- Entertainment -->
-						@foreach($fourCategoryContent as $category)
+					<!-- Entertainment -->
+					@foreach($twoLatestCategoriesWithPosts as $category)
 						<div class="tab01 p-b-20">
 							<div class="tab01-head how2 how2-cl1 bocl12 flex-s-c m-r-10 m-r-0-sr991">
 								<!-- Brand tab -->
 								<h3 class="f1-m-2 cl12 tab01-title">
 									<a href="{{ URL::to('user/danhmuc/danhmuc/'.$category->IDDM) }}">{{ $category->TenDanhMuc }}</a>
 								</h3>
-
 								<!-- Nav tabs -->            
 								<ul class="nav nav-tabs" role="tablist">
 									@if($category->chudes->isNotEmpty())
-										@foreach($category->chudes as $key => $chude)
+									@foreach($category->chudes as $key => $chude)
 										<li class="nav-item">
-											<a class="nav-link {{ $key == 0 ? 'active' : '' }}" role="tab" data-toggle="tab" href="#tab{{ $category->IDDM }}-{{ $chude->IDChuDe }}">{{ $chude->TenChuDe }}</a>
+											<a class="nav-link {{ $key == 0 ? 'active' : '' }}" href="{{ route('admin.hienthichude', ['id' => $chude->IDCD, 'iddm' => $chude->DanhMucID]) }}">{{ $chude->TenChuDe }}</a>
 										</li>
-										@endforeach
+									@endforeach
 									@endif
 								</ul>
-
 								<a href="{{ URL::to('user/danhmuc/danhmuc/'.$category->IDDM) }}" class="tab01-link f1-s-1 cl9 hov-cl10 trans-03">
 									View all
 									<i class="fs-12 m-l-5 fa fa-caret-right"></i>
 								</a>
 							</div>
-								
 							<!-- Tab panes -->
 							<div class="tab-content p-t-35">
 								@if($category->chudes->isNotEmpty())
 									@foreach($category->chudes as $key => $chude)
-										<div class="tab-pane fade show {{ $key == 0 ? 'active' : '' }}" id="tab{{ $category->IDDM }}-{{ $chude->IDChuDe }}" role="tabpanel">
+									<div class="tab-pane fade show {{ $key == 0 ? 'active' : '' }}" id="tab{{ $category->IDDM }}-{{ $chude->IDChuDe }}" role="tabpanel">
 										<div class="row">
-											@if($chude->baiviets->isNotEmpty())
-												@foreach($chude->baiviets as $baiviet)
-													<div class="col-sm-6 p-r-25 p-r-15-sr991">
-														<!-- Item post -->    
-														<div class="m-b-30">
-														<a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
-															<img src="{{asset("hinhanh/$baiviet->HinhAnh")}}" alt="IMG">
-														</a>
+											@forelse($chude->baiviets->take(4) as $baiviet)
+												<div class="col-sm-6 p-r-25 p-r-15-sr991">
+													<!-- Item post -->    
+													<div class="m-b-30">
+													<a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
+														<img src="{{ asset("hinhanh/$baiviet->HinhAnh") }}" alt="IMG">
+													</a>
 
-														<div class="p-t-20">
-															<h5 class="p-b-5">
-																<a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-																	{{ $baiviet->TenBV }}
-																</a>
-															</h5>
-														</div>
-														</div>
+													<div class="p-t-20">
+														<h5 class="p-b-5">
+															<a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
+																{{ $baiviet->TenBV }}
+															</a>
+														</h5>
 													</div>
-												@endforeach
-											@endif
+													</div>
+												</div>
+											@empty
+												<!-- Handle case where there are no posts -->
+											@endforelse
 										</div>
-										</div>
+									</div>
 									@endforeach
 								@endif
 							</div>
 						</div>
-						@endforeach
+					@endforeach
 					</div>
 				</div>
 

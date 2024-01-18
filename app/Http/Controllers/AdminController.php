@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Http\Requests\AdminLoginRequest;
-use App\Models\Admin\Admin;
+use App\Models\Admin;
 
 class AdminController extends Controller
 {

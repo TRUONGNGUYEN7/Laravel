@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Models\Admin\Category;
+use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $dsdanhmuc = DB::table('tbldanhmuc')->get();
+        $dsdanhmuc = Category::all();
         return view('admin.danhmuc.lietke')->with('dsdanhmuc', $dsdanhmuc);
     }
 
@@ -43,7 +43,7 @@ class CategoryController extends Controller
     }
 
     public function sua($id){
-        $dsdanhmuc = Category::where('IDDM', $id)->get();
+        $dsdanhmuc = Category::getCategoryById($id);
         return view('admin.danhmuc.sua') -> with('dsdanhmuc', $dsdanhmuc);
     }
 

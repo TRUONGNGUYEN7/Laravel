@@ -7,25 +7,25 @@
 	<section class="bg0">
 		<div class="container">
 			<div class="row m-rl--1">
-				@foreach($maxViewPost as $post)	
 				<div class="col-12 p-rl-1 p-b-2">
-					<div class="bg-img1 size-a-3 how1 pos-relative" style="background-image: url({{ asset("hinhanh/$post->HinhAnh") }});">
+				@if(isset($FourPosts[0]))
+					<div class="bg-img1 size-a-3 how1 pos-relative" style="background-image: url({{ asset('hinhanh/'.$FourPosts[0]->HinhAnh) }});">
 						<a href="blog-detail-01.html" class="dis-block how1-child1 trans-03"></a>
 
 						<div class="flex-col-e-s s-full p-rl-25 p-tb-20">
 							<a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-							{{ $post->TenChuDe }}
+							{{ $FourPosts[0]->TenChuDe }}
 							</a>
 
 							<h3 class="how1-child2 m-t-14 m-b-10">
 								<a href="blog-detail-01.html" class="how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03">
-								{{ $post->TenBV }}
+								{{ $FourPosts[0]->TenBV }}
 								</a>
 							</h3>
 
 							<span class="how1-child2">
 								<span class="f1-s-4 cl11">
-								{{ $post->Mota }}
+								{{ $FourPosts[0]->Mota }}
 								</span>
 
 								<span class="f1-s-3 cl11 m-rl-3">
@@ -39,28 +39,29 @@
 						</div>
 					</div>
 				</div>
-				@endforeach
+				@endif
+				
+				@foreach($FourPosts as $key => $post)
+        				@if($key > 0) <!-- Exclude the first post -->
+						<div class="col-sm-6 col-md-3 p-rl-1 p-b-2">
+							<div class="bg-img1 size-a-14 how1 pos-relative" style="background-image: url({{ asset('hinhanh/'.$post->HinhAnh) }});">
+								<a href="blog-detail-01.html" class="dis-block how1-child1 trans-03"></a>
 
-				@foreach($FourPosts as $fpost)
-				<div class="col-sm-6 col-md-3 p-rl-1 p-b-2">
-					<div class="bg-img1 size-a-14 how1 pos-relative" style="background-image: url({{ asset("hinhanh/$fpost->HinhAnh") }});">
-						<a href="blog-detail-01.html" class="dis-block how1-child1 trans-03"></a>
+								<div class="flex-col-e-s s-full p-rl-25 p-tb-20">
+									<a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+									{{ $post->TenBV }}
+									</a>
 
-						<div class="flex-col-e-s s-full p-rl-25 p-tb-20">
-							<a href="#" class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-							{{ $fpost->TenBV }}
-							</a>
-
-							<h3 class="how1-child2 m-t-14">
-								<a href="blog-detail-01.html" class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03">
-								{{ $fpost->Mota }}
-								</a>
-							</h3>
+									<h3 class="how1-child2 m-t-14">
+										<a href="blog-detail-01.html" class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03">
+										{{ $post->Mota }}
+										</a>
+									</h3>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
+					@endif
 				@endforeach
-
 			</div>
 		</div>
 	</section>

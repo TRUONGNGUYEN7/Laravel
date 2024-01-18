@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +34,17 @@ class Subcategory extends Model
             Session::put('message', 'Thêm thành công');
             return back();
         }
+    }
+
+    public static function getSubmenuForCate($id)
+    {
+        return self::join('tbldanhmuc', 'tbldanhmuc.IDDM', '=', 'tblchude.DanhMucID') 
+        ->where('tbldanhmuc.IDDM', $id)
+        ->get();
+    }
+    
+    public static function getActiveSubcategories() {
+        return self::where('TrangThaiCD', 1)->get();
     }
 
     public static function updateSubcategory($request, $id)
