@@ -16,9 +16,10 @@ Route::prefix('/')->group(function () {
 
 //User-danhmuc
 Route::prefix('user')->group(function () {
-     Route::get('/submenu/{id}', [Homecontroller::class, 'hienthidanhmuc'])->name('admin.hienthidanhmuc');
-     Route::get('/submenu/{id}/{iddm}', [Homecontroller::class, 'hienthichude'])->name('admin.hienthichude');
+     Route::get('/submenu/{id}/{iddm?}', [Homecontroller::class, 'hienthi'])
+         ->name('user.hienthi');
 });
+ 
 
 $adminController = 'App\Http\Controllers\AdminController';
 Route::prefix('admin')->group(function () use ($adminController) {

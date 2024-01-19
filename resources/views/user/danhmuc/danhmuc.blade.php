@@ -39,7 +39,7 @@
                     </div>
                </div>
                @endif
-
+               
                @foreach($FourPosts->slice(1) as $post)
                <div class="col-sm-6 col-md-3 p-rl-1 p-b-2">
                     <div class="bg-img1 size-a-14 how1 pos-relative"

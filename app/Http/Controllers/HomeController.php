@@ -24,27 +24,23 @@ class HomeController extends Controller
         ]);
     }
 
-    public function hienthidanhmuc($id)
+    public function hienthi($id, $iddm = null)
     {
-        $ttdanhmuc = Category::find($id);
-        $menuCategory = Category::getActiveCategories($id);
-        $menuchude = Subcategory::getSubmenuForCate($id);
-        $FourPosts = Post::getPostsCate($id);
-        $selectedChudeID = '';
-        return view('user.danhmuc.danhmuc', compact('menuCategory', 'ttdanhmuc', 'FourPosts', 'selectedChudeID', 'menuchude'));
-        
-    }
-
-    public function hienthichude($id, $iddm)
-    {
-        $menuCategory = Category::getActiveCategories();
-        $ttdanhmuc = Category::find($iddm);
-        $ttchude = Subcategory::find($id);
-        $FourPosts = Post::getPostSubCate($id, $iddm);
-        $menuchude = Subcategory::getSubmenuForCate($iddm);
-        $selectedChudeID = $id;
-        return view('user.danhmuc.chude', compact('menuCategory', 'ttdanhmuc', 'ttchude', 'FourPosts', 'menuchude', 'selectedChudeID'));
-    }
-    
-    
+        if ($iddm !== null) {
+            $menuCategory = Category::getActiveCategories();
+            $ttdanhmuc = Category::find($iddm);
+            $ttchude = Subcategory::find($id);
+            $FourPosts = Post::getPostSubCate($id, $iddm);
+            $menuchude = Subcategory::getSubmenuForCate($iddm);
+            $selectedChudeID = $id;
+            return view('user.danhmuc.chude', compact('menuCategory', 'ttdanhmuc', 'ttchude', 'FourPosts', 'menuchude', 'selectedChudeID'));
+        } else {
+            $ttdanhmuc = Category::find($id);
+            $menuCategory = Category::getActiveCategories($id);
+            $menuchude = Subcategory::getSubmenuForCate($id);
+            $FourPosts = Post::getPostsCate($id);
+            $selectedChudeID = '';
+            return view('user.danhmuc.danhmuc', compact('menuCategory', 'ttdanhmuc', 'FourPosts', 'selectedChudeID', 'menuchude'));    
+        }
+    } 
 }

@@ -35,13 +35,13 @@
      <nav class="menu-desktop margin">
           <ul class="menuchude">
                <h3 class="f1-m-2 cl12 tab01-title">
-                    <a href="{{ route('admin.hienthidanhmuc', ['id' => $ttdanhmuc->IDDM]) }}">{{ $ttdanhmuc->TenDanhMuc }}</a>
+                    <a href="{{ route('user.hienthi', ['id' => $ttdanhmuc->IDDM]) }}">{{ $ttdanhmuc->TenDanhMuc }}</a>
                </h3>
                <!-- Nav tabs -->
                <ul class="nav">
                     @foreach($menuchude as $key => $chude)
                          <li class="nav-item">
-                              <a class="nav-link {{ $chude->IDCD == $selectedChudeID ? 'active' : '' }}" href="{{ route('admin.hienthichude', ['id' => $chude->IDCD, 'iddm' => $chude->DanhMucID]) }}">
+                              <a class="nav-link {{ $chude->IDCD == $selectedChudeID ? 'active' : '' }}" href="{{ route('user.hienthi', ['id' => $chude->IDCD, 'iddm' => $chude->DanhMucID]) }}">
                               {{ $chude->TenChuDe }}
                               </a>
                          </li>

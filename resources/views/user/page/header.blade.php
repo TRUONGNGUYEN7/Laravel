@@ -9,11 +9,11 @@
             <ul class="main-menu">
                 @foreach($menuCategory as $category)
                     <li>
-                        <a href="{{ route('admin.hienthidanhmuc', ['id' => $category->IDDM]) }}">{{ $category->TenDanhMuc }}</a>
+                        <a href="{{ route('user.hienthi', ['id' => $category->IDDM]) }}">{{ $category->TenDanhMuc }}</a>
                         @if($category->chudes->isNotEmpty())
                             <ul class="sub-menu">
                                 @foreach($category->chudes as $chude)
-                                    <li><a href="{{ route('admin.hienthichude', ['id' => $chude->IDCD, 'iddm' => $category->IDDM]) }}">{{ $chude->TenChuDe }}</a></li>
+                                    <li><a href="{{ route('user.hienthi', ['id' => $chude->IDCD, 'iddm' => $category->IDDM]) }}">{{ $chude->TenChuDe }}</a></li>
                                 @endforeach
                             </ul>
                         @endif
