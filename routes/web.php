@@ -11,16 +11,16 @@ use App\Http\Middleware\CheckAdminLogin;
 //Homeuser
 Route::prefix('/')->group(function () {
      Route::get('/', [Homecontroller::class, 'index']);
-     Route::get('/trangchu', [Homecontroller::class, 'index']);
+     Route::get('trangchu', [Homecontroller::class, 'index']);
 });
 
 //User-danhmuc
-Route::prefix('/user')->group(function () {
+Route::prefix('user')->group(function () {
      Route::get('/submenu/{id}', [Homecontroller::class, 'hienthidanhmuc'])->name('admin.hienthidanhmuc');
      Route::get('/submenu/{id}/{iddm}', [Homecontroller::class, 'hienthichude'])->name('admin.hienthichude');
 });
 
-Route::prefix('/admin')->group(function () {
+Route::prefix('admin')->group(function () {
      Route::get('/', [AdminController::class, 'login'])->name('admin.home');
      Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
      Route::post('/loginaction', [AdminController::class, 'loginaction'])->name('admin.login.action');
