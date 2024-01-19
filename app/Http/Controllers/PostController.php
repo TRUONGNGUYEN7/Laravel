@@ -41,7 +41,7 @@ class PostController extends Controller
         return back();
     }
 
-    public function action_sua(PostRequest $request, $id)
+    public function update(PostRequest $request, $id)
     {
         Post::updatePost($request, $id);
         return back();

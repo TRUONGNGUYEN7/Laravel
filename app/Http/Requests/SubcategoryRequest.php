@@ -22,7 +22,7 @@ class SubcategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tenchude' => ['required', 'regex:/^[a-zA-Z0-9]+$/i', 'min:5'],
+            'tenchude' => ['required', 'min:5'],
 
         ];
     }
@@ -30,9 +30,8 @@ class SubcategoryRequest extends FormRequest
     public function messages()
     {
         return [
-            'tenchude.required' => 'Tên danh mục là bắt buộc.',
-            'tenchude.regex' => 'Tên danh mục không được chứa ký tự đặc biệt.',
-            'tenchude.min' => 'Tên danh mục phải có ít nhất 5 ký tự.',
+            'tenchude.required' => 'Tên chủ đề là bắt buộc.',
+            'tenchude.min' => 'Tên chủ đề phải có ít nhất 5 ký tự.',
 
         ];
     }

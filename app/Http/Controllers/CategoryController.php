@@ -37,7 +37,7 @@ class CategoryController extends Controller
         return back();
     }
 
-    public function action_sua(CategoryRequest $request, $id){
+    public function update(CategoryRequest $request, $id){
         Category::updateCategory($id, $request);
         return back();
     }

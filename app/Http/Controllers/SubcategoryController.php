@@ -39,7 +39,7 @@ class SubcategoryController extends Controller
 
     //suadm
     //POST
-    public function action_sua(SubcategoryRequest $request, $id){
+    public function update(SubcategoryRequest $request, $id){
         Subcategory::updateSubcategory($request, $id);
         return back();
     }

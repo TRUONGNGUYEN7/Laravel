@@ -22,7 +22,7 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tendanhmuc' => ['required', 'regex:/^[a-zA-Z0-9]+$/i', 'min:5'],
+            'tendanhmuc' => ['required', 'min:5'],
         ];
     }
 
@@ -30,7 +30,6 @@ class CategoryRequest extends FormRequest
     {
         return [
             'tendanhmuc.required' => 'Tên danh mục là bắt buộc.',
-            'tendanhmuc.regex' => 'Tên danh mục không được chứa ký tự đặc biệt.',
             'tendanhmuc.min' => 'Tên danh mục phải có ít nhất 5 ký tự.',
         ];
     }
