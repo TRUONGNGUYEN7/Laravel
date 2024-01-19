@@ -47,7 +47,7 @@ class CategoryController extends Controller
         return view('admin.danhmuc.sua') -> with('dsdanhmuc', $dsdanhmuc);
     }
 
-    public function xoa($id)
+    public function destroy($id)
     {
         Category::deleteCategoryById($id);
         return back();

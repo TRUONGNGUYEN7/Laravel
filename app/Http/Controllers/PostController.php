@@ -54,7 +54,7 @@ class PostController extends Controller
         return view('admin.baiviet.sua', compact('dsdanhmucsua', 'dsChude'));
     }
     
-    public function xoa($id)
+    public function destroy($id)
     {
         Post::deletePostById($id);
         return back();

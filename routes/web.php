@@ -20,15 +20,15 @@ Route::prefix('user')->group(function () {
      Route::get('/submenu/{id}/{iddm}', [Homecontroller::class, 'hienthichude'])->name('admin.hienthichude');
 });
 
-Route::prefix('admin')->group(function () {
-     Route::get('/', [AdminController::class, 'login'])->name('admin.home');
-     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
-     Route::post('/loginaction', [AdminController::class, 'loginaction'])->name('admin.login.action');
-     Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+$adminController = 'App\Http\Controllers\AdminController';
+Route::prefix('admin')->group(function () use ($adminController) {
+    Route::get('/', [$adminController, 'login'])->name('admin.home');
+    Route::get('/login', [$adminController, 'login'])->name('admin.login');
+    Route::post('/loginaction', [$adminController, 'loginaction'])->name('admin.login.action');
+    Route::get('/logout', [$adminController, 'logout'])->name('admin.logout');
 });
 
 //Admin
-
 $adminRoutePrefix = 'admin';
 Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'], function () 
      use ($adminRoutePrefix) {
@@ -45,7 +45,7 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
      Route::post("$danhmucRoute", [$categoryController, 'store'])->name("$adminRoutePrefix.$danhmucRoute.store");
      Route::get("$danhmucRoute/{id}/edit", [$categoryController, 'edit'])->name("$adminRoutePrefix.$danhmucRoute.sua");
      Route::post("$danhmucRoute/{id}", [$categoryController, 'update'])->name("$adminRoutePrefix.$danhmucRoute.action_sua");
-     Route::delete("$danhmucRoute/{id}", [$categoryController, 'destroy'])->name("$adminRoutePrefix.$danhmucRoute.xoa");
+     Route::post("$danhmucRoute/{id}", [$categoryController, 'destroy'])->name("$adminRoutePrefix.$danhmucRoute.xoa");
      Route::get("$danhmucRoute/status/{id}/{value}", [$categoryController, 'status'])->name("$adminRoutePrefix.$danhmucRoute.status");
 
      // Admin Chude
@@ -57,7 +57,7 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
      Route::post("$chudeRoute", [$subcategoryController, 'store'])->name("$adminRoutePrefix.$chudeRoute.store");
      Route::get("$chudeRoute/{id}/edit", [$subcategoryController, 'edit'])->name("$adminRoutePrefix.$chudeRoute.sua");
      Route::post("$chudeRoute/{id}", [$subcategoryController, 'update'])->name("$adminRoutePrefix.$chudeRoute.action_sua");
-     Route::delete("$chudeRoute/{id}", [$subcategoryController, 'destroy'])->name("$adminRoutePrefix.$chudeRoute.xoa");
+     Route::post("$chudeRoute/{id}", [$subcategoryController, 'destroy'])->name("$adminRoutePrefix.$chudeRoute.xoa");
      Route::get("$chudeRoute/status/{id}/{value}", [$subcategoryController, 'status'])->name("$adminRoutePrefix.$chudeRoute.status");
 
      // Admin Baiviet
@@ -68,7 +68,7 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
      Route::post("$baivietRoute", [$postController, 'store'])->name("$adminRoutePrefix.$baivietRoute.store");
      Route::get("$baivietRoute/{id}/edit", [$postController, 'edit'])->name("$adminRoutePrefix.$baivietRoute.sua");
      Route::post("$baivietRoute/{id}", [$postController, 'update'])->name("$adminRoutePrefix.$baivietRoute.action_sua");
-     Route::delete("$baivietRoute/{id}", [$postController, 'destroy'])->name("$adminRoutePrefix.$baivietRoute.xoa");
+     Route::post("$baivietRoute/{id}", [$postController, 'destroy'])->name("$adminRoutePrefix.$baivietRoute.xoa");
      Route::get("$baivietRoute/status/{id}/{value}", [$postController, 'status'])->name("$adminRoutePrefix.$baivietRoute.status");
      Route::get("/$baivietRoute/status/{id}/{value}", "$postController@status")->name("$adminRoutePrefix.$baivietRoute.status");
 });

@@ -55,7 +55,7 @@ class SubcategoryController extends Controller
         
     }
     
-    public function xoa($id)
+    public function destroy($id)
     {
         Subcategory::deleteSubcategoryById($id);
         return back();
