@@ -1,9 +1,6 @@
-@extends('layout')
-@section('contentuser')
+@extends('user.danhmuc.submenu')
+@section('danhmuc')
 
-	@include('user.danhmuc.header', ['selectedChudeID' => $selectedChudeID])
-	
-	<!-- Feature post -->
 	<section class="bg0">
 		<div class="container">
 			<div class="row m-rl--1">

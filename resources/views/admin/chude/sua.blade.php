@@ -25,7 +25,7 @@
      }
      ?>
      @foreach ($dschudesua as $key => $item)
-     <form action="{{ route('admin.chude.action_sua', ['chude' => $item->IDCD]) }}" method="POST" class="form-horizontal ">
+     <form action="{{ route('admin.chude.action_sua', ['id' => $item->IDCD]) }}" method="POST" class="form-horizontal ">
           {{ csrf_field() }}
           <div class="form-group {{ $errors->has('tenchude') ? 'has-error' : 'has-success' }}">
                <label class="col-lg-3 control-label">Tên chủ đề</label>

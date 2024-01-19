@@ -94,7 +94,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 			</div>
 	
-			<form action="{{ URL::to('admin/loginaction') }}" method="post" id="loginForm">
+			<form action="{{ route('admin.login.action') }}" method="post" id="loginForm">
 				{{ csrf_field() }}
 				<input type="text" class="ggg" name="adminname" placeholder="NAME" >
 				@error('adminname')

@@ -12,10 +12,11 @@ use App\Http\Requests\SubcategoryRequest;
 
 class SubcategoryController extends Controller
 {
+
     public function index()
     {
-        $dsdanhmuc = Subcategory::join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM') ->get();
-        return view('admin.chude.lietke')->with('dsdanhmuccon', $dsdanhmuc);
+        $dsdanhmuc = Subcategory::join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')->paginate(5);
+        return view('admin.chude.lietke', ['dsdanhmuccon' => $dsdanhmuc]);
     }
 
     public function create()

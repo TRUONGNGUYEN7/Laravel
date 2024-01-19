@@ -52,7 +52,7 @@
                                    </thead>
                                    <tbody id="myTable">
                                    @foreach ($dsdanhmuccon as $key => $item)
-                                   <tr style="background-color: #ebeefd; border-bottom: 1px double #fff;">
+                                   <tr style="">
                                         <td>{{$item->TenChuDe}}</td>
                                         <td>{{$item->TenDanhMuc}}</td>
                                         <td>
@@ -69,8 +69,8 @@
                                              </div>
                                         </td>
                                         <td>
-                                             <a href="{{ route('admin.chude.sua', ['chude' => $item->IDCD]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
-                                             <form action="{{ route('admin.chude.xoa', ['chude' => $item->IDCD]) }}" method="POST" style="display: inline;">
+                                             <a href="{{ route('admin.chude.sua', ['id' => $item->IDCD]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
+                                             <form action="{{ route('admin.chude.xoa', ['id' => $item->IDCD]) }}" method="POST" style="display: inline;">
                                                   @csrf
                                                   <button type="submit" class="btn btn-danger show-alert-delete-box" data-toggle="tooltip" title='Delete'><i class="dw dw-delete-3"></i>Delete</button>
                                              </form>
@@ -83,19 +83,11 @@
                     </div>
                     <footer class="panel-footer">
                          <div class="row">
-
                               <div class="col-sm-5 text-center">
-                                   <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
+                                   <small class="text-muted inline m-t-sm m-b-sm">showing {{ $dsdanhmuccon->firstItem() }}-{{ $dsdanhmuccon->lastItem() }} of {{ $dsdanhmuccon->total() }} items | Page {{ $dsdanhmuccon->currentPage() }} of {{ $dsdanhmuccon->lastPage() }}</small>
                               </div>
                               <div class="col-sm-7 text-right text-center-xs">
-                                   <ul class="pagination pagination-sm m-t-none m-b-none">
-                                        <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                                        <li><a href="">1</a></li>
-                                        <li><a href="">2</a></li>
-                                        <li><a href="">3</a></li>
-                                        <li><a href="">4</a></li>
-                                        <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                                   </ul>
+                                   {{ $dsdanhmuccon->links('pagination::simple-bootstrap-4') }}
                               </div>
                          </div>
                     </footer>

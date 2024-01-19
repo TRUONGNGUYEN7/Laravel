@@ -14,11 +14,13 @@ use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
+
     public function index()
     {
-        $dslietke = Post::getPostsWithChudeInfo();
-        return view('admin.baiviet.lietke')->with('dslietke', $dslietke);
+        $dslietke = Post::getPostsWithChudeInfo()->paginate(5);
+        return view('admin.baiviet.lietke', ['dslietke' => $dslietke]);
     }
+
 
     public function create() {
         $dsdanhmuc = Post::getActivePosts();

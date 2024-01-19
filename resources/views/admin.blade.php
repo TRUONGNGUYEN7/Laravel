@@ -83,7 +83,7 @@
                 <div class="leftside-navigation">
                     <ul class="sidebar-menu" id="nav-accordion">
                         <li>
-                            <a class="active" href="{{ URL::to('/admin') }}">
+                            <a class="active" href="">
                                 <i class="fa fa-dashboard"></i>
                                 <span class="sizetextdm">Trang Chủ</span>
                                 

@@ -35,7 +35,9 @@ class Post extends Model
     }
     
     public static function getPostsWithChudeInfo() {
-        return self::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')->get();
+         // Sử dụng Eloquent query ở đây, ví dụ:
+         return self::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
+         ->select('tblbaiviet.*', 'tblchude.TenChuDe');
     }
 
     public static function getLatestPosts()

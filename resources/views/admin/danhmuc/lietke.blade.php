@@ -53,7 +53,7 @@
                     </thead>
                     <tbody id="myTable">
                          @foreach ($dsdanhmuc as $key => $item)
-                         <tr style="background-color: #ebeefd; border-bottom: 1px double #fff;">
+                         <tr style="">
                               <td style="width: 5%;">{{$item->TenDanhMuc}}</td>
                               <td style="width: 5%;">
                                    <div style="width: 10px;">
@@ -73,11 +73,11 @@
                                    <div class="row">
                                         <div class="col-md-2">
                                              
-                                             <a  href="{{ route('admin.danhmuc.sua', ['danhmuc' => $item->IDDM]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
+                                             <a  href="{{ route('admin.danhmuc.sua', ['id' => $item->IDDM]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
                                         
                                         </div>
                                         <div class="col-md-6">
-                                        <form action="{{ route('admin.danhmuc.xoa', ['danhmuc' => $item->IDDM]) }}" method="POST">
+                                        <form action="{{ route('admin.danhmuc.xoa', ['id' => $item->IDDM]) }}" method="POST">
                                              @csrf
                                              <button type="submit" class="btn btn-danger show-alert-delete-box" data-toggle="tooltip" title='Delete'><i class="dw dw-delete-3"></i>Delete</button>
                                         </form>
@@ -87,9 +87,18 @@
                          </tr>
                          @endforeach
                     </tbody>
-                    </table>
-
-          </div>
+               </table>
+          </div> 
+          <footer class="panel-footer">
+               <div class="row">
+                    <div class="col-sm-5 text-center">
+                         <small class="text-muted inline m-t-sm m-b-sm">showing {{ $dsdanhmuc->firstItem() }}-{{ $dsdanhmuc->lastItem() }} of {{ $dsdanhmuc->total() }} items | Page {{ $dsdanhmuc->currentPage() }} of {{ $dsdanhmuc->lastPage() }}</small>
+                    </div>
+                    <div class="col-sm-7 text-right text-center-xs">
+                         {{ $dsdanhmuc->links('pagination::simple-bootstrap-4') }}
+                    </div>
+               </div>
+          </footer>
      </div>
 </div>
 

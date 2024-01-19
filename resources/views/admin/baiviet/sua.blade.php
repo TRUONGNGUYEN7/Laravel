@@ -26,7 +26,7 @@
      ?>
      @foreach ($dsdanhmucsua as $key => $value)
 
-     <form action="{{ route('admin.baiviet.action_sua', ['baiviet' => $value->IDBV]) }}" method="POST"
+     <form action="{{ route('admin.baiviet.action_sua', ['id' => $value->IDBV]) }}" method="POST"
           enctype="multipart/form-data" class="form-horizontal">
                {{ csrf_field() }}
                

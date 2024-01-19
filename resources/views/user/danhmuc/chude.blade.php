@@ -1,7 +1,5 @@
-@extends('layout')
-@section('contentuser')
-
-	@include('user.danhmuc.header', ['selectedChudeID' => $selectedChudeID])
+@extends('user.danhmuc.submenu')
+@section('chude')
 
 	<div class="container p-t-4 p-b-40">
 		<h2 class="f1-l-1 cl2">

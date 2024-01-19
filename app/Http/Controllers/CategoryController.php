@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $dsdanhmuc = Category::all();
+        $dsdanhmuc = Category::paginate(5);
         return view('admin.danhmuc.lietke')->with('dsdanhmuc', $dsdanhmuc);
     }
 
