@@ -28,7 +28,7 @@ class Subcategory extends Model
             $subcategory = new self();
             $subcategory->TrangThaiCD = $request->has('hienthi') ? 1 : 0;
             $subcategory->TenChuDe = $tenChuDe;
-            $subcategory->DanhMucID = $request->idchude;
+            $subcategory->DanhMucID = $request->iddanhmuc;
             $subcategory->save();
 
             Session::put('message', 'Thêm thành công');

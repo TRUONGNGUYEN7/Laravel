@@ -19,7 +19,7 @@
                     @if(isset($FourPosts[0]))
                     <div class="bg-img1 size-a-3 how1 pos-relative"
                          style="background-image: url({{ asset('hinhanh/'.$FourPosts[0]->HinhAnh) }});">
-                         <a href="blog-detail-01.html" class="dis-block how1-child1 trans-03"></a>
+                         <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[0]->IDBV]) }}" class="dis-block how1-child1 trans-03"></a>
 
                          <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                               <a href="#"
@@ -55,7 +55,7 @@
                <div class="col-sm-6 col-md-3 p-rl-1 p-b-2">
                     <div class="bg-img1 size-a-14 how1 pos-relative"
                          style="background-image: url({{ asset('hinhanh/'.$post->HinhAnh) }});">
-                         <a href="blog-detail-01.html" class="dis-block how1-child1 trans-03"></a>
+                         <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}" class="dis-block how1-child1 trans-03"></a>
 
                          <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                               <a href="#"

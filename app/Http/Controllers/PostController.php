@@ -21,7 +21,6 @@ class PostController extends Controller
         return view('admin.baiviet.lietke', ['dslietke' => $dslietke]);
     }
 
-
     public function create() {
         $dsdanhmuc = Post::getActivePosts();
         $dschude = Subcategory::getActiveSubcategories();
@@ -41,18 +40,20 @@ class PostController extends Controller
         return back();
     }
 
-    public function update(PostRequest $request, $id)
-    {
-        Post::updatePost($request, $id);
-        return back();
-    }
-
     public function edit($id) {
         $dsdanhmucsua = Post::getPostForEdit($id);
         $dsChude = Subcategory::getActiveSubcategories();
     
         return view('admin.baiviet.sua', compact('dsdanhmucsua', 'dsChude'));
     }
+
+    public function update(PostRequest $request, $id)
+    {
+        Post::updatePost($request, $id);
+        return back();
+    }
+
+ 
     
     public function destroy($id)
     {

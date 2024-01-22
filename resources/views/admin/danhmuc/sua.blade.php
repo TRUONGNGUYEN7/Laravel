@@ -25,8 +25,9 @@
      }
      ?>
      @foreach ($dsdanhmuc as $key => $item)
-     <form action="{{ route('admin.danhmuc.action_sua', ['id' => $item->IDDM]) }}" method="POST" class="form-horizontal ">
+     <form action="{{ route('admin.danhmuc.update', ['id' => $item->IDDM]) }}" method="POST" class="form-horizontal ">
           {{ csrf_field() }}
+          {{ method_field('PUT') }}
           <div class="form-group has-success {{ $errors->has('tendanhmuc') ? 'has-error' : '' }}">
                <label class="col-lg-3 control-label">Tên danh mục</label>
                <div class="col-lg-6">

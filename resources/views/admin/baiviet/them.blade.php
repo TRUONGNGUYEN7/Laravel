@@ -1,7 +1,6 @@
 @extends('admin')
 @section('adcontent')
 
-
     <div class="page-header">
         <div class="row">
             <div class="col-md-6 col-sm-12">
@@ -85,16 +84,6 @@
                 </div>
             </div>
 
-            <script>
-                const email = document.getElementById("mota");
-                email.addEventListener("input", (event) => {
-                    if (email.validity.typeMismatch) {
-                        email.setCustomValidity("Điền địa chỉ email!");
-                    } else {
-                        email.setCustomValidity("");
-                    }
-                });
-            </script>
             <div class="form-group has-warning">
                 <label class="col-lg-3 control-label">Trạng thái</label>
                 <div class="form-group row">

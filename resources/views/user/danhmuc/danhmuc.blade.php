@@ -8,7 +8,7 @@
                <div class="col-12 p-rl-1 p-b-2">
                     <div class="bg-img1 size-a-3 how1 pos-relative"
                          style="background-image: url({{ asset('hinhanh/'.$FourPosts[0]->HinhAnh) }});">
-                         <a href="blog-detail-01.html" class="dis-block how1-child1 trans-03"></a>
+                         <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[0]->IDBV]) }}" class="dis-block how1-child1 trans-03"></a>
 
                          <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                               <a href="#"
@@ -39,12 +39,12 @@
                     </div>
                </div>
                @endif
-               
+
                @foreach($FourPosts->slice(1) as $post)
                <div class="col-sm-6 col-md-3 p-rl-1 p-b-2">
                     <div class="bg-img1 size-a-14 how1 pos-relative"
                          style="background-image: url({{ asset('hinhanh/'.$post->HinhAnh) }});">
-                         <a href="blog-detail-01.html" class="dis-block how1-child1 trans-03"></a>
+                         <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}" class="dis-block how1-child1 trans-03"></a>
 
                          <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                               <a href="#"
@@ -65,6 +65,79 @@
      </div>
 </section>
 
+<!-- Latest -->
+<section class="bg0 p-t-50 p-b-90">
+     <div class="container">
+          <div class="row justify-content-center">
+               <div class="col-md-10 col-lg-8 p-b-50">
+                    <div class="p-r-10 p-r-0-sr991">
+                         <div class="how2 how2-cl4 flex-s-c">
+                              <h3 class="f1-m-2 cl3 tab01-title">
+                                   Tin mới cập nhật
+                              </h3>
+                         </div>
+
+                         <div class="p-b-40">
+                              <!-- Item post -->
+                              <div class="flex-wr-sb-s p-t-40 p-b-15 how-bor2">
+                                   <a href="blog-detail-01.html"
+                                        class="size-w-8 wrap-pic-w hov1 trans-03 w-full-sr575 m-b-25">
+                                        <img src="images/post-43.jpg" alt="IMG">
+                                   </a>
+
+                                   <div class="size-w-9 w-full-sr575 m-b-25">
+                                        <h5 class="p-b-12">
+                                             <a href="blog-detail-01.html" class="f1-l-1 cl2 hov-cl10 trans-03 respon2">
+                                                  Robot lorem ipsum dolor sit amet consectetur
+                                             </a>
+                                        </h5>
+
+                                        <div class="cl8 p-b-18">
+                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
+                                                  by John Alvarado
+                                             </a>
+
+                                             <span class="f1-s-3 m-rl-3">
+                                                  -
+                                             </span>
+
+                                             <span class="f1-s-3">
+                                                  Feb 18
+                                             </span>
+                                        </div>
+
+                                        <p class="f1-s-1 cl6 p-b-24">
+                                             Duis eu felis id tortor congue consequat. Sed vitae vestibulum enim, et
+                                             pharetra magna
+                                        </p>
+
+                                        <a href="blog-detail-01.html" class="f1-s-1 cl9 hov-cl10 trans-03">
+                                             Read More
+                                             <i class="m-l-2 fa fa-long-arrow-alt-right"></i>
+                                        </a>
+                                   </div>
+                              </div>
+                         </div>
+
+                         <a href="#" class="flex-c-c size-a-13 bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03">
+                              Load More
+                         </a>
+                    </div>
+               </div>
+
+               <div class="col-md-10 col-lg-4 p-b-50">
+                    <div class="p-l-10 p-rl-0-sr991">
+                         <!-- Banner -->
+                         <div class="flex-c-s">
+                              <a href="#">
+                                   <img class="max-w-full" src="images/banner-03.jpg" alt="IMG">
+                              </a>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</section>
 
 <!-- Post -->
 <section class="bg0 p-t-110 p-b-25">

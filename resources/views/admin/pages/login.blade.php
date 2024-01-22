@@ -92,10 +92,10 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 <body>
-     <div id="flash-message" class="alertsuccess">
+     <div id="flash-message" class="alertsuccess" style="display: {{ session('message') ? 'block' : 'none' }}">
           {{ session('message') ?? '' }}
-
      </div>
+
      <div style=" margin-top: 200px " class="log-w3">
           <div class="w3layouts-main">
                <h2>Sign In Now</h2>

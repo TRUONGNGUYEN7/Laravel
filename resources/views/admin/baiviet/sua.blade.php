@@ -26,10 +26,9 @@
      ?>
      @foreach ($dsdanhmucsua as $key => $value)
 
-     <form action="{{ route('admin.baiviet.action_sua', ['id' => $value->IDBV]) }}" method="POST"
-          enctype="multipart/form-data" class="form-horizontal">
+     <form action="{{ route('admin.baiviet.update', ['id' => $value->IDBV]) }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                {{ csrf_field() }}
-               
+               {{ method_field('PUT') }}
                <div class="form-group {{ $errors->has('tenbaiviet') ? 'has-error' : 'has-success' }}">
                <label class="col-lg-3 control-label">Tên bài viết</label>
                <div class="col-lg-6">
@@ -118,3 +117,13 @@
      @endforeach
 </div>
 @endsection
+
+<script>
+    config.extraAllowedContent = 'img[max-width,max-height];';
+</script>
+<style>
+    img {
+    max-width: 710px;
+    max-height: 100%;
+}
+</style>

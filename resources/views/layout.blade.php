@@ -204,6 +204,7 @@
 		</div>
 	</header>
 	@yield('contentuser')
+	@yield('detail')
 	@include('user.page.footer')
 	<!-- Back to top -->
 	<div class="btn-back-to-top" id="myBtn">

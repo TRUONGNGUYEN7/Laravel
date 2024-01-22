@@ -36,20 +36,21 @@
                 </div>
             </div>
 
-            <div class="form-group {{ $errors->has('idchude') ? 'has-error' : 'has-success' }}">
+            <div class="form-group {{ $errors->has('iddanhmuc') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Danh mục</label>
                 <div class="form-group row">
                     <div class="col-lg-6">
-                        <select class="form-control" name="idchude" id="idchude">
-                            <option value="chude" {{ old('idchude') == 'chude' ? 'selected' : '' }}>------Chọn------</option>
+                        <select class="form-control" name="iddanhmuc" id="iddanhmuc">
+                            <option value="chude" {{ old('iddanhmuc') == 'chude' ? 'selected' : '' }}>------Chọn------</option>
                             @foreach ($dsdanhmuc as $key => $item)
-                                <option value="{{ $item->IDDM }}" {{ old('idchude') == $item->IDDM ? 'selected' : '' }}>
+                                <option value="{{ $item->IDDM }}" {{ old('iddanhmuc') == $item->IDDM ? 'selected' : '' }}>
                                     {{ $item->TenDanhMuc }}
                                 </option>
                             @endforeach
                         </select>
-                        @if ($errors->has('idchude'))
-                            <span class="help-block">{{ $errors->first('idchude') }}</span>
+
+                        @if ($errors->has('iddanhmuc'))
+                            <span class="help-block">{{ $errors->first('iddanhmuc') }}</span>
                         @endif
                     </div>
                 </div>

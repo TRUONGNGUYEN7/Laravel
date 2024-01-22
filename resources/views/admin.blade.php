@@ -146,6 +146,13 @@
     <script src="{{ asset('assetadmin/js/jquery.scrollTo.js') }}"></script>
     <script src="{{ asset('assetadmin/ckeditor/ckeditor.js') }}"></script>
     <!-- morris JavaScript -->
+    <!-- Include CKEditor script (choose either CDN or local) -->
+<!-- CDN -->
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.1/classic/ckeditor.js"></script>
+
+<!-- Local -->
+<!-- <script src="/path/to/ckeditor.js"></script> -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.2-dev/css/formValidation.min.css"></script>
     <script type="text/javascript">
         CKEDITOR.replace('ckeditor')
