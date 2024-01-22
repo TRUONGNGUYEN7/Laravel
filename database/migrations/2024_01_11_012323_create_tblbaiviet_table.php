@@ -17,10 +17,13 @@ return new class extends Migration
             $table->text('Mota');
             $table->text('NoiDung');
             $table->string('HinhAnh', 500);
+            $table->string('NguoiDangBV', 70);
             $table->unsignedInteger('ChuDeID');
             $table->integer('LuotXem');
             $table->tinyInteger('TrangThaiBV');
+            $table->datetime('ThoiGianBV');
             $table->timestamps();
+
              // Thiết lập foreign key
             $table->foreign('ChuDeID')->references('IDCD')->on('tblchude')->onDelete('cascade');
         });
