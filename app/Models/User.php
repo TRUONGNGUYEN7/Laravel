@@ -7,39 +7,64 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $primaryKey = 'IDCD';
+    protected $table = 'tbluser';
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'IDUS', 'TenUS', 'MatKhauUS', 'TrangThaiUS'
     ];
+    
+    public static function Addcomment($request)
+    {
+        $comment = new self();
+        $comment->TenUS = $request->noidung;
+        $comment-> NoiDungUS= $request->name;
+        $comment->noidung = $request->email;
+        $comment->save();
+        Session::put('message', 'Thêm thành công');
+        return back();
+    }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public static function Signup($request)
+    {
+        try {
+            $User = new self();
+            $User->TenUS = $request->name;
+            $User->MatKhauUS = Hash::make($request->password); 
+            $User-> EmailUS= $request->email;
+            $User-> TrangThaiUS = 1;
+            $User->save();
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public static function Signin($username, $userpass)
+    {
+        // Lấy thông tin người dùng từ cơ sở dữ liệu
+        $user = DB::table('tbluser')
+            ->where('TenUS', $username)
+            ->first();
+
+        // Kiểm tra xem có người dùng không
+        if ($user) {
+            // Kiểm tra mật khẩu
+            if (Hash::check($userpass, $user->MatKhauUS)) {
+                return $user; // Mật khẩu hợp lệ, trả về người dùng
+            }
+        }
+
+        return false; // Mật khẩu không hợp lệ hoặc người dùng không tồn tại
+    }
+    
 }

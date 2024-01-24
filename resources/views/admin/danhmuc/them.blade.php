@@ -25,8 +25,6 @@
         ?>
         <form action="{{ route('admin.danhmuc.store') }}" method="POST" class="form-horizontal ">
             {{ csrf_field() }}
-
-            
             <div class="form-group has-success {{ $errors->has('tendanhmuc') ? 'has-error' : '' }}">
                 <label class="col-lg-3 control-label">Tên danh mục</label>
                 <div class="col-lg-6">
@@ -37,16 +35,6 @@
                 </div>
             </div>
 
-            <script>
-                const email = document.getElementById("mota");
-                email.addEventListener("input", (event) => {
-                    if (email.validity.typeMismatch) {
-                        email.setCustomValidity("Điền địa chỉ email!");
-                    } else {
-                        email.setCustomValidity("");
-                    }
-                });
-            </script>
             <div class="form-group has-warning">
                 <label class="col-lg-3 control-label">Trạng thái</label>
                 <div class="form-group row">

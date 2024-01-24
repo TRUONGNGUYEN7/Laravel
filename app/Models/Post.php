@@ -26,6 +26,11 @@ class Post extends Model
             ->get();
     }
 
+    public static function getFourPostsByCate()
+    {
+     
+    }
+
     public static function getActivePosts() {
         return self::where('TrangThaiBV', 1)
         ->get();
@@ -37,10 +42,10 @@ class Post extends Model
             ->get();
     }
 
-    public static function getViewsPosts() {
+    public static function getViewsPosts($sl) {
         return self::where('TrangThaiBV', 1)
         ->orderByDesc('tblbaiviet.LuotXem')
-        ->take(5)
+        ->take($sl)
         ->get();
     }
 
