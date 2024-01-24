@@ -32,6 +32,69 @@
 .csstieude34:hover {
      background-color: black;
 }
+
+.fontsizebv {
+     font-size: 17px;
+}
+
+/* Main container */
+.row {
+     display: flex;
+     flex-wrap: wrap;
+     margin: 0 -15px;
+     /* Add negative margin to account for column padding */
+}
+
+/* Left and Right columns */
+.col-6 {
+     flex: 0 0 50%;
+     max-width: 50%;
+     padding: 0 15px;
+}
+
+/* Category box */
+.cate-news-24h-r {
+     margin-top: 40px;
+     border: 1px solid #e0e0e0;
+     border-radius: 8px;
+     overflow: hidden;
+}
+
+/* Category title */
+.cate-news-24h-r__tit h2 {
+     color: #78B43D;
+     font-weight: bold;
+     text-transform: uppercase;
+     padding: 15px;
+     margin: 0;
+     border-bottom: 1px solid #e0e0e0;
+}
+
+/* Style the header section */
+.box-t {
+     display: flex;
+     align-items: center;
+     margin-bottom: 15px;
+}
+
+.cate-news-24h-r__tit {
+     color: #24B43D;
+     /* Change the color as needed */
+     margin-right: 15px;
+}
+
+.cate-news-24h-r_cate {
+     list-style: none;
+     margin: 0;
+     padding: 0;
+     display: flex;
+     align-items: center;
+}
+
+.cate-news-24h-r_cate li {
+     margin-right: 15px;
+     /* Adjust the spacing between list items as needed */
+}
 </style>
 
 <!-- Feature post -->
@@ -53,8 +116,7 @@
                               </a>
 
                               <h3 class="how1-child2 m-t-14 m-b-10">
-                                   <a href="#"
-                                        class="csstieude12 how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03">
+                                   <a href="#" class="csstieude12 how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03">
                                         {{ $FourPosts[0]->TenBV }}
                                    </a>
                               </h3>
@@ -70,7 +132,8 @@
                          <div class="col-12 p-rl-1 p-b-2">
                               <div class="bg-img1 size-a-4 how1 pos-relative"
                                    style="background-image: url({{ asset('hinhanh/'.$FourPosts[1]->HinhAnh) }});">
-                                   <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[1]->IDBV]) }}" class="dis-block how1-child1 trans-03"></a>
+                                   <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[1]->IDBV]) }}"
+                                        class="dis-block how1-child1 trans-03"></a>
 
                                    <div class="flex-col-e-s s-full p-rl-25 p-tb-24">
                                         <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[1]->IDBV]) }}"
@@ -88,11 +151,12 @@
                               </div>
                          </div>
 
-					@if(isset($FourPosts[2]))
+                         @if(isset($FourPosts[2]))
                          <div class="col-sm-6 p-rl-1 p-b-2">
                               <div class="bg-img1 size-a-5 how1 pos-relative"
                                    style="background-image: url({{ asset('hinhanh/'.$FourPosts[2]->HinhAnh) }});">
-                                   <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[2]->IDBV]) }}" class="dis-block how1-child1 trans-03"></a>
+                                   <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[2]->IDBV]) }}"
+                                        class="dis-block how1-child1 trans-03"></a>
                                    <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                                         <a href=""
                                              class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
@@ -107,13 +171,14 @@
                                    </div>
                               </div>
                          </div>
-					@endif
+                         @endif
 
-					@if(isset($FourPosts[3]))
+                         @if(isset($FourPosts[3]))
                          <div class="col-sm-6 p-rl-1 p-b-2">
                               <div class="bg-img1 size-a-5 how1 pos-relative"
                                    style="background-image: url({{ asset('hinhanh/'.$FourPosts[3]->HinhAnh) }});">
-                                   <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[3]->IDBV]) }}" class="dis-block how1-child1 trans-03"></a>
+                                   <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[3]->IDBV]) }}"
+                                        class="dis-block how1-child1 trans-03"></a>
                                    <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                                         <a href="#"
                                              class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
@@ -128,7 +193,7 @@
                                    </div>
                               </div>
                          </div>
-					@endif
+                         @endif
 
                     </div>
                </div>
@@ -136,7 +201,96 @@
      </div>
 </section>
 
-<!-- Post -->
+<!-- tab cate-sub -->
+<div class="container">
+     <div class="row justify-content-center">
+          @foreach($twoLatestCategoriesWithPosts->take(2) as $category)
+          <div class="col-6 col-l">
+               <section style="height:500px " class="cate-news-24h-r coll-2 mar-t-40">
+                    <div class="box-t d-flex align-items-center mar-b-15">
+                         <header class="cate-news-24h-r__tit color-24h flex-auto pos-rel">
+                              <h2 class="fw-bold text-uppercase">
+                                   <a style="color: #78B43D;"
+                                        href=" {{ route('user.hienthi', ['id' => $category->IDDM ]) }}"
+                                        class="fw-bold text-uppercase color-24h">
+                                        {{ $category->TenDanhMuc }} </a>
+                              </h2>
+                         </header>
+                         <ul class="cate-news-24h-r_cate d-flex align-items-center">
+                              @if($category->chudes->isNotEmpty())
+                              @foreach($category->chudes as $key => $chude)
+                              <li>
+                                   <a href="{{ route('user.hienthi', ['id' => $chude->IDCD, 'iddm' => $chude->DanhMucID]) }}"
+                                        class="hover-color-24h" style="color:#666666">
+                                        {{ $chude->TenChuDe }} </a>
+                              </li>
+                              @endforeach
+                              @endif
+                         </ul>
+                    </div>
+
+                    <div class="container">
+                         <!-- First row -->
+                         <div class="row">
+                              <div class="col-6">
+                                   <!-- Large article with image and description -->
+                                   <article class="cate-news-24h-r-big border-right pr-3 ">
+                                        <!-- Image -->
+                                        @if($category->chudes->isNotEmpty())
+                                        @foreach($category->chudes->first()->baiviets->take(1) as $baiviet)
+                                        <figure class="cate-news-24h-r-big__img pos-rel mar-b-15">
+                                             <a onclick="" href="{{ route('user.baiviet.detail', ['id' => $baiviet->IDBV]) }}">
+                                                  <img style="width: 195px; height: 210px; object-fit: cover; object-position: top;"
+                                                       src='{{ asset("hinhanh/$baiviet->HinhAnh") }}'
+                                                       class="width-100 loaded" data-was-processed="true">
+                                             </a>
+                                        </figure>
+
+                                        <!-- Article Information -->
+                                        <div class="cate-news-24h-r-big__info">
+                                             <header class="cate-news-24h-r-big__tit mar-b-5">
+                                                  <h3>
+                                                       <a style="color: black; font-weight: bold; font-size: 18px;"
+                                                            class="d-block fw-medium hover-color-24h color-main"
+                                                            href="">
+                                                            {{ $baiviet->TenBV }}
+                                                       </a>
+
+                                                       <a style="color: #252525;"
+                                                            class="d-block fw-medium hover-color-24h color-main"
+                                                            href="">
+                                                            {{ $baiviet->Mota }}
+                                                       </a>
+                                                  </h3>
+                                             </header>
+                                        </div>
+                                        @endforeach
+                                        @endif
+                                   </article>
+                              </div>
+
+                              <div class="col-6">
+                                   <!-- Content on the right of the first large article -->
+                                   <div class="content-on-right border-left pl-3"
+                                        style="color: black ;text-indent: -20px; line-height: 1.4; ">
+                                        @if($category->chudes->isNotEmpty())
+                                        @foreach($category->chudes->flatMap->baiviets->slice(1) as $baiviet)
+                                        <p style="margin-bottom: 10px;">🔹{{ $baiviet->TenBV }}</p>
+                                        @endforeach
+                                        @endif
+                                   </div>
+                              </div>
+                         </div>
+
+                    </div>
+               </section>
+          </div>
+          @endforeach
+     </div>
+
+</div>
+
+<!-- Two category -->
 <section class="bg0 p-t-70">
      <div class="container">
           <div class="row justify-content-center">
@@ -156,55 +310,52 @@
                                         @foreach($category->chudes as $key => $chude)
                                         <li class="nav-item">
                                              <a class="nav-link {{ $key == 0 ? 'active' : '' }}"
-                                                  href="{{ route('user.hienthi', ['id' => $chude->IDCD, 'iddm' => $chude->DanhMucID]) }}">{{ $chude->TenChuDe }}</a>
+                                                  href="{{ route('user.hienthi', ['id' => $chude->IDCD, 'iddm' => $chude->DanhMucID]) }}">
+                                                  {{ $chude->TenChuDe }}
+                                             </a>
                                         </li>
                                         @endforeach
                                         @endif
                                    </ul>
-                                   <a href="#"
-                                        class="tab01-link f1-s-1 cl9 hov-cl10 trans-03">
+                                   <a href="#" class="tab01-link f1-s-1 cl9 hov-cl10 trans-03">
                                         View all
                                         <i class="fs-12 m-l-5 fa fa-caret-right"></i>
                                    </a>
                               </div>
                               <!-- Tab panes -->
                               <div class="tab-content p-t-35">
-                                   @if($category->chudes->isNotEmpty())
-                                   @foreach($category->chudes as $key => $chude)
-                                   <div class="tab-pane fade show {{ $key == 0 ? 'active' : '' }}"
-                                        id="tab{{ $category->IDDM }}-{{ $chude->IDChuDe }}" role="tabpanel">
+                                   <div class="tab-pane fade show active" id="allTopics" role="tabpanel">
                                         <div class="row">
-                                             @forelse($chude->baiviets->take(4) as $baiviet)
-                                             <div class="col-sm-6 p-r-25 p-r-15-sr991">
+                                             @foreach($category->chudes->flatMap->baiviets as $baiviet)
+                                             <div class="col-sm-4 p-r-25 p-r-15-sr991">
                                                   <!-- Item post -->
                                                   <div class="m-b-30">
-                                                       <a href="{{ route('user.baiviet.detail', ['id' => $baiviet->IDBV]) }}" class="wrap-pic-w hov1 trans-03">
-                                                            <img src='{{ asset("hinhanh/$baiviet->HinhAnh") }}'
+                                                       <a href="{{ route('user.baiviet.detail', ['id' => $baiviet->IDBV]) }}"
+                                                            class="wrap-pic-w hov1 trans-03">
+                                                            <img style="width: 195px; height: 210px; object-fit: cover; object-position: top;"
+                                                                 src='{{ asset("hinhanh/$baiviet->HinhAnh") }}'
                                                                  alt="IMG">
                                                        </a>
-
                                                        <div class="p-t-20">
-                                                            <h5 class="p-b-5">
-                                                                 <a href="blog-detail-01.html"
-                                                                      class="f1-m-3 cl2 hov-cl10 trans-03">
+                                                            <h6 class="p-b-5">
+                                                                 <a class="fontsizebv f1-m-3 cl2 hov-cl10 trans-03"
+                                                                      href="{{ route('user.baiviet.detail', ['id' => $baiviet->IDBV]) }}">
                                                                       {{ $baiviet->TenBV }}
                                                                  </a>
-                                                            </h5>
+                                                            </h6>
                                                        </div>
                                                   </div>
                                              </div>
-                                             @empty
-                                             <!-- Handle case where there are no posts -->
-                                             @endforelse
+                                             @endforeach
                                         </div>
                                    </div>
-                                   @endforeach
-                                   @endif
                               </div>
                          </div>
                          @endforeach
                     </div>
                </div>
+
+
 
                <div class="col-md-10 col-lg-4">
                     <div class="p-l-10 p-rl-0-sr991 p-b-20">
@@ -212,60 +363,20 @@
                          <div>
                               <div class="how2 how2-cl4 flex-s-c">
                                    <h3 class="f1-m-2 cl3 tab01-title">
-                                        Most Popular
+                                        Xem nhiều
                                    </h3>
                               </div>
-
                               <ul class="p-t-35">
-                                   <li class="flex-wr-sb-s p-b-22">
+                                   @foreach($viewPost as $post)
+                                   <li class="flex-wr-sb-s p-b-29">
                                         <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
-                                             1
+                                             {{ $loop->index + 1 }}
                                         </div>
-
                                         <a href="#" class="size-w-3 f1-s-7 cl3 hov-cl10 trans-03">
-                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                                             {{ $post->TenBV }}
                                         </a>
                                    </li>
-
-                                   <li class="flex-wr-sb-s p-b-22">
-                                        <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
-                                             2
-                                        </div>
-
-                                        <a href="#" class="size-w-3 f1-s-7 cl3 hov-cl10 trans-03">
-                                             Proin velit consectetur non neque
-                                        </a>
-                                   </li>
-
-                                   <li class="flex-wr-sb-s p-b-22">
-                                        <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
-                                             3
-                                        </div>
-
-                                        <a href="#" class="size-w-3 f1-s-7 cl3 hov-cl10 trans-03">
-                                             Nunc vestibulum, enim vitae condimentum volutpat lobortis ante
-                                        </a>
-                                   </li>
-
-                                   <li class="flex-wr-sb-s p-b-22">
-                                        <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
-                                             4
-                                        </div>
-
-                                        <a href="#" class="size-w-3 f1-s-7 cl3 hov-cl10 trans-03">
-                                             Proin velit justo consectetur non neque elementum
-                                        </a>
-                                   </li>
-
-                                   <li class="flex-wr-sb-s p-b-22">
-                                        <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0">
-                                             5
-                                        </div>
-
-                                        <a href="#" class="size-w-3 f1-s-7 cl3 hov-cl10 trans-03">
-                                             Proin velit consectetur non neque
-                                        </a>
-                                   </li>
+                                   @endforeach
                               </ul>
                          </div>
 
@@ -289,69 +400,71 @@
                     <div class="row p-t-35">
                          <div class="col-sm-6 p-r-25 p-r-15-sr991">
                               <!-- Item latest -->
-						@foreach($SixPostsNewUpdate->take(3) as $post)
-							<!-- Item latest -->	
-							<div class="m-b-45">
-								<a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}" class="wrap-pic-w hov1 trans-03">
-									<img src="{{ asset('hinhanh/'.$post->HinhAnh) }}" alt="IMG">
-								</a>
+                              @foreach($SixPostsNewUpdate->take(3) as $post)
+                              <!-- Item latest -->
+                              <div class="m-b-45">
+                                   <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}"
+                                        class="wrap-pic-w hov1 trans-03">
+                                        <img src="{{ asset('hinhanh/'.$post->HinhAnh) }}" alt="IMG">
+                                   </a>
 
-								<div class="p-t-16">
-									<h5 class="p-b-5">
-										<a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-										{{ $post->TenBV }} 
-										</a>
-									</h5>
+                                   <div class="p-t-16">
+                                        <h5 class="p-b-5">
+                                             <a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
+                                                  {{ $post->TenBV }}
+                                             </a>
+                                        </h5>
 
-									<span class="cl8">
-										<a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-											by John Alvarado
-										</a>
+                                        <span class="cl8">
+                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
+                                                  by John Alvarado
+                                             </a>
 
-										<span class="f1-s-3 m-rl-3">
-											-
-										</span>
+                                             <span class="f1-s-3 m-rl-3">
+                                                  -
+                                             </span>
 
-										<span class="f1-s-3">
-                                                  {{ $post->ThoiGianBV }} 
-										</span>
-									</span>
-								</div>
-							</div>
-						@endforeach
+                                             <span class="f1-s-3">
+                                                  {{ $post->ThoiGianBV }}
+                                             </span>
+                                        </span>
+                                   </div>
+                              </div>
+                              @endforeach
                          </div>
 
                          <div class="col-sm-6 p-r-25 p-r-15-sr991">
                               <!-- Item latest -->
-						@foreach($SixPostsNewUpdate->slice(3) as $post)
-							<div class="m-b-45">
-								<a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}" class="wrap-pic-w hov1 trans-03">
-									<img src="{{ asset('hinhanh/'.$post->HinhAnh) }}" alt="IMG">
-								</a>
+                              @foreach($SixPostsNewUpdate->slice(3) as $post)
+                              <div class="m-b-45">
+                                   <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}"
+                                        class="wrap-pic-w hov1 trans-03">
+                                        <img src="{{ asset('hinhanh/'.$post->HinhAnh) }}" alt="IMG">
+                                   </a>
 
-								<div class="p-t-16">
-									<h5 class="p-b-5">
-										<a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-											1You wish lorem ipsum dolor sit amet consectetur
-										</a>
-									</h5>
+                                   <div class="p-t-16">
+                                        <h5 class="p-b-5">
+                                             <a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
+                                                  1You wish lorem ipsum dolor sit amet consectetur
+                                             </a>
+                                        </h5>
 
-									<span class="cl8">
-										<a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-											by John Alvarado
-										</a>
+                                        <span class="cl8">
+                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
+                                                  by John Alvarado
+                                             </a>
 
-										<span class="f1-s-3 m-rl-3">
-											-
-										</span>
+                                             <span class="f1-s-3 m-rl-3">
+                                                  -
+                                             </span>
 
-										<span class="f1-s-3">
-											Feb 15
-										</span>
-									</span>
-								</div>
-							</div>
-						@endforeach
+                                             <span class="f1-s-3">
+                                                  Feb 15
+                                             </span>
+                                        </span>
+                                   </div>
+                              </div>
+                              @endforeach
                          </div>
 
                     </div>
@@ -375,28 +488,6 @@
                                              data-toggle="modal" data-target="#modal-video-01">
                                              <span class="fab fa-youtube"></span>
                                         </button>
-                                   </div>
-
-                                   <div class="p-tb-16 p-rl-25 bg3">
-                                        <h5 class="p-b-5">
-                                             <a href="#" class="f1-m-3 cl0 hov-cl10 trans-03">
-                                                  Music lorem ipsum dolor sit amet consectetur
-                                             </a>
-                                        </h5>
-
-                                        <span class="cl15">
-                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                  by John Alvarado
-                                             </a>
-
-                                             <span class="f1-s-3 m-rl-3">
-                                                  -
-                                             </span>
-
-                                             <span class="f1-s-3">
-                                                  Feb 18
-                                             </span>
-                                        </span>
                                    </div>
                               </div>
                          </div>

@@ -7,20 +7,27 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Middleware\CheckAdminLogin;
+use App\Http\Controllers\UserController;
 
 //Homeuser
 Route::prefix('/')->group(function () {
-     Route::get('', [Homecontroller::class, 'index']);
-     Route::get('trangchu', [Homecontroller::class, 'index']);
+     Route::get('/', [HomeController::class, 'index'])->name('user.home');
 });
 
-Route::prefix('user')->group(function () {
-     Route::get('baiviet/detail/{id}', [Homecontroller::class, 'detail'])->name('user.baiviet.detail');
-     Route::get('submenu/{id}/{iddm?}', [Homecontroller::class, 'hienthi'])->name('user.hienthi');
- });
- 
- 
+$userController = 'App\Http\Controllers\UserController';
+$user = 'user'; 
+Route::prefix('user')->group(function () use ($userController, $user) {
+     Route::get('baiviet/detail/{id}', [$userController, 'detail'])->name("$user.baiviet.detail");
+     Route::get('submenu/{id}/{iddm?}', [$userController, 'hienthi'])->name("$user.hienthi");
+     Route::post('add', [$userController, 'addcomment'])->name("$user.comment.add");
+     Route::get('signup', [$userController, 'signup'])->name("$user.signup");
+     Route::post('signup_action', [$userController, 'signup_action'])->name("$user.signup_action");
+     Route::get('signin', [$userController, 'signin'])->name("$user.signin");
+     Route::post('signin_action', [$userController, 'signin_action'])->name("$user.signin_action");
+     Route::get('logout', [$userController, 'logout'])->name("$user.logout");
+});
 
+ 
 $adminController = 'App\Http\Controllers\AdminController';
 Route::prefix('admin')->group(function () use ($adminController) {
     Route::get('', [$adminController, 'login'])->name('admin.home');
@@ -31,8 +38,7 @@ Route::prefix('admin')->group(function () use ($adminController) {
 
 //Admin
 $adminRoutePrefix = 'admin';
-Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'], function () 
-     use ($adminRoutePrefix) {
+Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'], function () use ($adminRoutePrefix) {
 
      $adminController = 'App\Http\Controllers\AdminController';
      Route::get('index', [$adminController, 'showhome'])->name("$adminRoutePrefix.showhome");
@@ -40,7 +46,6 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
      // Admin Danhmuc
      $danhmucRoute = 'danhmuc';
      $categoryController = 'App\Http\Controllers\CategoryController';
-
      Route::get("$danhmucRoute", [$categoryController, 'index'])->name("$adminRoutePrefix.$danhmucRoute.index");
      Route::get("$danhmucRoute/create", [$categoryController, 'create'])->name("$adminRoutePrefix.$danhmucRoute.create");
      Route::post("$danhmucRoute", [$categoryController, 'store'])->name("$adminRoutePrefix.$danhmucRoute.store");
@@ -52,7 +57,6 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
      // Admin Chude
      $chudeRoute = 'chude';
      $subcategoryController = 'App\Http\Controllers\SubcategoryController';
-
      Route::get("$chudeRoute", [$subcategoryController, 'index'])->name("$adminRoutePrefix.$chudeRoute.index");
      Route::get("$chudeRoute/create", [$subcategoryController, 'create'])->name("$adminRoutePrefix.$chudeRoute.create");
      Route::post("$chudeRoute", [$subcategoryController, 'store'])->name("$adminRoutePrefix.$chudeRoute.store");
