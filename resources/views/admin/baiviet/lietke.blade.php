@@ -48,14 +48,16 @@
                                              <th style="width: 100px; color: white">Mô tả</th>
                                              <th style="width: 100px; color: white">Tên chủ đề</th>
                                              <th style="width: 30px; color: white">Trạng thái</th>
-                                             <th style="width: 40px; color: white">Thao tác</th>
+                                             <th style="width: 40px; color: white">Lượt xem</th>
+                                             <th style="width: 10px; color: white">NguoiDangBV</th>
+                                             <th style="width: 60px; color: white">Thao tác</th>
                                         </tr>
                                    </thead>
                                    <tbody id="myTable">
                                         @foreach ($dslietke as $key => $item)
                                         <tr style="">
-                                             <td>{{$item -> TenBV}}</td>
-                                             <td>{{$item -> Mota}}</td>
+                                             <td style="width: 250px">{{$item -> TenBV}}</td>
+                                             <td style="width: 380px">{{$item -> Mota}}</td>
                                              <td>{{$item -> TenChuDe}}</td>
                                              <td>
                                                   <div style="width: 30px;">
@@ -71,7 +73,9 @@
                                                   </div>
 
                                              </td>
-                                             <td>
+                                             <td style="width: 10px;">{{$item -> LuotXem}}</td>
+                                             <td style="width: 10px;">{{$item -> NguoiDangBV}}</td>
+                                             <td style="width: 120px;">
                                                   <a href="{{ route('admin.baiviet.sua', ['id' => $item->IDBV]) }}" class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
                                                   <form action="{{ route('admin.baiviet.xoa', ['id' => $item->IDBV]) }}" method="POST" style="display: inline;">
                                                        @csrf
@@ -91,7 +95,7 @@
                                         <small class="text-muted inline m-t-sm m-b-sm">Hiển thị {{ $dslietke->firstItem() }}-{{ $dslietke->lastItem() }} của {{ $dslietke->total() }} mục | Trang {{ $dslietke->currentPage() }} / {{ $dslietke->lastPage() }}</small>
                                    </div>
                                    <div class="col-sm-7 text-right text-center-xs">
-                                        {{ $dslietke->links('pagination::simple-bootstrap-4') }}
+                                        {{ $dslietke->links('pagination::bootstrap-4') }}
                                    </div>
                               </div>
                          </footer>

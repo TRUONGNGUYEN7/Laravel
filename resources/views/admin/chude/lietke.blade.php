@@ -87,7 +87,7 @@
                                    <small class="text-muted inline m-t-sm m-b-sm">showing {{ $dsdanhmuccon->firstItem() }}-{{ $dsdanhmuccon->lastItem() }} of {{ $dsdanhmuccon->total() }} items | Page {{ $dsdanhmuccon->currentPage() }} of {{ $dsdanhmuccon->lastPage() }}</small>
                               </div>
                               <div class="col-sm-7 text-right text-center-xs">
-                                   {{ $dsdanhmuccon->links('pagination::simple-bootstrap-4') }}
+                                   {{ $dsdanhmuccon->links('pagination::bootstrap-4') }}
                               </div>
                          </div>
                     </footer>
