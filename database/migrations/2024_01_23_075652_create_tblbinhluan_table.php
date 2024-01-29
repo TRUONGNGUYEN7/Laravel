@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tblbinhluan', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedInteger('IDBL')->autoIncrement();
+            $table->string('Noidung', 100);
+            $table->string('Email', 50);
+            $table->unsignedInteger('UserID');
             $table->timestamps();
+
+            $table->foreign('UserID')->references('IDUS')->on('tbluser')->onDelete('cascade');
         });
     }
 

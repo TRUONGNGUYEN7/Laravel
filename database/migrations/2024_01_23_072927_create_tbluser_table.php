@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tbluser', function (Blueprint $table) {
-            $table->id('IDUS');
+            $table->unsignedInteger('IDUS')->autoIncrement();
             $table->string('TenUS', 100);
             $table->string('MatKhauUS', 200);
             $table->string('EmailUS', 50);
