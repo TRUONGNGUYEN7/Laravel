@@ -21,17 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'IDUS', 'TenUS', 'MatKhauUS', 'TrangThaiUS'
     ];
-    
-    public static function Addcomment($request)
-    {
-        $comment = new self();
-        $comment->TenUS = $request->noidung;
-        $comment-> NoiDungUS= $request->name;
-        $comment->noidung = $request->email;
-        $comment->save();
-        Session::put('message', 'Thêm thành công');
-        return back();
-    }
+
 
     public static function Signup($request)
     {

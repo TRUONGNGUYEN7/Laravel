@@ -8,10 +8,17 @@ use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Middleware\CheckAdminLogin;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 
 //Homeuser
 Route::prefix('/')->group(function () {
      Route::get('/', [HomeController::class, 'index'])->name('user.home');
+});
+
+$CommentController = 'App\Http\Controllers\CommentController';
+$user = 'user';
+Route::prefix('user')->group(function () use ($CommentController, $user) {
+     Route::post('add/{id}', [$CommentController, 'addcomment'])->name("$user.comment.add");
 });
 
 $userController = 'App\Http\Controllers\UserController';
@@ -19,7 +26,6 @@ $user = 'user';
 Route::prefix('user')->group(function () use ($userController, $user) {
      Route::get('baiviet/detail/{id}', [$userController, 'detail'])->name("$user.baiviet.detail");
      Route::get('submenu/{id}/{iddm?}', [$userController, 'hienthi'])->name("$user.hienthi");
-     Route::post('add', [$userController, 'addcomment'])->name("$user.comment.add");
      Route::get('signup', [$userController, 'signup'])->name("$user.signup");
      Route::post('signup_action', [$userController, 'signup_action'])->name("$user.signup_action");
      Route::get('signin', [$userController, 'signin'])->name("$user.signin");

@@ -22,19 +22,19 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'min:4'],
-            'password' => ['required', 'min:3'],
+            'noidung' => ['required', 'min:4'],
+            'email' => ['required', 'min:3'],
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Tên là bắt buộc.',
-            'name.min' => 'Tên phải có ít nhất 3 ký tự.',
+            'noidung.required' => 'Tên là bắt buộc.',
+            'noidung.min' => 'Tên phải có ít nhất 3 ký tự.',
 
-            'password.required' => 'Password là bắt buộc.',
-            'password.min' => 'Password phải có ít nhất 5 ký tự.',
+            'email.required' => 'Email là bắt buộc.',
+            'email.min' => 'Email phải có ít nhất 5 ký tự.',
 
         ];
     }

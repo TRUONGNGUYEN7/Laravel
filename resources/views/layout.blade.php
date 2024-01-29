@@ -229,11 +229,6 @@
         <div class="modal-dialog" role="document" data-dismiss="modal">
             <div class="close-mo-video-01 trans-0-4" data-dismiss="modal" aria-label="Close">&times;</div>
 
-            <div class="wrap-video-mo-01">
-                <div class="video-mo-01">
-                    <iframe src="https://www.youtube.com/embed/wJnBTPUQS5A?rel=0" allowfullscreen></iframe>
-                </div>
-            </div>
         </div>
     </div>
     <!--===============================================================================================-->

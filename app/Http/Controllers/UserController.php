@@ -9,13 +9,10 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Subcategory;
+use Illuminate\Http\JsonResponse;
+
 class UserController extends Controller
 {
-    public function addcomment(CommentRequest $request)
-    {
-        User::Addcomment($request);
-        return back();
-    }
 
     public function hienthi($id, $iddm = null)
     {
@@ -77,35 +74,32 @@ class UserController extends Controller
     {
         return view('user.page.login.login');
     }
-    public function signin_action(CommentRequest $request)
+    
+    public function signin_action(Request $request)
     {
         $username = $request->name;
         $userpass = $request->password;
-    
+
         $authenticateduser = User::Signin($username, $userpass);
-    
+
         if ($authenticateduser) {
             if ($authenticateduser->TrangThaiUS == 0) {
-                Session::put('message', 'Bạn chưa có quyền đăng nhập!!!');
-                return back();
+                return response()->json(['success' => false, 'message' => 'Bạn chưa có quyền đăng nhập!!!']);
             } else {
-
                 $userData = [
                     'user_username' => $authenticateduser->TenUS,
                     'user_id' => $authenticateduser->IDUS,
                 ];
-                
+
                 Session::put('user_data', $userData);
-                return redirect()->route('user.home');
+                return response()->json(['success' => true, 'message' => 'Đăng nhập thành công']);
             }
         } else {
-            $request->session()->flash('message', 'Tài khoản hoặc mật khẩu của bạn không đúng, vui lòng thử lại!!!');
-            return back();
+            return response()->json(['success' => false, 'message' => 'Tài khoản hoặc mật khẩu không đúng, vui lòng thử lại!!!']);
         }
     }
 
     public function logout(){
-
         session() -> flush();
         return back();
     }
