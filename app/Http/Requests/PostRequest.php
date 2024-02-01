@@ -29,14 +29,20 @@ class PostRequest extends FormRequest
             'idchude' => ['required', 'not_in:capnhat'],
         ];
     
-        if ($this->hasFile('hinhanhthem')) {
-            $rules['hinhanhthem'] = ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'];
+        // Check if it's the "add" form
+        if ($this->isMethod('post')) {
+            if ($this->hasFile('hinhanhthem')) {
+                $rules['hinhanhthem'] = ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'];
+            }
         }
-    
-        if ($this->hasFile('hinhanhsua')) {
-            $rules['hinhanhsua'] = ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'];
+
+        // Check if it's the "edit" form
+        if ($this->isMethod('put')) {
+            if ($this->hasFile('hinhanhsua')) {
+                $rules['hinhanhsua'] = ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'];
+            }
         }
-    
+
         return $rules;
     }
     

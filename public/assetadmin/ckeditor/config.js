@@ -12,6 +12,7 @@ CKEDITOR.editorConfig = function(config) {
     config.allowedContent = true; // Hoặc bạn có thể cấu hình theo nhu cầu của bạn.
 
     config.extraPlugins = 'pastefromword';
+    config.extraPlugins += (config.extraPlugins ? ',' : '') + 'video';
     // The toolbar groups arrangement, optimized for two toolbar rows.
     config.toolbarGroups = [
         { name: 'clipboard', groups: ['clipboard', 'undo'] },
@@ -29,7 +30,17 @@ CKEDITOR.editorConfig = function(config) {
         { name: 'colors' },
         { name: 'about' }
     ];
-
+    config.video = {
+        // Your custom video options go here
+        // For example:
+        providers: [
+            {
+                name: 'YouTube',
+                url: /^https:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)([^"&?\/\s]{11})/,
+                html: '<iframe width="200" height="210" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>',
+            }
+        ]
+    };
     // Remove some buttons provided by the standard plugins, which are
     // not needed in the Standard(s) toolbar.
     config.removeButtons = 'Underline,Subscript,Superscript';

@@ -124,11 +124,11 @@ class Category extends Model
         return self::where('TrangThaiDM', 1)->get();
     }
 
-    public static function getTwoActiveCategories()
+    public static function getCategories($sl)
     {
         return self::where('TrangThaiDM', 1)
         ->orderByDesc('tbldanhmuc.IDDM')
-        ->take(2)
+        ->take($sl)
         ->get(); 
     }
 

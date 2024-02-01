@@ -13,7 +13,6 @@ use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-
     public function hienthi($id, $iddm = null)
     {
         if ($iddm !== null) {
@@ -23,20 +22,23 @@ class UserController extends Controller
             $FourPosts = Post::getPostSubCate($id, $iddm, 4);
             $menuchude = Subcategory::getSubmenuForCate($iddm);
             $selectedChudeID = $id;
+            $viewPost = Post::getViewsPosts(4);
             return view('user.danhmuc.chude', compact(
                 'menuCategory', 'ttdanhmuc', 'ttchude',
-                'FourPosts', 'menuchude', 'selectedChudeID'
+                'FourPosts', 'menuchude', 'selectedChudeID', 'viewPost',
             ));
         } else {
             $ttdanhmuc = Category::find($id);
             $menuCategory = Category::getActiveCategories($id);
             $menuchude = Subcategory::getSubmenuForCate($id);
             $FourPosts = Post::getPostsCate($id, 4);
-
+            $SixPostsNewUpdate = Post::getPostsCate($id,6);
+            $CategoriesWithPosts = Category::getCategories(4);
             $selectedChudeID = '';
+            $viewPost = Post::getViewsPosts(4);
             return view('user.danhmuc.danhmuc', compact(
                 'menuCategory', 'ttdanhmuc', 'FourPosts', 
-                'selectedChudeID', 'menuchude'
+                'selectedChudeID', 'menuchude', 'SixPostsNewUpdate', 'viewPost', 'CategoriesWithPosts'
             ));    
         }
     } 

@@ -103,6 +103,39 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+.all-subcategory{
+    color:#666666; margin-left: -49px; font-weight: bold;
+    font-family: monospace;
+}
+
+.cate-news-24h-r {
+    height: 500px;
+}
+/* Apply styles to video elements with a specific class */
+video.my-custom-video {
+    height: 338px;
+    aspect-ratio: auto 600 / 338;
+    width: 600px;
+    object-fit: contain;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
+
+/* Styles for larger screens */
+@media only screen and (min-width: 768px) {
+    .cate-news-24h-r {
+        height: auto; /* Adjust the height as needed for larger screens */
+    }
+
+    .col-6 {
+        width: 50%; /* Make each column take up 50% of the width */
+    }
+
+    .border-right,
+    .border-left {
+        border: none; /* Remove borders for larger screens or adjust as needed */
+    }
+}
 
 .loader05 {
     width: 56px;
@@ -1916,7 +1949,7 @@ a.breadcrumb-item:hover {
     height: 100%;
     top: 0;
     left: 0;
-    opacity: 0.5;
+    opacity: 0.3;
     background: rgba(0, 0, 0, 0.5);
     background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
     background: -o-linear-gradient(bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));

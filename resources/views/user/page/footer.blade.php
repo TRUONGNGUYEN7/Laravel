@@ -1,166 +1,114 @@
+<!-- Footer -->
+<footer>
+    <div class="bg2 p-t-40 p-b-25">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 p-b-20">
+                    <div class="size-h-3 flex-s-c">
+                        <a href="index.html">
+                            <img style="width: 70px; height: 70px;" class="max-s-full" src="hinhanh/logo.jpg" alt="LOGO">
+                        </a>
+                    </div>
 
-	<!-- Footer -->
-	<footer>
-		<div class="bg2 p-t-40 p-b-25">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-4 p-b-20">
-						<div class="size-h-3 flex-s-c">
-							<a href="index.html">
-								<img class="max-s-full" src="images/icons/logo-02.png" alt="LOGO">
-							</a>
-						</div>
+                    <div>
+                        <p class="f1-s-1 cl11 p-b-16">
+                            Tầng 12, Tòa nhà Geleximco , 36 Hoàng Cầu, Phường Ô chợ Dừa, Quận Đống Đa, Tp. Hà Nội
+                        </p>
 
-						<div>
-							<p class="f1-s-1 cl11 p-b-16">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempor magna eget elit efficitur, at accumsan sem placerat. Nulla tellus libero, mattis nec molestie at, facilisis ut turpis. Vestibulum dolor metus, tincidunt eget odio
-							</p>
+                        <p class="f1-s-1 cl11 p-b-16">
+                            Điện thoại: (84-24) 73 00 24 24 | (84-24) 35 12 18 06
+                            Fax: 0243 512 1804
+                        </p>
 
-							<p class="f1-s-1 cl11 p-b-16">
-								Any questions? Call us on (+1) 96 716 6879
-							</p>
+                        <div class="p-t-15">
+                            <a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+                                <span class="fab fa-facebook-f"></span>
+                            </a>
 
-							<div class="p-t-15">
-								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
-									<span class="fab fa-facebook-f"></span>
-								</a>
+                            <a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+                                <span class="fab fa-twitter"></span>
+                            </a>
 
-								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
-									<span class="fab fa-twitter"></span>
-								</a>
+                            <a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+                                <span class="fab fa-pinterest-p"></span>
+                            </a>
 
-								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
-									<span class="fab fa-pinterest-p"></span>
-								</a>
+                            <a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+                                <span class="fab fa-vimeo-v"></span>
+                            </a>
 
-								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
-									<span class="fab fa-vimeo-v"></span>
-								</a>
+                            <a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
+                                <span class="fab fa-youtube"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-								<a href="#" class="fs-18 cl11 hov-cl10 trans-03 m-r-8">
-									<span class="fab fa-youtube"></span>
-								</a>
-							</div>
-						</div>
-					</div>
+                <div class="col-sm-6 col-lg-4 p-b-20">
+                    <div class="size-h-3 flex-s-c">
+                        <h5 class="f1-m-7 cl0">
+                            Popular Posts
+                        </h5>
+                    </div>
 
-					<div class="col-sm-6 col-lg-4 p-b-20">
-						<div class="size-h-3 flex-s-c">
-							<h5 class="f1-m-7 cl0">
-								Popular Posts
-							</h5>
-						</div>
+                    <ul>
+                        @foreach ($viewPost as $post)
+                            <li class="flex-wr-sb-s p-b-20">
+                                <a href="#" class="size-w-4 wrap-pic-w hov1 trans-03">
+                                    <img style="width: 90px; height: 80px; object-fit: cover; object-position: top;" src="{{ asset("hinhanh/$post->HinhAnh") }}" alt="IMG">
+                                </a>
 
-						<ul>
-							<li class="flex-wr-sb-s p-b-20">
-								<a href="#" class="size-w-4 wrap-pic-w hov1 trans-03">
-									<img src="images/popular-post-01.jpg" alt="IMG">
-								</a>
+                                <div class="size-w-5">
+                                    <h6 class="p-b-5">
+                                        <a href="#" class="f1-s-5 cl11 hov-cl10 trans-03">
+                                            {{ $post->TenBV }}
+                                        </a>
+                                    </h6>
 
-								<div class="size-w-5">
-									<h6 class="p-b-5">
-										<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03">
-											Donec metus orci, malesuada et lectus vitae
-										</a>
-									</h6>
+                                    <span class="f1-s-3 cl6">
+                                       {{ $post->ThoiGianBV }}
+                                    </span>
+                                </div>
+                            </li>
+                        @endforeach
 
-									<span class="f1-s-3 cl6">
-										Feb 17
-									</span>
-								</div>
-							</li>
+                    </ul>
+                </div>
 
-							<li class="flex-wr-sb-s p-b-20">
-								<a href="#" class="size-w-4 wrap-pic-w hov1 trans-03">
-									<img src="images/popular-post-02.jpg" alt="IMG">
-								</a>
+                <div class="col-sm-6 col-lg-4 p-b-20">
+                    <div class="size-h-3 flex-s-c">
+                        <h5 class="f1-m-7 cl0">
+                            Category
+                        </h5>
+                    </div>
 
-								<div class="size-w-5">
-									<h6 class="p-b-5">
-										<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03">
-											Lorem ipsum dolor sit amet, consectetur
-										</a>
-									</h6>
+                    <ul class="m-t--12">
+                        @foreach ($menuCategory as $key)
+                            <li class="how-bor1 p-rl-5 p-tb-10">
+                                <a href="{{ route('user.hienthi', ['id' => $key->IDDM]) }}"
+                                    class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
+                                    {{ $key->TenDanhMuc }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-									<span class="f1-s-3 cl6">
-										Feb 16
-									</span>
-								</div>
-							</li>
-
-							<li class="flex-wr-sb-s p-b-20">
-								<a href="#" class="size-w-4 wrap-pic-w hov1 trans-03">
-									<img src="images/popular-post-03.jpg" alt="IMG">
-								</a>
-
-								<div class="size-w-5">
-									<h6 class="p-b-5">
-										<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03">
-											Suspendisse dictum enim quis imperdiet auctor
-										</a>
-									</h6>
-
-									<span class="f1-s-3 cl6">
-										Feb 15
-									</span>
-								</div>
-							</li>
-						</ul>
-					</div>
-
-					<div class="col-sm-6 col-lg-4 p-b-20">
-						<div class="size-h-3 flex-s-c">
-							<h5 class="f1-m-7 cl0">
-								Category
-							</h5>
-						</div>
-
-						<ul class="m-t--12">
-							<li class="how-bor1 p-rl-5 p-tb-10">
-								<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
-									Fashion (22)
-								</a>
-							</li>
-
-							<li class="how-bor1 p-rl-5 p-tb-10">
-								<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
-									Technology (29)
-								</a>
-							</li>
-
-							<li class="how-bor1 p-rl-5 p-tb-10">
-								<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
-									Street Style (15)
-								</a>
-							</li>
-
-							<li class="how-bor1 p-rl-5 p-tb-10">
-								<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
-									Life Style (28)
-								</a>
-							</li>
-
-							<li class="how-bor1 p-rl-5 p-tb-10">
-								<a href="#" class="f1-s-5 cl11 hov-cl10 trans-03 p-tb-8">
-									DIY & Crafts (16)
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="bg11">
-			<div class="container size-h-4 flex-c-c p-tb-15">
-				<span class="f1-s-1 cl0 txt-center">
-					Copyright © 2018 
-
-					<a href="#" class="f1-s-1 cl10 hov-link1"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-				</span>
-			</div>
-		</div>
-	</footer>
-
+    <div class="bg11">
+        <div class="container size-h-4 flex-c-c p-tb-15">
+            <span class="f1-s-1 cl0 txt-center">
+                <a href="#"
+                    class="f1-s-1 cl10 hov-link1"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script> All rights reserved <i class="fa fa-heart" aria-hidden="true"></i> by NNT
+                </a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </span>
+        </div>
+    </div>
+</footer>

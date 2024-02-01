@@ -10,11 +10,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $twoLatestCategoriesWithPosts = Category::getTwoActiveCategories();
+        $CategoriesWithPosts = Category::getCategories(6);
         $FourPosts = Post::getLatestPosts();
     
         $menuCategory = Category::getActiveCategories();
-        $fourCategoryContent = Category::getTwoActiveCategories();
+        $fourCategoryContent = Category::getActiveCategories();
         $ttdanhmuc = collect();
 
         $SixPostsNewUpdate = Post::getLatestPosts(6);
@@ -23,7 +23,7 @@ class HomeController extends Controller
             'menuCategory' => $menuCategory,
             'FourPosts' => $FourPosts,
             'fourCategoryContent' => $fourCategoryContent,
-            'twoLatestCategoriesWithPosts' => $twoLatestCategoriesWithPosts,
+            'CategoriesWithPosts' => $CategoriesWithPosts,
             'SixPostsNewUpdate' => $SixPostsNewUpdate,
             'viewPost' => $viewPost
         ]);

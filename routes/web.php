@@ -33,7 +33,6 @@ Route::prefix('user')->group(function () use ($userController, $user) {
      Route::get('logout', [$userController, 'logout'])->name("$user.logout");
 });
 
- 
 $adminController = 'App\Http\Controllers\AdminController';
 Route::prefix('admin')->group(function () use ($adminController) {
     Route::get('', [$adminController, 'login'])->name('admin.home');

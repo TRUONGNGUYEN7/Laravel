@@ -21,9 +21,6 @@
                         <!-- Blog Detail -->
                         @if ($ttbaiviet)
                             <div class="p-b-70">
-                                <!-- <a href="#" class="f1-s-10 cl2 hov-cl10 trans-03 text-uppercase">
-                                                                                                                                                                                                                                                    Danh mục
-                                                                                                                                                                                                                                            </a> -->
 
                                 <h3 class="f1-l-3 cl2 p-b-16 p-t-33 respon2">
                                     {{ $ttbaiviet->TenBV }}
@@ -55,19 +52,49 @@
                                 <div class="noidung">
                                     <?php
                                     $content = $ttbaiviet->NoiDung;
-                                    // Check if the content contains images
-                                    if (strpos($content, '<img') !== false) {
-                                        preg_match_all('/<img[^>]+>/i', $content, $matches);
-                                        $images = $matches[0];
-                                        // Apply styling to each image
-                                        foreach ($images as $image) {
-                                            $styledImage = str_replace('<img ', '<img style="max-width:99%; height:auto;" ', $image);
-                                            $content = str_replace($image, $styledImage, $content);
+                                    
+                                    // Check if the content contains images or videos
+                                    if (preg_match_all('/<(img|iframe|video)[^>]+>/i', $content, $matches)) {
+                                        $mediaElements = $matches[0];
+                                    
+                                        // Apply styling to each image, iframe, or video
+                                        foreach ($mediaElements as $mediaElement) {
+                                            if (strpos($mediaElement, '<video') !== false) {
+                                                // If it's a video, add the autoplay attribute
+                                                $styledMediaElement = str_replace('<video', '<video autoplay style="max-width:100%; height:auto; border: 1px solid #061041"', $mediaElement);
+                                            } else {
+                                                // For images and iframes, apply styling
+                                                $styledMediaElement = str_replace('<' . $matches[1][0], '<' . $matches[1][0] . ' style="max-width:670px; height:auto;"', $mediaElement);
+                                            }
+                                            $content = str_replace($mediaElement, $styledMediaElement, $content);
                                         }
                                     }
-                                    echo '<div style="line-height:;">' . str_replace('<p>', '<p style="margin-bottom: -25px;">', nl2br($content)) . '</div>';
+                                    
+                                    // Apply styling to paragraphs
+                                    $content = str_replace('<p>', '<p style="margin-bottom: -15px; margin-left: 1px">', nl2br($content));
+                                    
+                                    echo '<div style="line-height:;">' . $content . '</div>';
                                     ?>
                                 </div>
+
+                                <script>
+                                    window.onload = function() {
+                                        // Find the video element within the noidung div
+                                        var videoElement = document.querySelector('.noidung video');
+
+                                        if (videoElement) {
+                                            // Get the offsetTop of the video element
+                                            var offsetTop = videoElement.offsetTop;
+
+                                            // Scroll to the position of the video element with a smooth scroll effect
+                                            window.scrollTo({
+                                                top: offsetTop,
+                                                behavior: 'smooth' // Use 'auto' for immediate scrolling
+                                            });
+                                        }
+                                    };
+                                </script>
+
 
                                 <br>
                                 <!-- Tag -->
@@ -90,7 +117,6 @@
                                 dấu *
                             </p>
 
-
                             <!-- jQuery CDN -->
                             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                             <!-- SweetAlert CDN (SweetAlert2) -->
@@ -106,6 +132,7 @@
 
                                 <input type="submit" id="button-comment" value="Đăng">
                             </form>
+
                             <script>
                                 $(document).ready(function() {
                                     var userData = @json(session('user_data'));
@@ -124,36 +151,51 @@
                                             if (!noidungValue || !emailValue) {
                                                 return; // Kết thúc hàm khi có lỗi
                                             } else {
-                                                var url = "{{ route('user.comment.add', ['id' => ':user_id']) }}";
+                                                var url =
+                                                    "{{ route('user.comment.add', ['id' => ':user_id']) }}";
                                                 url = url.replace(':user_id', userData.user_id);
 
                                                 $.ajax({
                                                     url: url,
                                                     type: 'POST',
                                                     headers: {
-                                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                        'X-CSRF-TOKEN': $(
+                                                            'meta[name="csrf-token"]'
+                                                        ).attr('content')
                                                     },
                                                     data: formData,
                                                     dataType: 'json',
                                                     success: function(data) {
                                                         if (data.success) {
-                                                            alert('Bình luận thành công');
+                                                            alert(
+                                                                'Bình luận thành công'
+                                                            );
                                                             // Reset input fields
-                                                            $('#noidung').val('');
-                                                            $('input[name="name"]').val('');
-                                                            $('input[name="email"]').val('');
+                                                            $('#noidung').val(
+                                                                '');
+                                                            $('input[name="name"]')
+                                                                .val('');
+                                                            $('input[name="email"]')
+                                                                .val('');
                                                         } else {
-                                                            alert('Toàn khoản hoặc mật khẩu không đúng.');
+                                                            alert(
+                                                                'Toàn khoản hoặc mật khẩu không đúng.'
+                                                            );
                                                         }
                                                     },
-                                                    error: function(xhr, status, error) {
-                                                        console.error('Error:', xhr.responseText);
-                                                        alert('Error during login. Please try again.');
+                                                    error: function(xhr, status,
+                                                        error) {
+                                                        console.error('Error:',
+                                                            xhr
+                                                            .responseText);
+                                                        alert(
+                                                            'Error during login. Please try again.'
+                                                        );
                                                     }
                                                 });
                                             }
                                         } else {
-                                           
+
                                             checkAndShowPopup();
                                         }
                                     });
@@ -186,27 +228,39 @@
                                                 alert('Điền đây đủ thông tin.');
                                                 return;
                                             } else {
-                                                var url = "{{ route('user.comment.add', ['id' => ':user_id']) }}";
+                                                var url =
+                                                    "{{ route('user.comment.add', ['id' => ':user_id']) }}";
                                                 url = url.replace(':user_id', userData.user_id);
 
                                                 $.ajax({
                                                     url: url,
                                                     type: 'POST',
                                                     headers: {
-                                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                        'X-CSRF-TOKEN': $(
+                                                            'meta[name="csrf-token"]'
+                                                        ).attr('content')
                                                     },
                                                     data: formData,
                                                     dataType: 'json',
                                                     success: function(data) {
                                                         if (data.success) {
-                                                            alert('Bình luận thành công');
+                                                            alert(
+                                                                'Bình luận thành công'
+                                                            );
                                                         } else {
-                                                            alert('Toàn khoản hoặc mật khẩu không đúng.');
+                                                            alert(
+                                                                'Toàn khoản hoặc mật khẩu không đúng.'
+                                                            );
                                                         }
                                                     },
-                                                    error: function(xhr, status, error) {
-                                                        console.error('Error:', xhr.responseText);
-                                                        alert('Error during login. Please try again.');
+                                                    error: function(xhr, status,
+                                                        error) {
+                                                        console.error('Error:',
+                                                            xhr
+                                                            .responseText);
+                                                        alert(
+                                                            'Error during login. Please try again.'
+                                                        );
                                                     }
                                                 });
                                             }
@@ -246,7 +300,7 @@
                                 {{ csrf_field() }}
                                 <p>
                                     <input type="text" id="name" name="name" onfocus="checkAndShowPopup()"
-                                        placeholder="Username">
+                                        placeholder="Username" required>
                                     <i class="validation"></i>
                                 </p>
                                 <p>
@@ -295,12 +349,11 @@
                             #login-form-wrap {
                                 display: none;
                                 position: fixed;
-                                top: 55%;
+                                top: 65%;
                                 left: 40%;
-                                width: 80%;
-                                max-width: 400px;
-                                /* Giới hạn chiều rộng tối đa */
-                                height: auto;
+                                width: 82%;
+                                max-width: 505px;
+                                height: 45%;
                                 margin-top: -15%;
                                 /* Duy trì vị trí trung tâm */
                                 background-color: #fff;
@@ -325,9 +378,10 @@
                                 color: #333;
                                 font-size: 28px;
                                 cursor: pointer;
-                                margin-left: 80%;
+                                margin-left: 290%;
                                 /* Điều chỉnh tùy theo vị trí mong muốn */
                                 margin-top: -12px;
+                                z-index: 999;
                             }
 
                             .close-button:hover {
@@ -337,7 +391,7 @@
                             #login-form {
                                 padding: 0 20px;
                                 /* Điều chỉnh theo nhu cầu */
-                                margin-top: 20px;
+                                margin-top: 60px;
                             }
 
                             input {
@@ -349,7 +403,7 @@
                                 /* Điều chỉnh chiều cao của input */
                                 line-height: 40px;
                                 border-radius: 4px;
-                                margin-bottom: 15px;
+                                margin-bottom: 25px;
                             }
 
 
@@ -368,7 +422,8 @@
                                 position: relative;
                                 display: inline-block;
                                 background: none;
-                                margin-bottom: 30px;
+                                margin-bottom: 40px;
+                                font-size: 15px;
                             }
 
                             input[type="text"]:focus,
@@ -443,7 +498,7 @@
                             }
 
                             input[type="submit"]:hover {
-                                background-color: #329dd5;
+                                background-color: #0474b5;
                                 -webkit-transition: all 0.2s ease;
                                 transition: all 0.2s ease;
                             }

@@ -42,7 +42,8 @@
     body {
         display: flex;
         flex-direction: column;
-        min-height: 100vh; /* Set minimum height of the viewport */
+        min-height: 100vh;
+        /* Set minimum height of the viewport */
     }
 
     #main-content {
@@ -55,8 +56,9 @@
         bottom: 0;
         width: 100%;
         position: relative;
-        color: pink; /* Add this line to set the text color to pink */
-        
+        color: pink;
+        /* Add this line to set the text color to pink */
+
     }
 
 
@@ -69,10 +71,11 @@
     }
 </style>
 <style>
-    .sizetextdm{
+    .sizetextdm {
         font-size: 17px;
     }
 </style>
+
 <body>
     <section id="container">
         @include('admin.pages.header')
@@ -86,7 +89,7 @@
                             <a class="active" href="">
                                 <i class="fa fa-dashboard"></i>
                                 <span class="sizetextdm">Trang Chủ</span>
-                                
+
                             </a>
                         </li>
 
@@ -97,7 +100,8 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="{{ route('admin.danhmuc.create') }}">Thêm danh mục</a></li>
-                                <li><a href="{{ route('admin.danhmuc.index') }}">Liệt kê danh mục</a></li>                            </ul>
+                                <li><a href="{{ route('admin.danhmuc.index') }}">Liệt kê danh mục</a></li>
+                            </ul>
                         </li>
 
                         <li class="sub-menu">
@@ -133,7 +137,7 @@
                 @yield('adcontent')
             </section>
             <!-- Include footer -->
-           
+
         </section>
         @include('admin.pages.footer')
     </section>
@@ -147,11 +151,11 @@
     <script src="{{ asset('assetadmin/ckeditor/ckeditor.js') }}"></script>
     <!-- morris JavaScript -->
     <!-- Include CKEditor script (choose either CDN or local) -->
-<!-- CDN -->
-<script src="https://cdn.ckeditor.com/ckeditor5/34.0.1/classic/ckeditor.js"></script>
+    <!-- CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.1/classic/ckeditor.js"></script>
 
-<!-- Local -->
-<!-- <script src="/path/to/ckeditor.js"></script> -->
+    <!-- Local -->
+    <!-- <script src="/path/to/ckeditor.js"></script> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.2-dev/css/formValidation.min.css"></script>
     <script type="text/javascript">

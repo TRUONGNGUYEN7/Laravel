@@ -30,6 +30,7 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
+        $request->validate($request->rules());
         Post::createNewPost($request);
         return back();
     }

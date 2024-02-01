@@ -1,397 +1,364 @@
 @extends('user.danhmuc.submenu')
 @section('danhmuc')
+    <section class="bg0">
+        <div class="container">
+            <div class="row m-rl--1">
+                @if (isset($FourPosts[0]))
+                    <div class="col-12 p-rl-1 p-b-2">
+                        <div class="bg-img1 size-a-3 how1 pos-relative"
+                            style="background-image: url({{ asset('hinhanh/' . $FourPosts[0]->HinhAnh) }});">
+                            <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[0]->IDBV]) }}"
+                                class="dis-block how1-child1 trans-03"></a>
 
-<section class="bg0">
-     <div class="container">
-          <div class="row m-rl--1">
-               @if(isset($FourPosts[0]))
-               <div class="col-12 p-rl-1 p-b-2">
-                    <div class="bg-img1 size-a-3 how1 pos-relative"
-                         style="background-image: url({{ asset('hinhanh/'.$FourPosts[0]->HinhAnh) }});">
-                         <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[0]->IDBV]) }}" class="dis-block how1-child1 trans-03"></a>
+                            <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
+                                <a href="#"
+                                    class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+                                    {{ $FourPosts[0]->TenChuDe }}
+                                </a>
 
-                         <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
-                              <a href="#"
-                                   class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-                                   {{ $FourPosts[0]->TenChuDe }}
-                              </a>
-
-                              <h3 class="how1-child2 m-t-14 m-b-10">
-                                   <a href="blog-detail-01.html" class="how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03">
+                                <h3 class="how1-child2 m-t-14 m-b-10">
+                                    <a href="blog-detail-01.html" class="how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03">
                                         {{ $FourPosts[0]->TenBV }}
-                                   </a>
-                              </h3>
+                                    </a>
+                                </h3>
 
-                              <span class="how1-child2">
-                                   <span class="f1-s-4 cl11">
+                                <span class="how1-child2">
+                                    <span class="f1-s-4 cl11">
                                         {{ $FourPosts[0]->Mota }}
-                                   </span>
+                                    </span>
 
-                                   <span class="f1-s-3 cl11 m-rl-3">
+                                    <span class="f1-s-3 cl11 m-rl-3">
                                         -
-                                   </span>
+                                    </span>
 
-                                   <span class="f1-s-3 cl11">
+                                    <span class="f1-s-3 cl11">
                                         Feb 16
-                                   </span>
-                              </span>
-                         </div>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-               </div>
-               @endif
+                @endif
 
-               @foreach($FourPosts->slice(1) as $post)
-               <div class="col-sm-6 col-md-3 p-rl-1 p-b-2">
-                    <div class="bg-img1 size-a-14 how1 pos-relative"
-                         style="background-image: url({{ asset('hinhanh/'.$post->HinhAnh) }});">
-                         <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}" class="dis-block how1-child1 trans-03"></a>
+                @foreach ($FourPosts->slice(1) as $post)
+                    <div class="col-sm-6 col-md-3 p-rl-1 p-b-2">
+                        <div class="bg-img1 size-a-14 how1 pos-relative"
+                            style="background-image: url({{ asset('hinhanh/' . $post->HinhAnh) }});">
+                            <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}"
+                                class="dis-block how1-child1 trans-03"></a>
 
-                         <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
-                              <a href="#"
-                                   class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-                                   {{ $post->TenBV }}
-                              </a>
+                            <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
+                                <a href="#"
+                                    class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+                                    {{ $post->TenBV }}
+                                </a>
 
-                              <h3 class="how1-child2 m-t-14">
-                                   <a href="blog-detail-01.html" class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03">
+                                <h3 class="how1-child2 m-t-14">
+                                    <a href="blog-detail-01.html" class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03">
                                         {{ $post->Mota }}
-                                   </a>
-                              </h3>
-                         </div>
+                                    </a>
+                                </h3>
+                            </div>
+                        </div>
                     </div>
-               </div>
-               @endforeach
-          </div>
-     </div>
-</section>
+                @endforeach
+            </div>
+        </div>
+    </section>
 
-<!-- Latest -->
-<section class="bg0 p-t-50 p-b-90">
-     <div class="container">
-          <div class="row justify-content-center">
-               <div class="col-md-10 col-lg-8 p-b-50">
-                    <div class="p-r-10 p-r-0-sr991">
-                         <div class="how2 how2-cl4 flex-s-c">
-                              <h3 class="f1-m-2 cl3 tab01-title">
-                                   Tin mới cập nhật
-                              </h3>
-                         </div>
-
-                         <div class="p-b-40">
-                              <!-- Item post -->
-                              <div class="flex-wr-sb-s p-t-40 p-b-15 how-bor2">
-                                   <a href="blog-detail-01.html"
-                                        class="size-w-8 wrap-pic-w hov1 trans-03 w-full-sr575 m-b-25">
-                                        <img src="images/post-43.jpg" alt="IMG">
-                                   </a>
-
-                                   <div class="size-w-9 w-full-sr575 m-b-25">
-                                        <h5 class="p-b-12">
-                                             <a href="blog-detail-01.html" class="f1-l-1 cl2 hov-cl10 trans-03 respon2">
-                                                  Robot lorem ipsum dolor sit amet consectetur
-                                             </a>
-                                        </h5>
-
-                                        <div class="cl8 p-b-18">
-                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                  by John Alvarado
-                                             </a>
-
-                                             <span class="f1-s-3 m-rl-3">
-                                                  -
-                                             </span>
-
-                                             <span class="f1-s-3">
-                                                  Feb 18
-                                             </span>
-                                        </div>
-
-                                        <p class="f1-s-1 cl6 p-b-24">
-                                             Duis eu felis id tortor congue consequat. Sed vitae vestibulum enim, et
-                                             pharetra magna
-                                        </p>
-
-                                        <a href="blog-detail-01.html" class="f1-s-1 cl9 hov-cl10 trans-03">
-                                             Read More
-                                             <i class="m-l-2 fa fa-long-arrow-alt-right"></i>
-                                        </a>
-                                   </div>
-                              </div>
-                         </div>
-
-                         <a href="#" class="flex-c-c size-a-13 bo-all-1 bocl11 f1-m-6 cl6 hov-btn1 trans-03">
-                              Load More
-                         </a>
-                    </div>
-               </div>
-
-               <div class="col-md-10 col-lg-4 p-b-50">
-                    <div class="p-l-10 p-rl-0-sr991">
-                         <!-- Banner -->
-                         <div class="flex-c-s">
-                              <a href="#">
-                                   <img class="max-w-full" src="images/banner-03.jpg" alt="IMG">
-                              </a>
-                         </div>
-                    </div>
-               </div>
-          </div>
-     </div>
-</section>
-
-<!-- Post -->
-<section class="bg0 p-t-110 p-b-25">
-     <div class="container">
-          <div class="row justify-content-center">
-               <div class="col-md-10 col-lg-8 p-b-80">
-                    <div class="row">
-                         <div class="col-sm-6 p-r-25 p-r-15-sr991">
-                              <!-- Item -->
-                              <div class="p-b-53">
-                                   <a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
-                                        <img src="images/entertaiment-06.jpg" alt="IMG">
-                                   </a>
-
-                                   <div class="flex-col-s-c p-t-16">
-                                        <h5 class="p-b-5 txt-center">
-                                             <a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                  You wish lorem ipsum dolor sit amet consectetur
-                                             </a>
-                                        </h5>
-
-                                        <div class="cl8 txt-center p-b-17">
-                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                  Celebrity
-                                             </a>
-
-                                             <span class="f1-s-3 m-rl-3">
-                                                  -
-                                             </span>
-
-                                             <span class="f1-s-3">
-                                                  Feb 18
-                                             </span>
-                                        </div>
-
-                                        <p class="f1-s-11 cl6 txt-center p-b-16">
-                                             Curabitur volutpat bibendum molestie. Vestibulum ornare gravida semper.
-                                             Aliquam a dui suscipit, fringilla metus id, maximus leo.
-                                        </p>
-
-                                        <a href="blog-detail-01.html" class="f1-s-1 cl9 hov-cl10 trans-03">
-                                             Read More
-                                             <i class="m-l-2 fa fa-long-arrow-alt-right"></i>
-                                        </a>
-                                   </div>
-                              </div>
-
-                              <!-- Item -->
-                              <div class="p-b-53">
-                                   <a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
-                                        <img src="images/entertaiment-17.jpg" alt="IMG">
-                                   </a>
-
-                                   <div class="flex-col-s-c p-t-16">
-                                        <h5 class="p-b-5 txt-center">
-                                             <a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                  Curabitur lacinia nisl eget aliquet porttitor
-                                             </a>
-                                        </h5>
-
-                                        <div class="cl8 txt-center p-b-17">
-                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                  Celebrity
-                                             </a>
-
-                                             <span class="f1-s-3 m-rl-3">
-                                                  -
-                                             </span>
-
-                                             <span class="f1-s-3">
-                                                  Feb 18
-                                             </span>
-                                        </div>
-
-                                        <p class="f1-s-11 cl6 txt-center p-b-16">
-                                             Curabitur volutpat bibendum molestie. Vestibulum ornare gravida semper.
-                                             Aliquam a dui suscipit, fringilla metus id, maximus leo.
-                                        </p>
-
-                                        <a href="blog-detail-01.html" class="f1-s-1 cl9 hov-cl10 trans-03">
-                                             Read More
-                                             <i class="m-l-2 fa fa-long-arrow-alt-right"></i>
-                                        </a>
-                                   </div>
-                              </div>
-
-                              <!-- Item -->
-                              <div class="p-b-53">
-                                   <a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
-                                        <img src="images/entertaiment-18.jpg" alt="IMG">
-                                   </a>
-
-                                   <div class="flex-col-s-c p-t-16">
-                                        <h5 class="p-b-5 txt-center">
-                                             <a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                  Vestibulum euismod lorem sed porttitor bibendum
-                                             </a>
-                                        </h5>
-
-                                        <div class="cl8 txt-center p-b-17">
-                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                  Celebrity
-                                             </a>
-
-                                             <span class="f1-s-3 m-rl-3">
-                                                  -
-                                             </span>
-
-                                             <span class="f1-s-3">
-                                                  Feb 18
-                                             </span>
-                                        </div>
-
-                                        <p class="f1-s-11 cl6 txt-center p-b-16">
-                                             Curabitur volutpat bibendum molestie. Vestibulum ornare gravida semper.
-                                             Aliquam a dui suscipit, fringilla metus id, maximus leo.
-                                        </p>
-
-                                        <a href="blog-detail-01.html" class="f1-s-1 cl9 hov-cl10 trans-03">
-                                             Read More
-                                             <i class="m-l-2 fa fa-long-arrow-alt-right"></i>
-                                        </a>
-                                   </div>
-                              </div>
-                         </div>
-
-                         <div class="col-sm-6 p-r-25 p-r-15-sr991">
-                              <!-- Item -->
-                              <div class="p-b-53">
-                                   <a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
-                                        <img src="images/entertaiment-19.jpg" alt="IMG">
-                                   </a>
-
-                                   <div class="flex-col-s-c p-t-16">
-                                        <h5 class="p-b-5 txt-center">
-                                             <a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                  Dolor sit amet consectetur adipiscing elit
-                                             </a>
-                                        </h5>
-
-                                        <div class="cl8 txt-center p-b-17">
-                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                  Celebrity
-                                             </a>
-
-                                             <span class="f1-s-3 m-rl-3">
-                                                  -
-                                             </span>
-
-                                             <span class="f1-s-3">
-                                                  Feb 18
-                                             </span>
-                                        </div>
-
-                                        <p class="f1-s-11 cl6 txt-center p-b-16">
-                                             Curabitur volutpat bibendum molestie. Vestibulum ornare gravida semper.
-                                             Aliquam a dui suscipit, fringilla metus id, maximus leo.
-                                        </p>
-
-                                        <a href="blog-detail-01.html" class="f1-s-1 cl9 hov-cl10 trans-03">
-                                             Read More
-                                             <i class="m-l-2 fa fa-long-arrow-alt-right"></i>
-                                        </a>
-                                   </div>
-                              </div>
-
-                              <!-- Item -->
-                              <div class="p-b-53">
-                                   <a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
-                                        <img src="images/entertaiment-20.jpg" alt="IMG">
-                                   </a>
-
-                                   <div class="flex-col-s-c p-t-16">
-                                        <h5 class="p-b-5 txt-center">
-                                             <a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                  Leo enim interdum nisl non mollis lacus est nec
-                                             </a>
-                                        </h5>
-
-                                        <div class="cl8 txt-center p-b-17">
-                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                  Celebrity
-                                             </a>
-
-                                             <span class="f1-s-3 m-rl-3">
-                                                  -
-                                             </span>
-
-                                             <span class="f1-s-3">
-                                                  Feb 18
-                                             </span>
-                                        </div>
-
-                                        <p class="f1-s-11 cl6 txt-center p-b-16">
-                                             Curabitur volutpat bibendum molestie. Vestibulum ornare gravida semper.
-                                             Aliquam a dui suscipit, fringilla metus id, maximus leo.
-                                        </p>
-
-                                        <a href="blog-detail-01.html" class="f1-s-1 cl9 hov-cl10 trans-03">
-                                             Read More
-                                             <i class="m-l-2 fa fa-long-arrow-alt-right"></i>
-                                        </a>
-                                   </div>
-                              </div>
-
-                              <!-- Item -->
-                              <div class="p-b-53">
-                                   <a href="blog-detail-01.html" class="wrap-pic-w hov1 trans-03">
-                                        <img src="images/entertaiment-21.jpg" alt="IMG">
-                                   </a>
-
-                                   <div class="flex-col-s-c p-t-16">
-                                        <h5 class="p-b-5 txt-center">
-                                             <a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
-                                                  Vestibulum justo nunc pulvinar nec mi eget
-                                             </a>
-                                        </h5>
-
-                                        <div class="cl8 txt-center p-b-17">
-                                             <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
-                                                  Celebrity
-                                             </a>
-
-                                             <span class="f1-s-3 m-rl-3">
-                                                  -
-                                             </span>
-
-                                             <span class="f1-s-3">
-                                                  Feb 18
-                                             </span>
-                                        </div>
-
-                                        <p class="f1-s-11 cl6 txt-center p-b-16">
-                                             Curabitur volutpat bibendum molestie. Vestibulum ornare gravida semper.
-                                             Aliquam a dui suscipit, fringilla metus id, maximus leo.
-                                        </p>
-
-                                        <a href="blog-detail-01.html" class="f1-s-1 cl9 hov-cl10 trans-03">
-                                             Read More
-                                             <i class="m-l-2 fa fa-long-arrow-alt-right"></i>
-                                        </a>
-                                   </div>
-                              </div>
-                         </div>
+    <!-- Latest -->
+    <div style="margin-top: 50px" class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="p-r-10 p-r-0-sr991">
+                    <div class="how2 how2-cl4 flex-s-c">
+                        <h3 class="f1-m-2 cl3 tab01-title">
+                            Tin mới cập nhật
+                        </h3>
                     </div>
 
-                    <!-- Pagination -->
-                    <div class="flex-wr-c-c m-rl--7 p-t-28">
-                         <a href="#" class="flex-c-c pagi-item hov-btn1 trans-03 m-all-7 pagi-active">1</a>
-                         <a href="#" class="flex-c-c pagi-item hov-btn1 trans-03 m-all-7">2</a>
-                    </div>
-               </div>
+                    <div class="row p-t-35">
+                        <div class="">
+                            <!-- Item latest -->
+                            @foreach ($SixPostsNewUpdate as $post)
+                                <!-- Item latest -->
+                                <div style="margin-left: 15px" class="m-b-45 d-flex">
+                                    <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}"
+                                        class="wrap-pic-w hov1 trans-03">
+                                        <img style="width: 250px; height: 160px; object-fit: cover; object-position: top;"
+                                            src="{{ asset('hinhanh/' . $post->HinhAnh) }}" alt="IMG">
+                                    </a>
 
-          </div>
-     </div>
-</section>
+                                    <div class="p-t-16 ml-3">
+                                        <h5 class="p-b-5">
+                                            <a href="blog-detail-01.html" class="f1-m-3 cl2 hov-cl10 trans-03">
+                                                {{ $post->TenBV }}
+                                            </a>
+                                        </h5>
+
+                                        <div>
+                                            <span class="cl8">
+                                                <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
+                                                    {{ $post->Mota }}
+                                                </a>
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10 col-lg-4 p-b-50">
+                <div class="p-l-10 p-rl-0-sr991">
+                    <div class="p-l-10 p-rl-0-sr991 p-b-20">
+                        <!--  -->
+
+                        <div class="how2 how2-cl4 flex-s-c">
+                            <h3 class="f1-m-2 cl3 tab01-title">
+                                Xem nhiều
+                            </h3>
+                        </div>
+                        <ul class="p-t-35">
+                            @foreach ($viewPost as $post)
+                                <li class="flex-wr-sb-s p-b-29">
+                                    <div class="size-a-8 flex-c-c borad-3 size-a-8 bg9 f1-m-4 cl0 m-b-6">
+                                        {{ $loop->index + 1 }}
+                                    </div>
+                                    <a href="#" class="size-w-3 f1-s-7 cl3 hov-cl10 trans-03">
+                                        {{ $post->TenBV }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <style>
+                        .banner-container {
+                            overflow: hidden;
+                        }
+
+                        .banner-images {
+                            display: flex;
+                            transition: transform 1s ease-in-out;
+                            width: 1020px;
+                            /* Total width of three images (250px each) */
+                            height: 530px;
+                        }
+
+                        .banner-images img {
+                            width: 340px;
+                            height: 530px;
+                            margin-right: 20px;
+                            
+                        }
+                    </style>
+
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const bannerImages = document.querySelector('.banner-images');
+                            const images = document.querySelectorAll('.banner-images img');
+
+                            let currentIndex = 0;
+
+                            function showNextImage() {
+                                currentIndex = (currentIndex + 1) % images.length;
+                                const translateValue = -currentIndex * 340;
+                                bannerImages.style.transform = `translateX(${translateValue}px)`;
+                            }
+
+                            setInterval(function() {
+                                showNextImage();
+                                setTimeout(function() {
+                                    bannerImages.style.transition = 'none';
+                                    setTimeout(function() {
+                                        bannerImages.style.transition = 'transform 1s ease-in-out';
+                                    }, 10);
+                                }, 3000);
+                            }, 6000);
+                        });
+                    </script>
+
+
+                    <div>
+                        <div class="how2 how2-cl4 flex-s-c">
+                            <h3 class="f1-m-2 cl3 tab01-title">
+                                Quảng cáo
+                            </h3>
+                        </div>
+                        <ul class="p-t-35">
+
+                            <!-- Banner ads content goes here -->
+                            <div class="banner-container">
+                                <div class="banner-images">
+                                    <img src="{{ asset('hinhanh/lixi.png') }}" alt="Advertisement Image 1">
+                                    <img src="{{ asset('hinhanh/c1.png') }}" alt="Advertisement Image 2">
+                                    <img src="{{ asset('hinhanh/ngoisao.png') }}" alt="Advertisement Image 3">
+                                    <!-- Add more images as needed -->
+                                </div>
+                            </div>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <style>
+        /* Category box */
+        .cate-news-24h-r {
+            margin-top: 10px;
+            margin-bottom: 50px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Category title */
+        .cate-news-24h-r__tit h2 {
+            color: #78B43D;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 15px;
+            margin: 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Style the header section */
+        .box-t {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .cate-news-24h-r__tit {
+            color: #24B43D;
+            /* Change the color as needed */
+            margin-right: 15px;
+        }
+
+        .cate-news-24h-r_cate {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .cate-news-24h-r_cate li {
+            margin-right: 15px;
+            /* Adjust the spacing between list items as needed */
+        }
+    </style>
+    <!-- tab cate-sub -->
+    <div class="container">
+        <div class="row justify-content-center">
+            @foreach ($CategoriesWithPosts as $category)
+                <div class="col-6 col-l">
+                    <section style="height:500px " class="cate-news-24h-r coll-2 mar-t-40">
+                        <div class="box-t d-flex align-items-center mar-b-15">
+                            <header class="cate-news-24h-r__tit color-24h flex-auto pos-rel">
+                                <h2 class="fw-bold text-uppercase">
+                                    <a style="color: #78B43D;"
+                                        href=" {{ route('user.hienthi', ['id' => $category->IDDM]) }}"
+                                        class="fw-bold text-uppercase color-24h">
+                                        {{ $category->TenDanhMuc }} </a>
+                                </h2>
+                            </header>
+                            <ul class="cate-news-24h-r_cate d-flex align-items-center">
+                                @if ($category->chudes->isNotEmpty())
+                                    @foreach ($category->chudes->take(2) as $key => $chude)
+                                        <li>
+                                            <a href="{{ route('user.hienthi', ['id' => $chude->IDCD, 'iddm' => $chude->DanhMucID]) }}"
+                                                class="hover-color-24h" style="color:#666666">
+                                                {{ $chude->TenChuDe }} </a>
+                                        </li>
+                                    @endforeach
+                                @endif
+                            </ul>
+
+                            <li class="ml-auto">
+                                <a href="{{ route('user.hienthi', ['id' => $category->IDDM]) }}" class="all-subcategory">
+                                    All &gt;
+                                </a>
+                            </li>
+                        </div>
+
+                        <div class="container">
+                            <!-- First row -->
+                            <div class="row">
+                                <div class="col-6">
+                                    <!-- Large article with image and description -->
+                                    <article class="cate-news-24h-r-big border-right pr-3 ">
+                                        <!-- Image -->
+                                        @if ($category->chudes->isNotEmpty())
+                                            @foreach ($category->chudes->first()->baiviets->take(1) as $baiviet)
+                                                <figure class="cate-news-24h-r-big__img pos-rel mar-b-15">
+                                                    <a onclick=""
+                                                        href="{{ route('user.baiviet.detail', ['id' => $baiviet->IDBV]) }}">
+                                                        <img style="width: 195px; height: 210px; object-fit: cover; object-position: top;"
+                                                            src='{{ asset("hinhanh/$baiviet->HinhAnh") }}'
+                                                            class="width-100 loaded" data-was-processed="true">
+                                                    </a>
+                                                </figure>
+
+                                                <!-- Article Information -->
+                                                <div class="cate-news-24h-r-big__info">
+                                                    <header class="cate-news-24h-r-big__tit mar-b-5">
+                                                        <h3>
+                                                            <a style="color: black; font-weight: bold; font-size: 18px;"
+                                                                class="d-block fw-medium hover-color-24h color-main"
+                                                                href="">
+                                                                {{ $baiviet->TenBV }}
+                                                            </a>
+
+                                                            <a style="color: #252525;"
+                                                                class="d-block fw-medium hover-color-24h color-main"
+                                                                href="">
+                                                                {{ $baiviet->Mota }}
+                                                            </a>
+                                                        </h3>
+                                                    </header>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </article>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="content-on-right border-left pl-3"
+                                        style="color: black; text-indent: -20px; line-height: 1.4;">
+                                        @if ($category->chudes->isNotEmpty())
+                                            @foreach ($category->chudes->flatMap->baiviets->slice(1) as $baiviet)
+                                                <p style="margin-bottom: 10px;">
+                                                    🔹
+                                                    <a href="{{ route('user.baiviet.detail', ['id' => $baiviet->IDBV]) }}"
+                                                        style="color: inherit;">
+                                                        {{ $baiviet->TenBV }}
+                                                    </a>
+                                                </p>
+                                            @endforeach
+                                        @endif
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+            @endforeach
+        </div>
+
+    </div>
 @endsection

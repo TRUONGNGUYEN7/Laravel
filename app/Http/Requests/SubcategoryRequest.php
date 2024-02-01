@@ -22,7 +22,7 @@ class SubcategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tenchude' => ['required', 'min:5'],
+            'tenchude' => ['required', 'min:3'],
 
         ];
     }

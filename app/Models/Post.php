@@ -57,7 +57,7 @@ class Post extends Model
             $post->save();
         }
     }
-    
+
     public static function getPostsWithChudeInfo() {
          // Sử dụng Eloquent query ở đây, ví dụ:
          return self::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
@@ -149,6 +149,10 @@ class Post extends Model
                 $file->move(public_path('hinhanh'), $filename);
                 $post->HinhAnh = $filename;
             } 
+            if ($request->videolink) {
+                $post->HinhAnh = $request->videolink;
+            }
+
             $adminData = session('admin_data');
 
             $post->TrangThaiBV = $request->has('hienthi') ? 1 : 0;
@@ -180,7 +184,6 @@ class Post extends Model
         $kiemTraTonTai = self::where('TenBV', $tenBaiVietMoi)
             ->where('IDBV', '<>', $id)
             ->exists();
-
         if ($kiemTraTonTai) {
             Session::put('message', 'Tên bài viết đã tồn tại!!!');
         } else {
@@ -193,8 +196,13 @@ class Post extends Model
                     File::delete($oldImagePath);
                 }
                 $baiViet->HinhAnh = $filename;
-            } else {
+            } 
+            if ($request->hasFile('hinhanhsua') == null && $request->videolink == null) {
                 $baiViet->HinhAnh = $request->has('image') ? $request->image : $currentImageName;
+            }
+            $video = $request->videolink;
+            if ($video) {
+                $baiViet->HinhAnh = $video;
             }
 
             $baiViet->TenBV = $tenBaiVietMoi;
