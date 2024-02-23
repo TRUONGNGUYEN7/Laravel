@@ -28,40 +28,6 @@ return new class extends Migration
             $table->foreign('ChuDeID')->references('IDCD')->on('tblchude')->onDelete('cascade');
         });
 
-         // Thêm dữ liệu cho các route của tbldanhmuc
-        DB::table('grouppermission')->insert([
-            [
-                'name' => 'baiviet',
-                'displayName' => 'Bài viết',
-            ],
-        ]);
-
-        // Lấy ID của group permission vừa thêm
-        $groupPermissionID = DB::table('grouppermission')->where('name', 'baiviet')->value('id');
-
-        // Thêm dữ liệu cho các route của tblbaiviet và liên kết với group permission
-        DB::table('permissions')->insert([
-            [
-                'name' => 'admin.baiviet.index',
-                'displayName' => 'Xem bài viết',
-                'groupPermissionID' => $groupPermissionID,
-            ],
-            [
-                'name' => 'admin.baiviet.create',
-                'displayName' => 'Tạo bài viết',
-                'groupPermissionID' => $groupPermissionID,
-            ],
-            [
-                'name' => 'admin.baiviet.xoa',
-                'displayName' => 'Xóa bài viết',
-                'groupPermissionID' => $groupPermissionID,
-            ],
-            [
-                'name' => 'admin.baiviet.sua',
-                'displayName' => 'Sửa bài viết',
-                'groupPermissionID' => $groupPermissionID,
-            ],
-        ]);
     }
 
     /**

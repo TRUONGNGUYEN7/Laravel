@@ -22,40 +22,6 @@ return new class extends Migration
             $table->foreign('DanhMucID')->references('IDDM')->on('tbldanhmuc')->onDelete('cascade');
         });
 
-         // Thêm dữ liệu cho các route của tbldanhmuc
-        DB::table('grouppermission')->insert([
-            [
-                'name' => 'chude',
-                'displayName' => 'Chủ đề',
-            ],
-        ]);
-
-        // Lấy ID của group permission vừa thêm
-        $groupPermissionID = DB::table('grouppermission')->where('name', 'chude')->value('id');
-
-        // Thêm dữ liệu cho các route của tbldanhmuc và liên kết với group permission
-        DB::table('permissions')->insert([
-            [
-                'name' => 'admin.chude.index',
-                'displayName' => 'Xem chủ đề',
-                'groupPermissionID' => $groupPermissionID,
-            ],
-            [
-                'name' => 'admin.chude.create',
-                'displayName' => 'Tạo chủ đề',
-                'groupPermissionID' => $groupPermissionID,
-            ],
-            [
-                'name' => 'admin.chude.xoa',
-                'displayName' => 'Xóa chủ đề',
-                'groupPermissionID' => $groupPermissionID,
-            ],
-            [
-                'name' => 'admin.chude.sua',
-                'displayName' => 'Sửa chủ đề',
-                'groupPermissionID' => $groupPermissionID,
-            ],
-        ]);
     }
 
     /**
