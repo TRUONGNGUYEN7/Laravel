@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/vendor/animsition/css/animsition.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/css/util.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/css/main.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ asset('UserAssets/css/main.css') }}">
     <!-- </head><body class="animsition"> -->
 
     <!-- Header -->
@@ -38,7 +38,7 @@
                             </a>
                         @else
                             <!-- Hiển thị các mục Home, Sign up, và Log in nếu chưa đăng nhập -->
-                            <a href="https://localhost/Laravel/public" class="left-topbar-item">
+                            <a href="{{ route('user.home') }}" class="left-topbar-item">
                                 Home
                             </a>
 
@@ -54,25 +54,7 @@
                     </div>
 
                     <div class="right-topbar">
-                        <a href="#">
-                            <span class="fab fa-facebook-f"></span>
-                        </a>
-
-                        <a href="#">
-                            <span class="fab fa-twitter"></span>
-                        </a>
-
-                        <a href="#">
-                            <span class="fab fa-pinterest-p"></span>
-                        </a>
-
-                        <a href="#">
-                            <span class="fab fa-vimeo-v"></span>
-                        </a>
-
-                        <a href="#">
-                            <span class="fab fa-youtube"></span>
-                        </a>
+                        
                     </div>
                 </div>
             </div>

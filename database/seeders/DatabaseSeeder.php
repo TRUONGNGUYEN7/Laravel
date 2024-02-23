@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'danhmuc',
                 'displayName' => 'Danh mục',
+                'status' => '1'
             ],
         ]);
 
@@ -54,6 +55,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'chude',
                 'displayName' => 'Chủ đề',
+                'status' => '1'
             ],
         ]);
 
@@ -89,6 +91,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'baiviet',
                 'displayName' => 'Bài viết',
+                'status' => '1'
             ],
         ]);
 

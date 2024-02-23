@@ -16,13 +16,21 @@
         </div>
     </div>
     <div class="panel-body">
-        <?php
-        $message = Session::get('message');
-        if ($message) {
-            echo '<div class="alert alert-danger" role="alert">' . $message . '</div>';
-            Session::put('message', null);
-        }
-        ?>
+
+        <script>
+            $(document).ready(function() {
+                // Your code to fade out the alert after 1 second
+                setTimeout(function() {
+                    $('.alert').fadeOut('slow');
+                }, 1000); // hide the alerts after 1 second
+
+                // Display an alert message
+                var message = "<?php echo Session::get('message'); ?>";
+                if (message) {
+                    alert(message);
+                }
+            });
+        </script>
 
         <form action="{{ route('admin.baiviet.store') }}" method="POST" enctype="multipart/form-data"
             class="form-horizontal ">
@@ -72,9 +80,8 @@
 
             <div class="form-group {{ $errors->has('idchude') ? 'has-error' : 'has-success' }}">
                 <label class="col-lg-3 control-label">Chủ đề</label>
-                <div class="col-lg-6">
+                <div class="col-lg-6 ">
                     <select class="form-control custom-width" name="idchude" id="idchude">
-                        <option value="capnhat" {{ old('idchude') == 'capnhat' ? 'selected' : '' }}>------ Chọn ------
                         </option>
                         @foreach ($dschude as $key => $item)
                             <option value="{{ $item->IDCD }}" {{ old('idchude') == $item->IDCD ? 'selected' : '' }}>
@@ -87,6 +94,16 @@
                     @enderror
                 </div>
             </div>
+
+            <script>
+                $(document).ready(function() {
+                    $('#idchude').select2({
+                        width: '100%',
+                        placeholder: '------Chọn------',
+                        allowClear: true
+                    });
+                });
+            </script>
 
             <div class="form-group has-warning">
                 <label class="col-lg-3 control-label">Trạng thái</label>

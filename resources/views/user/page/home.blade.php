@@ -98,19 +98,19 @@
     </style>
 
     <!-- Feature post -->
-    <section style="margin-top: 20px" class="bg0">
-        <div class="container">
-            <div class="row m-rl--1">
+    <div style="margin-top: 20px">
+        <div class="container ">
+            <div class="row m-rl--1 ">
 
-                <div class="col-md-6 p-rl-1 p-b-2">
+                <div class="col-md-6 p-rl-6 p-b-2 ">
                     @if (isset($FourPosts[0]))
-                        <div class="bg-img1 size-a-3 how1 pos-relative"
+                        <div class="bg-img1 size-a-3 how1 pos-relative "
                             style="background-image: url({{ asset('hinhanh/' . $FourPosts[0]->HinhAnh) }}); width: 98%">
                             <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[0]->IDBV]) }}"
                                 class="dis-block how1-child1 trans-03"></a>
 
 
-                            <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
+                            <div class="flex-col-e-s s-full p-rl-25 p-tb-20 ">
                                 <a href="#" style="box-shadow: inset;"
                                     class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
                                     {{ $FourPosts[0]->TenChuDe }}
@@ -274,11 +274,12 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
 
     <!-- tab cate-sub -->
     <div class="container">
-        <div class="row justify-content-center">
+        <div id="outputText" class="row justify-content-center">
             @foreach ($CategoriesWithPosts->take(4) as $category)
                 <div class="col-6 col-l">
                     <section style="height:500px " class="cate-news-24h-r coll-2 mar-t-40">
@@ -378,14 +379,14 @@
 
     </div>
 
-    <!-- category -->
-    <section class="bg0 p-t-70">
+    {{-- <!-- category -->
+    <div id="outputText" class="p-t-70">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10 col-lg-8">
                     <div class="p-b-20">
                         <!-- Entertainment -->
-                        @foreach ($CategoriesWithPosts->take(4) as $category)
+                        @foreach ($CategoriesWithPosts->take(2) as $category)
                             <div class="tab01 p-b-20">
                                 <div class="tab01-head how2 how2-cl1 bocl12 flex-s-c m-r-10 m-r-0-sr991">
                                     <!-- Brand tab -->
@@ -560,10 +561,10 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div> --}}
 
     <!-- Latest -->
-    <section class="bg0 p-t-60 p-b-35">
+    <div class="p-t-60 p-b-35">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10 col-lg-8 p-b-20">
@@ -581,7 +582,8 @@
                                 <div class="m-b-45">
                                     <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}"
                                         class="wrap-pic-w hov1 trans-03">
-                                        <img src="{{ asset('hinhanh/' . $post->HinhAnh) }}" alt="IMG">
+                                        <img style="width: 300px; height: 250px; object-fit: cover; object-position: top;"
+                                            src="{{ asset('hinhanh/' . $post->HinhAnh) }}" alt="IMG">
                                     </a>
 
                                     <div class="p-t-16">
@@ -615,7 +617,8 @@
                                 <div class="m-b-45">
                                     <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}"
                                         class="wrap-pic-w hov1 trans-03">
-                                        <img src="{{ asset('hinhanh/' . $post->HinhAnh) }}" alt="IMG">
+                                        <img style="width: 300px; height: 250px; object-fit: cover; object-position: top;"
+                                            src="{{ asset('hinhanh/' . $post->HinhAnh) }}" alt="IMG">
                                     </a>
 
                                     <div class="p-t-16">
@@ -689,5 +692,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 @endsection

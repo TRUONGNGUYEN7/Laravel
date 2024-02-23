@@ -19,19 +19,20 @@ class UserController extends Controller
             $menuCategory = Category::getActiveCategories();
             $ttdanhmuc = Category::find($iddm);
             $ttchude = Subcategory::find($id);
-            $FourPosts = Post::getPostSubCate($id, $iddm, 4);
+            $FourPosts = Post::getPostSubCate($id, $iddm, 5);
             $menuchude = Subcategory::getSubmenuForCate($iddm);
+            $SixPostsNewUpdate = Post::getPostsCate($id,6);
             $selectedChudeID = $id;
             $viewPost = Post::getViewsPosts(4);
             return view('user.danhmuc.chude', compact(
                 'menuCategory', 'ttdanhmuc', 'ttchude',
-                'FourPosts', 'menuchude', 'selectedChudeID', 'viewPost',
+                'FourPosts', 'menuchude', 'selectedChudeID', 'viewPost','SixPostsNewUpdate',
             ));
         } else {
             $ttdanhmuc = Category::find($id);
             $menuCategory = Category::getActiveCategories($id);
             $menuchude = Subcategory::getSubmenuForCate($id);
-            $FourPosts = Post::getPostsCate($id, 4);
+            $FourPosts = Post::getPostsCate($id, 5);
             $SixPostsNewUpdate = Post::getPostsCate($id,6);
             $CategoriesWithPosts = Category::getCategories(4);
             $selectedChudeID = '';

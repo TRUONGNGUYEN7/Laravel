@@ -12,7 +12,7 @@ use App\Http\Controllers\CommentController;
 
 //Homeuser
 Route::prefix('/')->group(function () {
-     Route::get('/', [HomeController::class, 'index'])->name('user.home');
+     Route::get('/index', [HomeController::class, 'index'])->name('user.home');
 });
 
 $CommentController = 'App\Http\Controllers\CommentController';
@@ -48,6 +48,35 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
      $adminController = 'App\Http\Controllers\AdminController';
      Route::get('index', [$adminController, 'showhome'])->name("$adminRoutePrefix.showhome");
 
+     // Admin taikhoan
+     $nhomquyenRoute = 'nhomquyen';
+     $nhomquyenController = 'App\Http\Controllers\RolesController';
+     Route::get("$nhomquyenRoute", [$adminController, 'index'])->name("$adminRoutePrefix.$nhomquyenRoute.index");
+     Route::post("$nhomquyenRoute", [$nhomquyenController, 'store'])->name("$adminRoutePrefix.$nhomquyenRoute.store");
+     Route::get("$nhomquyenRoute/{id}/edit", [$nhomquyenController, 'edit'])->name("$adminRoutePrefix.$nhomquyenRoute.sua");
+     Route::put("$nhomquyenRoute/{id}", [$nhomquyenController, 'update'])->name("$adminRoutePrefix.$nhomquyenRoute.update");
+     Route::post("$nhomquyenRoute/{id}", [$nhomquyenController, 'destroy'])->name("$adminRoutePrefix.$nhomquyenRoute.xoa");
+     Route::get("$nhomquyenRoute/status/{id}/{value}", [$nhomquyenController, 'status'])->name("$adminRoutePrefix.$nhomquyenRoute.status");
+     Route::post("$nhomquyenRoute/updateDataroute/{id}", [$nhomquyenController, 'updateDataroute'])->name("$adminRoutePrefix.$nhomquyenRoute.update-dataroute");
+
+     // Admin phanquyen
+     $functionRoute = 'chucnang';
+     $functionController = 'App\Http\Controllers\FunctionController';
+     Route::get("$functionRoute/create", [$functionController, 'createfunction'])->name("$adminRoutePrefix.$functionRoute.create");
+     Route::post("$functionRoute", [$functionController, 'store'])->name("$adminRoutePrefix.$functionRoute.store");
+     Route::get('getChucNangByChucNangId/{id}', [$functionController, 'getChucNangByChucNangId'])->name('getChucNangByChucNangId');
+     Route::get("$functionRoute/{id}/edit", [$functionController, 'edit'])->name("$adminRoutePrefix.$functionRoute.sua");
+     Route::post("$functionRoute/{id}", [$functionController, 'update'])->name("$adminRoutePrefix.$functionRoute.update");
+     Route::post("$functionRoute/{id}", [$functionController, 'destroy'])->name("$adminRoutePrefix.$functionRoute.xoa");
+
+     $permissions = 'permissions';
+     $permissionsController = 'App\Http\Controllers\PermissionsController';
+     Route::get('$permissions/get/{id}', [$permissionsController, 'getRoutes'])->name("$adminRoutePrefix.$permissions.getRoutes");
+     
+     $permissionRole = 'permissionRole';
+     $permissionRoleController = 'App\Http\Controllers\PermissionRoleController';
+     Route::post('$permissionRole/updatePermissionRole/{id}', [$permissionRoleController, 'updatePermissionRole'])->name("$adminRoutePrefix.$permissionRole.updatePermissionRole");
+
      // Admin Danhmuc
      $danhmucRoute = 'danhmuc';
      $categoryController = 'App\Http\Controllers\CategoryController';
@@ -80,4 +109,5 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
      Route::get("$baivietRoute/{id}/edit", [$postController, 'edit'])->name("$adminRoutePrefix.$baivietRoute.sua");
      Route::post("$baivietRoute/{id}", [$postController, 'destroy'])->name("$adminRoutePrefix.$baivietRoute.xoa");
      Route::get("$baivietRoute/status/{id}/{value}", [$postController, 'status'])->name("$adminRoutePrefix.$baivietRoute.status");
+
 });

@@ -23,17 +23,13 @@ class Category extends Model
         $categoryCheck = self::where('TenDanhMuc', $categoryName)->first();
 
         if ($categoryCheck) {
-            return redirect()->back()->with('error', 'Danh mục đã tồn tại');
-        } elseif ($categoryName == null) {
-            Session::put('message', 'Các trường không được để trống!!!');
-            return back();
+            Session::flash('message', 'Danh mục đã tồn tại!');
         } else {
             $category = new self();
             $category->TrangThaiDM = $request->has('hienthi') ? 1 : 0;
             $category->TenDanhMuc = $categoryName;
             $category->save();
-            Session::put('message', 'Thêm thành công');
-            return back();
+            Session::flash('message', 'Thêm thành công!');
         }
     }
     
@@ -55,12 +51,12 @@ class Category extends Model
                 ->exists();
 
             if ($isNameExists) {
-                Session::put('message', 'Tên danh mục đã tồn tại!!!');
+                Session::flash('message', 'Tên danh mục đã tồn tại!!!');
             } else {
                 $category->TenDanhMuc = $newCategoryName;
                 $category->TrangThaiDM = $request->has('hienthi') ? 1 : 0;
                 $category->save();
-                Session::put('message', 'Cập nhật thành công!!!');
+                Session::flash('message', 'Cập nhật thành công!!!');
                 return back();
             }
         }
@@ -71,16 +67,11 @@ class Category extends Model
         $category = self::find($id);
 
         if ($category) {
-            if($value == 0)
-            {
-                $category->TrangThaiDM = 1;
-                $category->save();
-            }else
-            {
-                $category->TrangThaiDM = 0;
-                $category->save();
-            }
+            // Toggle TrangThaiDM using a ternary operator
+            $category->TrangThaiDM = ($value === 0 || $value === '0') ? 1 : 0;
 
+            // Save the changes
+            $category->save();
         }
     }
 

@@ -1,68 +1,81 @@
 @extends('user.danhmuc.submenu')
 @section('danhmuc')
-    <section class="bg0">
+    <style>
+        #postRow {
+            display: flex;
+        }
+
+        #postRow .card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+    <section class="">
         <div class="container">
-            <div class="row m-rl--1">
-                @if (isset($FourPosts[0]))
-                    <div class="col-12 p-rl-1 p-b-2">
-                        <div class="bg-img1 size-a-3 how1 pos-relative"
-                            style="background-image: url({{ asset('hinhanh/' . $FourPosts[0]->HinhAnh) }});">
-                            <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[0]->IDBV]) }}"
-                                class="dis-block how1-child1 trans-03"></a>
 
-                            <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
-                                <a href="#"
-                                    class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-                                    {{ $FourPosts[0]->TenChuDe }}
-                                </a>
-
-                                <h3 class="how1-child2 m-t-14 m-b-10">
-                                    <a href="blog-detail-01.html" class="how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03">
-                                        {{ $FourPosts[0]->TenBV }}
-                                    </a>
-                                </h3>
-
-                                <span class="how1-child2">
-                                    <span class="f1-s-4 cl11">
-                                        {{ $FourPosts[0]->Mota }}
-                                    </span>
-
-                                    <span class="f1-s-3 cl11 m-rl-3">
-                                        -
-                                    </span>
-
-                                    <span class="f1-s-3 cl11">
-                                        Feb 16
-                                    </span>
-                                </span>
+            <div class="row m-rl--1" id="postRow">
+                <div class="col-md-3 p-rl-1 p-b-2 d-flex flex-column align-items-stretch">
+                    <!-- Posts on the left -->
+                    @foreach ($FourPosts->slice(1, 2) as $post)
+                        <div class="card mb-3">
+                            <div class="bg-img1 size-a-14 how1 pos-relative"
+                                style="background-image: url({{ asset('hinhanh/' . $post->HinhAnh) }}); height: 150px">
+                                <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}"
+                                    class="dis-block how1-child1 trans-03"></a>
                             </div>
-                        </div>
-                    </div>
-                @endif
-
-                @foreach ($FourPosts->slice(1) as $post)
-                    <div class="col-sm-6 col-md-3 p-rl-1 p-b-2">
-                        <div class="bg-img1 size-a-14 how1 pos-relative"
-                            style="background-image: url({{ asset('hinhanh/' . $post->HinhAnh) }});">
-                            <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}"
-                                class="dis-block how1-child1 trans-03"></a>
-
-                            <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
-                                <a href="#"
-                                    class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+                            <div class="card-body">
+                                <a href="#" style="font-size: 16px; color: #080808; font-weight: bold;">
                                     {{ $post->TenBV }}
                                 </a>
 
-                                <h3 class="how1-child2 m-t-14">
-                                    <a href="blog-detail-01.html" class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03">
-                                        {{ $post->Mota }}
-                                    </a>
-                                </h3>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
+
+                <div class="col-md-6 p-rl-1 p-b-2 d-flex flex-column align-items-stretch">
+                    <!-- Centered post -->
+                    @if (isset($FourPosts[0]))
+                        <div class="card mb-3">
+                            <div class="bg-img1 size-a-3 how1 pos-relative"
+                                style="background-image: url({{ asset('hinhanh/' . $FourPosts[0]->HinhAnh) }}); height: 366px">
+                                <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[0]->IDBV]) }}"
+                                    class="dis-block how1-child1 trans-03"></a>
+                            </div>
+                            <div class="card-body">
+                                <a href="blog-detail-01.html" class=""
+                                    style="font-size: 25px; color: #080808; font-weight: bold;">
+                                    {{ $FourPosts[0]->TenBV }}
+                                </a>
+                            </div>
+
+                        </div>
+                    @endif
+                </div>
+
+                <div class="col-md-3 p-rl-1 p-b-2 d-flex flex-column align-items-stretch">
+                    <!-- Posts on the right -->
+                    @foreach ($FourPosts->slice(3, 2) as $post)
+                        <div class="card mb-3">
+                            <div class="bg-img1 size-a-14 how1 pos-relative"
+                                style="background-image: url({{ asset('hinhanh/' . $post->HinhAnh) }}); height: 150px">
+                                <a href="{{ route('user.baiviet.detail', ['id' => $post->IDBV]) }}"
+                                    class="dis-block how1-child1 trans-03"></a>
+                            </div>
+                            <div class="card-body">
+                                <a href="#" class=""
+                                    style="font-size: 16px; ; color: #080808; font-weight: bold;">
+                                    {{ $post->TenBV }}
+                                </a>
+
+
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
+
         </div>
     </section>
 
@@ -98,7 +111,7 @@
 
                                         <div>
                                             <span class="cl8">
-                                                <a href="#" class="f1-s-4 cl8 hov-cl10 trans-03">
+                                                <a href="#" class="cl8">
                                                     {{ $post->Mota }}
                                                 </a>
                                             </span>
@@ -154,7 +167,7 @@
                             width: 340px;
                             height: 530px;
                             margin-right: 20px;
-                            
+
                         }
                     </style>
 
@@ -210,9 +223,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <style>
         /* Category box */

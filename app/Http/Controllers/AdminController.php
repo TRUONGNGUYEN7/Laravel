@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Http\Requests\AdminLoginRequest;
 use App\Models\Admin;
+use App\Models\Functionality;
+use App\Models\Routes;
+use App\Models\Roles;
+use App\Models\GroupPermission;
 
 class AdminController extends Controller
 {
@@ -16,6 +20,7 @@ class AdminController extends Controller
     public function showhome(){
         return view('admin.pages.home');
     }
+
     public function login(){
         return view('admin.pages.login');
     }
@@ -54,5 +59,11 @@ class AdminController extends Controller
         return redirect('/admin');
     }
 
-
+    // nhomquyen
+    public function index()
+    {
+        $dsgrouppermission = GroupPermission::getActiveGroupPermission();
+        $dsvaitro = Roles::getRoles();
+        return view('admin.nhomquyen.them')->with('dsgrouppermission', $dsgrouppermission)->with('dsvaitro', $dsvaitro);
+    }
 }

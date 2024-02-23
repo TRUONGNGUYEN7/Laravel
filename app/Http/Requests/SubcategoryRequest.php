@@ -23,6 +23,8 @@ class SubcategoryRequest extends FormRequest
     {
         return [
             'tenchude' => ['required', 'min:3'],
+            'iddanhmuc' => ['required'],
+            
 
         ];
     }
@@ -32,6 +34,8 @@ class SubcategoryRequest extends FormRequest
         return [
             'tenchude.required' => 'Tên chủ đề là bắt buộc.',
             'tenchude.min' => 'Tên chủ đề phải có ít nhất 5 ký tự.',
+
+            'iddanhmuc.required' => 'Danh mục là bắt buộc.',
 
         ];
     }

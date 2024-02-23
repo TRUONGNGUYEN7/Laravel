@@ -13,7 +13,7 @@
             margin: 0 auto;
         }
     </style>
-    <section class="bg0 p-b-140 p-t-10">
+    <section class="p-b-140 p-t-10">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-10 col-lg-8 p-b-30">

@@ -6,7 +6,7 @@
                 <div class="col-lg-4 p-b-20">
                     <div class="size-h-3 flex-s-c">
                         <a href="index.html">
-                            <img style="width: 70px; height: 70px;" class="max-s-full" src="hinhanh/logo.jpg" alt="LOGO">
+                            <img style="width: 70px; height: 70px;" class="max-s-full" src="{{asset('hinhanh/logo.jpg')}}" alt="LOGO">
                         </a>
                     </div>
 

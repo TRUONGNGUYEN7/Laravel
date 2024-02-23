@@ -211,6 +211,7 @@ video.my-custom-video {
 }
 
 
+
 /*//////////////////////////////////////////////////////////////////
 [ Header ]*/
 
@@ -1935,7 +1936,6 @@ a.breadcrumb-item:hover {
     background: linear-gradient(bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
 
-
 /*---------------------------------------------*/
 
 .how1 {
@@ -1949,7 +1949,7 @@ a.breadcrumb-item:hover {
     height: 100%;
     top: 0;
     left: 0;
-    opacity: 0.3;
+    opacity: 0.4;
     background: rgba(0, 0, 0, 0.5);
     background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
     background: -o-linear-gradient(bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));

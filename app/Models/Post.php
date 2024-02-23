@@ -139,7 +139,7 @@ class Post extends Model
         $postCheck = self::where('TenBV', $tenBaiViet)->first();
 
         if ($postCheck) {
-            return redirect()->back()->with('error', 'Chủ đề đã tồn tại');
+            Session::flash('message', 'Tên bài viết đã tồn tại');
         } else {
             $post = new self();
 
@@ -165,7 +165,7 @@ class Post extends Model
             $post->NguoiDangBV = $adminData['admin_username'];
             $post->save();
 
-            Session::put('message', 'Thêm thành công');
+            Session::flash('message', 'Thêm thành công');
             return back();
         }
     }
@@ -175,7 +175,7 @@ class Post extends Model
         $baiViet = self::find($id);
 
         if (!$baiViet) {
-            Session::put('message', 'Bài viết không tồn tại!!!');
+            Session::flash('message', 'Bài viết không tồn tại!!!');
             return back();
         }
 
@@ -185,7 +185,7 @@ class Post extends Model
             ->where('IDBV', '<>', $id)
             ->exists();
         if ($kiemTraTonTai) {
-            Session::put('message', 'Tên bài viết đã tồn tại!!!');
+            Session::flash('message', 'Tên bài viết đã tồn tại!!!');
         } else {
             if ($request->hasFile('hinhanhsua')) {
                 $file = $request->file('hinhanhsua');
@@ -213,7 +213,7 @@ class Post extends Model
             $baiViet->TrangThaiBv = $request->has('hienthi') ? 1 : 0;
             $baiViet->save();
 
-            Session::put('message', 'Cập nhật thành công!!!');
+            Session::flash('message', 'Cập nhật thành công!!!');
             return back();
         }
     }

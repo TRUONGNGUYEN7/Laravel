@@ -23,7 +23,7 @@ class Subcategory extends Model
         $subCategoryCheck = self::where('TenChuDe', $tenChuDe)->first();
 
         if ($subCategoryCheck) {
-            return redirect()->back()->with('error', 'Chủ đề đã tồn tại');
+            Session::flash('message', 'Chủ đề đã tồn tại');
         } else {
             $subcategory = new self();
             $subcategory->TrangThaiCD = $request->has('hienthi') ? 1 : 0;
@@ -31,7 +31,7 @@ class Subcategory extends Model
             $subcategory->DanhMucID = $request->iddanhmuc;
             $subcategory->save();
 
-            Session::put('message', 'Thêm thành công');
+            Session::flash('message', 'Thêm thành công');
             return back();
         }
     }
@@ -83,16 +83,11 @@ class Subcategory extends Model
         $subcategory = self::find($id);
 
         if ($subcategory) {
-            if($value == 0)
-            {
-                $subcategory->TrangThaiCD = 1;
-                $subcategory->save();
-            }else
-            {
-                $subcategory->TrangThaiCD = 0;
-                $subcategory->save();
-            }
+            // Toggle TrangThaiDM using a ternary operator
+            $subcategory->TrangThaiCD = ($value === 0 || $value === '0') ? 1 : 0;
 
+            // Save the changes
+            $subcategory->save();
         }
     }
 

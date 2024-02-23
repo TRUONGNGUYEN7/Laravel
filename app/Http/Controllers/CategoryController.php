@@ -30,11 +30,10 @@ class CategoryController extends Controller
         return back();
     }
     
-
     public function status($id, $value)
     {
         Category::StatusCategoryById($id, $value);
-        return back();
+        return response()->json(['status' => $value]);
     }
 
     public function update(CategoryRequest $request, $id){

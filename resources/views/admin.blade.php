@@ -15,6 +15,7 @@
             window.scrollTo(0, 1);
         }
     </script>
+   
     <!-- bootstrap-css -->
     <link rel="stylesheet" href="{{ asset('assetadmin/css/bootstrap.min.css') }}">
     <!-- //bootstrap-css -->
@@ -36,6 +37,10 @@
     <script src="{{ asset('assetadmin/js/jquery2.0.3.min.js') }}"></script>
     <script src="{{ asset('assetadmin/js/raphael-min.js') }}"></script>
     <script src="{{ asset('assetadmin/js/morris.js') }}"></script>
+
+    {{-- select list --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <style>
@@ -86,11 +91,11 @@
                 <div class="leftside-navigation">
                     <ul class="sidebar-menu" id="nav-accordion">
                         <li>
-                            <a class="active" href="">
+                            <a class="active" href="{{ route('admin.showhome') }}">
                                 <i class="fa fa-dashboard"></i>
                                 <span class="sizetextdm">Trang Chủ</span>
-
                             </a>
+
                         </li>
 
                         <li class="sub-menu">
@@ -123,6 +128,16 @@
                             <ul class="sub">
                                 <li><a href="{{ route('admin.baiviet.create') }}">Thêm bài viết</a></li>
                                 <li><a href="{{ route('admin.baiviet.index') }}">Danh sách bài viết</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-tasks"></i>
+                                <span class="sizetextdm">Tài khoản</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{ route('admin.nhomquyen.index') }}">Thêm nhóm quyền</a></li>
                             </ul>
                         </li>
                     </ul>
