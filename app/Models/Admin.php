@@ -8,14 +8,61 @@ use Illuminate\Support\Facades\DB;
 class Admin extends Model
 {
     protected $table = 'tbladmin';
+    protected $primaryKey = 'IDAD';
+    protected $fillable = [
+        'IDAD', 'Name', 'Hoten', 'Email', 'MatKhau', 'roleID', 'TrangThai'
+    ];
 
     public static function Authenticate($adminname, $adminpass)
     {
         $adminpass = md5($adminpass);
 
         return DB::table('tbladmin')
-            ->where('Ten', $adminname)
-            ->where('MatKhau', $adminpass)
-            ->first(); // Change this to first() if expecting a single record
+                    ->where('Name', $adminname)
+                    ->where('MatKhau', $adminpass)
+                    ->first(); // Change this to first() if expecting a single record
     }
+
+    public static function getAdmin()
+    {
+        return self::select('tbladmin.*', 'roles.name as roleName')
+                    ->join('roles', 'tbladmin.roleID', '=', 'roles.id')
+                    ->get();
+    }
+
+    public static function getaccountByID($id)
+    {
+        $admin = self::find($id);
+        if ($admin) {
+            // Chuyển đổi đối tượng Admin thành mảng
+            $adminArray = $admin->toArray();
+            return $adminArray;
+        }
+        return null;
+    }
+
+    // Admin.php
+
+    public function updateAccount($id, $data)
+    {
+        $admin = $this->findOrFail($id); // Find the account by ID
+
+        // Update account information
+        $admin->update([
+            'Name' => $data['Name'],
+            'Hoten' => $data['Hoten'],
+            'Email' => $data['Email'],
+            'MatKhau' => $data['MatKhau'],
+            'roleID' => $data['roleID'],
+            'TrangThai' => $data['TrangThai']
+        ]);
+
+        return $admin;
+    }
+
+    public static function deleteAdminById($id)
+    {
+        self::destroy($id);
+    }
+
 }

@@ -17,4 +17,5 @@ class Permissions extends Model
     {
        return $activeRoutes = self::where('groupPermissionID', $id)->get();
     }
+
 }

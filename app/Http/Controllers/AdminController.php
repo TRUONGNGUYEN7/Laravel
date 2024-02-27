@@ -21,6 +21,34 @@ class AdminController extends Controller
         return view('admin.pages.home');
     }
 
+    public function getAccounts(Request $request){
+        $ds = Admin::getAdmin();
+        $dsroles = Roles::getActiveRoles();
+        return view('admin.taikhoan.lietke')->with('ds', $ds)->with('dsroles', $dsroles);
+    }
+
+    public function store(Request $request)
+    {
+        // Validate dữ liệu đầu vào
+        $validatedData = $request->validate([
+            'Name' => 'required|string',
+            'Hoten' => 'required|string',
+            'MatKhau' => 'required|string',
+            'Email' => 'required|email',
+            'roleID' => 'required' // Đảm bảo role_id tồn tại trong bảng roles
+        ]);
+        $validatedData['TrangThai'] = 1;
+        // Tạo tài khoản mới
+        $account = Admin::create($validatedData);
+
+        // Phản hồi về thành công hoặc thất bại
+        if ($account) {
+            return response()->json(['success' => true, 'message' => 'Thêm tài khoản thành công'], 200);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Thêm tài khoản thất bại'], 500);
+        }
+    }
+
     public function login(){
         return view('admin.pages.login');
     }
@@ -39,7 +67,7 @@ class AdminController extends Controller
             } else {
 
                 $adminData = [
-                    'admin_username' => $authenticatedAdmin->Ten,
+                    'admin_username' => $authenticatedAdmin->Hoten,
                     'admin_id' => $authenticatedAdmin->IDAD,
                 ];
                 
@@ -52,18 +80,44 @@ class AdminController extends Controller
             return redirect()->to('/admin/login');
         }
     }
-    
+
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'Name' => 'required|string',
+            'Hoten' => 'required|string',
+            'Email' => 'required|email',
+            'MatKhau' => 'required|string',
+            'roleID' => 'required', // Đảm bảo role_id tồn tại trong bảng roles
+            'TrangThai' => 'required'
+        ]);
+
+
+        $admin = new Admin();
+        $admin->updateAccount($id, $validatedData);
+
+        return response()->json([
+            'message' => 'Cập nhật thành công',
+            'reload_page' => true
+        ], 200);
+    }
+
+    public function destroy($id)
+    {
+        Admin::deleteAdminById($id);
+        return back();
+    }
+
+    public function getaccountByID($id)
+    {
+        $admin = Admin::getaccountByID($id);
+        return response()->json($admin);
+    }
+
     public function logout(){
 
         session() -> flush();
         return redirect('/admin');
     }
 
-    // nhomquyen
-    public function index()
-    {
-        $dsgrouppermission = GroupPermission::getActiveGroupPermission();
-        $dsvaitro = Roles::getRoles();
-        return view('admin.nhomquyen.them')->with('dsgrouppermission', $dsgrouppermission)->with('dsvaitro', $dsvaitro);
-    }
 }

@@ -157,40 +157,42 @@
                 <div class="col-md-6 p-rl-1">
                     <div class="row m-rl--1">
                         <div class="col-12 p-rl-1 p-b-2">
-                            <div class="bg-img1 size-a-4 how1 pos-relative"
-                                style="background-image: url({{ asset('hinhanh/' . $FourPosts[1]->HinhAnh) }});">
-                                <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[1]->IDBV]) }}"
-                                    class="dis-block how1-child1 trans-03"></a>
-
-                                @php
-                                    // Check if the Noidung contains a video tag
-                                    $hasVideo = strpos($FourPosts[1]->NoiDung, '<video') !== false;
-                                @endphp
-
-                                <div class="flex-col-e-s s-full p-rl-25 p-tb-24">
+                            @if (isset($FourPosts[1]))
+                                <div class="bg-img1 size-a-4 how1 pos-relative"
+                                    style="background-image: url({{ asset('hinhanh/' . $FourPosts[1]->HinhAnh) }});">
                                     <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[1]->IDBV]) }}"
-                                        class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-                                        {{ $FourPosts[1]->TenChuDe }}
-                                    </a>
+                                        class="dis-block how1-child1 trans-03"></a>
 
-                                    <h3 class="how1-child2 m-t-14">
-                                        <a href="#"
-                                            class="how-txt1 size-a-7 f1-l-2 cl0 hov-cl10 trans-03 csstieude12">
-                                            {{ $FourPosts[1]->TenBV }}
+                                    @php
+                                        // Check if the Noidung contains a video tag
+                                        $hasVideo = strpos($FourPosts[1]->NoiDung, '<video') !== false;
+                                    @endphp
+
+                                    <div class="flex-col-e-s s-full p-rl-25 p-tb-24">
+                                        <a href="{{ route('user.baiviet.detail', ['id' => $FourPosts[1]->IDBV]) }}"
+                                            class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
+                                            {{ $FourPosts[1]->TenChuDe }}
                                         </a>
-                                    </h3>
 
-                                    @if ($hasVideo)
-                                        <!-- Play button overlay -->
-                                        <div class="play-container"
-                                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; font-size: 27px">
-                                            <button class="play-button">
-                                                <i class="fas fa-play"></i>
-                                            </button>
-                                        </div>
-                                    @endif
+                                        <h3 class="how1-child2 m-t-14">
+                                            <a href="#"
+                                                class="how-txt1 size-a-7 f1-l-2 cl0 hov-cl10 trans-03 csstieude12">
+                                                {{ $FourPosts[1]->TenBV }}
+                                            </a>
+                                        </h3>
+
+                                        @if ($hasVideo)
+                                            <!-- Play button overlay -->
+                                            <div class="play-container"
+                                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; font-size: 27px">
+                                                <button class="play-button">
+                                                    <i class="fas fa-play"></i>
+                                                </button>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
 
                         @if (isset($FourPosts[2]))

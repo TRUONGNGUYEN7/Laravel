@@ -26,4 +26,9 @@ class PermissionRole extends Model
             ]);
         }
     }
+
+    public function getRoutesPermission($id)
+    {
+       return $RoutesPermission = self::where('roleID', $id)->get();
+    }
 }

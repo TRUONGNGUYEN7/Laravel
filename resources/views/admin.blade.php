@@ -138,6 +138,7 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="{{ route('admin.nhomquyen.index') }}">Thêm nhóm quyền</a></li>
+                                <li><a href="{{ route('admin.accounts.get') }}">Quản lí tài khoản</a></li>
                             </ul>
                         </li>
                     </ul>

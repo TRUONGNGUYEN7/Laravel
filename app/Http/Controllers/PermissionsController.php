@@ -15,4 +15,5 @@ class PermissionsController extends Controller
           $routes = $permissions->getActiveRoutes($id);
           return response()->json($routes); // Trả về dữ liệu JSON
      }
+
 }

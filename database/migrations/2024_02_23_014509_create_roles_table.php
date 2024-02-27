@@ -17,6 +17,14 @@ return new class extends Migration
             $table->string('status', 50)->default('1');
             $table->timestamps();
         });
+
+        // Thêm dữ liệu mẫu
+        DB::table('roles')->insert([
+            'name' => 'admin',
+            'status' => '1',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /**

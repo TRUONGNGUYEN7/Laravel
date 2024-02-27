@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('EmailUS', 50);
             $table->string('avatar')->nullable();
             $table->tinyInteger('TrangThaiUS');
-            $table->longText('roleID')->nullable();
             $table->string('status', 10)->default('0');
             $table->timestamps();
 
