@@ -24,7 +24,7 @@ body {
     display: flex;
     z-index: 3;
     height: 44px;
-    background: white;
+    background: rgb(155, 153, 153);
     border: 1px solid #a9a9a9;
     box-shadow: none;
     border-radius: 24px;
@@ -1497,7 +1497,7 @@ body {
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
-    background-color: #fff
+    background-color: #908d8d
 }
 
 button,

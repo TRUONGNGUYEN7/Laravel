@@ -251,7 +251,7 @@
                         <div class="modal-dialog" role="document">
 
                             {{-- Hidden input to store adminId --}}
-                            <input type="text" id="adminId" value="">
+                            <input type="hidden" id="adminId" value="">
 
                             <div class="modal-content">
                                 <div class="modal-header">

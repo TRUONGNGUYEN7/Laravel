@@ -17,11 +17,17 @@ class PermissionRole extends Model
 
     public static function updatePermissionRole($roleId, $selectedActions)
     {
-        self::where('roleID', $roleId)->delete();
+        $role = Roles::findOrFail($roleId);
 
+        $role->permissions()->sync($selectedActions);
+    }
+
+    public static function addPermissionRole($resultaddrole, $selectedActions, $Status)
+    {
+        self::where('roleID', $resultaddrole)->delete();
         foreach ($selectedActions as $actionId) {
             self::create([
-                'roleID' => $roleId,
+                'roleID' => $resultaddrole,
                 'permissionID' => $actionId,
             ]);
         }

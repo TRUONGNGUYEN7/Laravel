@@ -1,5 +1,7 @@
 @extends('admin')
 @section('adcontent')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <div class="page-header">
         <div class="row">
             <div class="col-md-6 col-sm-12">
@@ -35,17 +37,9 @@
         <div class="row">
             <div class="col-md-3">
                 <!-- Danh sách dọc -->
-                <div style="margin-left: 0px" class="sidebar">
+                <div style="margin-left: -50px" class="sidebar">
                     <h3 style="color: #007bff">Nhóm quyền</h3>
                     <!-- Form thêm roles -->
-                    <form style="margin-top: 20px;" id="addRoleForm" action="{{ route('admin.nhomquyen.store') }}"
-                        method="POST">
-                        {{ csrf_field() }} <!-- CSRF protection token -->
-                        <div class="input-group" style="width: 90%; display: flex;">
-                            <input type="text" name="tennhomquyen" id="tennhomquyen" class="form-control" required>
-                            <button type="submit" name="themnq" class="btn btn-primary">Thêm</button>
-                        </div>
-                    </form>
 
                     <style>
                         #roleList {
@@ -91,6 +85,7 @@
                         }
                     </style>
 
+                    <div id="addRoleForm"></div>
                     <ul id="roleList" class="list-unstyled"></ul>
 
                     {{-- Hàm để đổ danh sách vai trò --}}
@@ -136,17 +131,23 @@
                                         selectButton.classList.add('btn', 'btn-success', 'btn-sm', 'select-button');
                                         selectButton.setAttribute('data-id', role.id);
                                         selectButton.setAttribute('data-name', role.name);
+                                        selectButton.setAttribute('data-status', role.status); // Thêm thuộc tính trạng thái
                                         selectButton.innerText = 'Chọn';
+
                                         selectButton.addEventListener('click', function() {
+                                            clearCheckboxStates();
+                                            $("#submitButton").text("Sửa");
                                             // Lấy thông tin về vai trò được chọn từ nút "Chọn" được nhấn
                                             let roleId = selectButton.getAttribute('data-id');
                                             let roleName = selectButton.getAttribute('data-name');
+                                            let roleStatus = selectButton.getAttribute(
+                                                'data-status'); // Lấy giá trị trạng thái
                                             // Gán ID và tên của vai trò vào input và nhãn tương ứng
                                             document.getElementById('selectedRoleID').value = roleId;
-                                            document.getElementById('selectedRoleLabel').innerText = 'Nhóm đã chọn:  ' +
-                                                roleName;
+                                            document.getElementById('tennhomquyen').value = roleName;
 
-                                            clearCheckboxStates();
+                                            // Gán giá trị trạng thái vào select
+                                            document.getElementById('trangthai').value = roleStatus;
 
                                             // Nếu không có ID vai trò, không làm gì cả
                                             if (!roleId) return;
@@ -158,13 +159,14 @@
                                             $.ajax({
                                                 url: url,
                                                 type: 'GET',
+                                                // Sau khi nhận được dữ liệu AJAX
                                                 success: function(data) {
                                                     // Lặp qua danh sách permission và kiểm tra checkbox tương ứng
                                                     data.forEach(permission => {
                                                         var permissionId = permission
                                                             .permissionID; // Lấy ID của permission từ dữ liệu AJAX
                                                         var checkbox = document.getElementById(
-                                                            permissionId);
+                                                            'permission_' + permissionId);
                                                         if (checkbox) {
                                                             checkbox.checked = true;
                                                         }
@@ -175,9 +177,13 @@
                                                 }
                                             });
                                         });
-                                        // Hàm để xóa trạng thái đã chọn của tất cả các checkbox
+
+
                                         function clearCheckboxStates() {
-                                            var checkboxes = document.querySelectorAll('.form-check-input');
+                                            // Lấy tất cả các checkbox
+                                            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+                                            // Duyệt qua mỗi checkbox và đặt trạng thái unchecked
                                             checkboxes.forEach(function(checkbox) {
                                                 checkbox.checked = false;
                                             });
@@ -272,7 +278,7 @@
                         // Gọi hàm để đổ danh sách vai trò khi trang được tải
                         renderRoleList();
                     </script>
-
+                    <input type="hidden" id="selectedRoleID" name="selectedRoleID">
                     <!-- Popup Sửa -->
                     <div style="margin-left: -20%; margin-top: 10em" class="modal" id="editModal" tabindex="-1"
                         role="dialog">
@@ -378,27 +384,196 @@
                 }
             </style>
 
-            <div class="col-md-9">
-                <!-- Form và danh sách ngang -->
-                <div style="margin-left: 2%; margin-bottom: 2%">
-                    <h4 id="selectedRoleLabel">Chọn Quyền</h4>
-                    <hr style="margin-top: 5px; margin-bottom: 5px;"> <!-- Thêm đường kẻ ngang -->
-                </div>
-                {{-- DSROUTE --}}
-                <div class="groupper" style="padding-left: 2%">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+            </script>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+            <div style="width: 60%;" class="col-md-9">
+                <style>
+                    .selector-for-some-widget {
+                        box-sizing: content-box;
+                    }
 
-                </div>
+                    .scrollspy-example {
+                        position: relative;
+                        overflow-y: scroll;
+                        height: 200px;
+                        scroll-behavior: smooth;
+                    }
 
-                <form id="formdataroute" class="form-horizontal" method="post" action="#">
-                    {{ csrf_field() }}
-                    <!-- Button -->
-                    <div class="form-group">
-                        <div class="col-lg-offset-5 col-lg-6">
-                            <button type="submit" name="themdataroute" class="btn btn-primary">Lưu </button>
+                    body {
+                        background-color: #e1dddd
+                    }
+                </style>
+                <div class="bd-example">
+                    <style>
+                        .group-permission-name {
+                            color: blue;
+                        }
+                    </style>
+
+                    <form style="margin-top: 10px; " id="addPermissonRoleForm" action="{{ route('admin.nhomquyen.store') }}"
+                        method="POST">
+                        {{ csrf_field() }} <!-- CSRF protection token -->
+                        <div class="input-group"
+                            style="display: flex; align-items: center; margin-right: 10px; width: 600px;">
+                            <label for="tennhomquyen" style="margin-right: 10px;">Tên nhóm quyền:</label>
+                            <input type="text" name="tennhomquyen" id="tennhomquyen" placeholder="Nhập tên nhóm quyền"
+                                class="form-control" required style="flex: 1;">
+
+                            <select name="trangthai" id="trangthai" class="form-select" style="margin-left: 10px;" required>
+                                <option value="">Chọn trạng thái</option>
+                                <option value="1">Kích hoạt</option>
+                                <option value="0">Không kích hoạt</option>
+                            </select>
+
+                            <!-- Sử dụng icon của Font Awesome -->
+                            <button type="button" id="refreshButton" class="btn btn-secondary"
+                                style="margin-left: 10px; border-radius: 10px; font-size: 0.7rem ; color: #ffffff;">
+                                <i class="fas fa-sync-alt"></i> <!-- Biểu tượng "làm mới" -->
+                            </button>
                         </div>
-                    </div>
-                </form>
+
+                        {{-- làm mới --}}
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            // Định nghĩa hàm để làm mới trường tên nhóm quyền và chọn trạng thái
+                            function refreshFields() {
+                                // Làm mới trường tên nhóm quyền
+                                $('#tennhomquyen').val('');
+                                // Làm mới trạng thái
+                                $('#trangthai').val('');
+                                $("#submitButton").text("Thêm");
+                                // Làm mới các checkbox
+                                $('input[type="checkbox"]').prop('checked', false);
+                            }
+                            // Gọi hàm refreshFields khi nút "Làm mới" được click
+                            $(document).ready(function() {
+                                $('#refreshButton').click(function() {
+                                    refreshFields();
+                                });
+                            });
+                        </script>
+
+                        <div class="row border">
+                            <div class="col-4 border-end">
+                                <!-- Add border-end class to apply border to the right -->
+                                <div style=" margin-top: 1rem; " id="list-example" class="list-group">
+                                    @foreach ($dsgrouppermission as $key => $item)
+                                        <a class="list-group-item list-group-item-action{{ $key === 0 ? ' active' : '' }}"
+                                            href="#list-item-{{ $key + 1 }}"><h6>{{ $item->displayName }}</h6></a>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div style=" margin-top: 1rem; margin-left: 2rem" data-bs-spy="scroll"
+                                    data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example"
+                                    tabindex="1">
+                                    @foreach ($dsgrouppermission as $key => $item)
+                                        <h4 id="list-item-{{ $key + 1 }}" class="group-permission-name">
+                                            {{ $item->displayName }}</h4>
+                                        @foreach ($item->permissions as $permission)
+                                            <div style="margin-bottom: 16px;">
+                                                <input type="checkbox" id="permission_{{ $permission->id }}"
+                                                    name="permissions[]" value="{{ $permission->id }}">
+                                                <label for="permission_{{ $permission->id }}"
+                                                    style="margin-left: 5px;">{{ $permission->displayName }}</label>
+                                            </div>
+                                        @endforeach
+                                    @endforeach
+
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 2rem; margin-left: 20rem">
+                            <button type="submit" id="submitButton" class="btn btn-primary">Thêm</button>
+                        </div>
+                    </form>
+
+                </div>
+
+                {{-- add or update --}}
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        // Gắn sự kiện submit cho formdataroute
+                        $('#addPermissonRoleForm').submit(function(event) {
+                            event.preventDefault(); // Ngăn chặn form submit mặc định
+
+                            // Lấy tên nhóm quyền từ input
+                            var tennhomquyen = $('#tennhomquyen').val();
+
+                            // Lấy trạng thái từ select
+                            var Status = $('#trangthai').val();
+
+                            // Khởi tạo mảng selectedActions để lưu trữ ID của các checkbox được chọn
+                            var selectedActions = [];
+
+                            // Lặp qua tất cả các checkbox được chọn
+                            $('input[name="permissions[]"]:checked').each(function() {
+                                // Lấy ID của action từ thuộc tính value của checkbox
+                                var actionId = $(this).val();
+
+                                // Thêm ID vào mảng selectedActions
+                                selectedActions.push(actionId);
+                            });
+
+                            // Chuyển đổi thành một đối tượng JSON
+                            var jsonData = JSON.stringify({
+                                "tennhomquyen": tennhomquyen,
+                                "Status": Status,
+                                "selectedActions": selectedActions,
+                                "_token": '{{ csrf_token() }}' // Thêm token CSRF vào dữ liệu gửi đi
+                            });
+
+                            // Kiểm tra xem selectedRoleID có giá trị hay không
+                            var selectedRoleID = $('#selectedRoleID').val();
+
+                            // Tạo URL từ route Laravel
+                            var url = '';
+                            if (selectedRoleID) {
+                                // Nếu selectedRoleID có giá trị, gọi route updatePermissionRole
+                                url =
+                                    '{{ route('admin.permissionRole.updatePermissionRole', ['id' => ':id']) }}'
+                                    .replace(':id', selectedRoleID);
+                            } else {
+                                // Nếu selectedRoleID trống, gọi route addPermissionRole
+                                url = '{{ route('admin.permissionRole.addPermissionRole') }}';
+                            }
+
+                            // Gửi dữ liệu JSON đến route xử lý trên máy chủ
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: jsonData,
+                                contentType: 'application/json',
+                                success: function(response) {
+                                    renderRoleList();
+                                    alert(response.message);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.log('Error:', error);
+                                }
+                            });
+                        });
+                    });
+
+                    // Lưu trạng thái của checkbox khi thay đổi
+                    $(document).on('change', '.form-check-input', function() {
+                        var id = $(this).attr('id');
+                        checkedStates[id] = this.checked;
+                    });
+                </script>
+
             </div>
+            <style>
+                .border {
+                    border: 1px solid #ccc;
+                    /* Adjust the color and style as needed */
+                }
+            </style>
         </div>
         <style>
             .groupper h4 {
@@ -407,83 +582,6 @@
                 margin-bottom: 10px;
             }
         </style>
-
-        {{-- show route --}}
-        <script>
-            var checkedStates = {};
-
-            // Lắng nghe sự kiện DOMContentLoaded để chạy mã sau khi trang đã được load
-            document.addEventListener('DOMContentLoaded', function() {
-                // Tạo một mảng chứa danh sách nhóm quyền
-                var groupPermissions = [];
-
-                // Duyệt qua từng nhóm quyền và thêm vào mảng groupPermissions
-                @foreach ($dsgrouppermission as $item)
-                    var group = {
-                        id: '{{ $item->id }}',
-                        displayName: '{{ $item->displayName }}',
-                        actions: []
-                    };
-
-                    // Lấy danh sách action của nhóm quyền hiện tại
-                    var url = `{{ route('admin.permissions.getRoutes', ['id' => ':id']) }}`.replace(':id', group.id);
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        async: false, // Đảm bảo thực hiện đồng bộ để đảm bảo danh sách nhóm quyền được xử lý theo thứ tự
-                        success: function(data) {
-                            group.actions = data;
-                        },
-                        error: function(xhr, status, error) {
-                            console.log('Error:', error);
-                        }
-                    });
-
-                    groupPermissions.push(group);
-                @endforeach
-
-                // Chia danh sách nhóm quyền thành 3 phần
-                var groupsPerColumn = Math.ceil(groupPermissions.length / 3);
-
-                // Tạo ba cột
-                var columns = [];
-                for (var i = 0; i < 3; i++) {
-                    var column = document.createElement('div');
-                    column.className = 'col-md-4';
-                    columns.push(column);
-                    document.querySelector('.groupper').appendChild(column);
-                }
-
-                // Hiển thị danh sách nhóm quyền và các action của từng nhóm trong từng cột
-                groupPermissions.forEach(function(group, index) {
-                    var columnIndex = Math.floor(index / groupsPerColumn); // Xác định cột thứ mấy
-
-                    // Tạo tiêu đề cho nhóm quyền
-                    var title = document.createElement('h4');
-                    title.textContent = group.displayName;
-                    title.className = 'text-center'; // Thêm lớp CSS để căn giữa tiêu đề
-
-                    // Tạo danh sách ul cho các action của nhóm quyền
-                    var ul = document.createElement('ul');
-                    ul.className = 'list-group';
-
-                    // Đổ danh sách action vào ul
-                    group.actions.forEach(action => {
-                        const listItem = document.createElement('li');
-                        listItem.className = 'list-group-item';
-                        listItem.innerHTML =
-                            `<input class="form-check-input me-1" type="checkbox" id="${action.id}" value="${action.name}" aria-label="..."> ${action.displayName}`;
-                        ul.appendChild(listItem);
-                    });
-
-                    // Thêm tiêu đề và danh sách action vào cột tương ứng
-                    columns[columnIndex].appendChild(title);
-                    columns[columnIndex].appendChild(ul);
-                });
-
-
-            });
-        </script>
 
         <style>
             .col-md-9 {
@@ -497,90 +595,7 @@
                 /* Bo tròn viền */
             }
         </style>
-        {{-- add permissionrole --}}
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                // Gắn sự kiện submit cho formdataroute
-                $('#formdataroute').submit(function(event) {
-                    event.preventDefault(); // Ngăn chặn form submit mặc định
 
-                    // Lấy ID của vai trò được chọn
-                    var selectedRoleID = $('#selectedRoleID').val();
-
-                    // Kiểm tra xem đã chọn vai trò hay chưa
-                    if (!selectedRoleID) {
-                        alert('Vui lòng chọn một vai trò');
-                        return; // Thoát khỏi sự kiện nếu không có vai trò được chọn
-                    }
-
-                    // Khởi tạo mảng selectedActions để lưu trữ ID của các checkbox được chọn
-                    var selectedActions = [];
-
-                    // Lặp qua tất cả các checkbox được chọn
-                    $('.form-check-input:checked').each(function() {
-                        // Lấy ID của action từ thuộc tính id của checkbox
-                        var actionId = $(this).attr('id');
-
-                        // Thêm ID vào mảng selectedActions
-                        selectedActions.push(actionId);
-                    });
-
-                    // Chuyển đổi thành một đối tượng JSON
-                    var jsonData = JSON.stringify({
-                        "selectedActions": selectedActions,
-                        "_token": '{{ csrf_token() }}' // Thêm token CSRF vào dữ liệu gửi đi
-                    });
-
-                    // Tạo URL từ route Laravel và thay thế ID của vai trò được chọn
-                    var url = '{{ route('admin.permissionRole.updatePermissionRole', ':id') }}';
-                    url = url.replace(':id', selectedRoleID);
-
-                    // Gửi dữ liệu JSON đến route xử lý trên máy chủ với ID
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        dataType: 'json',
-                        data: jsonData,
-                        contentType: 'application/json',
-                        success: function(response) {
-                            alert('Cập nhật thành công!');
-                        },
-                        error: function(xhr, status, error) {
-                            console.log('Error:', error);
-                        }
-                    });
-                });
-            });
-
-            // Lưu trạng thái của checkbox khi thay đổi
-            $(document).on('change', '.form-check-input', function() {
-                var id = $(this).attr('id');
-                checkedStates[id] = this.checked;
-            });
-        </script>
-
-
-        <input type="hidden" id="selectedRoleID" name="selectedRoleID">
-        <script>
-            $(document).ready(function() {
-                $('.nav-link-vt').click(function() {
-                    var selectedRoleID = $(this).data('vaitro');
-                    $('#selectedRoleID').val(selectedRoleID);
-                    console.log(selectedRoleID); // Kiểm tra xem đã lấy được ID của vai trò chưa
-                });
-
-                $('#formdataroute').submit(function(event) {
-                    event.preventDefault(); // Ngăn chặn form submit mặc định
-
-                    // Lấy ID của vai trò từ trường ẩn
-                    var selectedRoleID = $('#selectedRoleID').val();
-                    console.log(selectedRoleID); // Kiểm tra xem đã lấy được ID của vai trò từ trường ẩn chưa
-
-                    // Tiếp tục với xử lý submit của form
-                });
-            });
-        </script>
 
         <style>
             #selectedRoleLabel {

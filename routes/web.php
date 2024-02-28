@@ -86,6 +86,7 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
 
      $permissionRole = 'permissionRole';
      $permissionRoleController = 'App\Http\Controllers\PermissionRoleController';
+     Route::post('$permissionRole/addPermissionRole', [$permissionRoleController, 'addPermissionRole'])->name("$adminRoutePrefix.$permissionRole.addPermissionRole");
      Route::post('$permissionRole/updatePermissionRole/{id}', [$permissionRoleController, 'updatePermissionRole'])->name("$adminRoutePrefix.$permissionRole.updatePermissionRole");
      Route::get('$permissionRole/getRoutesPermissionByID/{id}', [$permissionRoleController, 'getRoutesPermissionByID'])->name("$adminRoutePrefix.$permissionRole.getRoutesPermissionByID");
 

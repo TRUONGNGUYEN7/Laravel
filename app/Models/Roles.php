@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
+use App\Models\Permissions;
 
 class Roles extends Model
 {
@@ -22,9 +23,19 @@ class Roles extends Model
         'displayName',
     ];
 
+    //Permission::class: Xác định mô hình mà quan hệ sẽ được thiết lập với, trong trường hợp này là mô hình Permission.
+    // 'role_permissions': Xác định tên của bảng trung gian mà sẽ chứa các khóa ngoại để thiết lập quan hệ giữa Role và Permission.
+    // 'role_id': Xác định tên cột trong bảng trung gian là khóa ngoại đến bảng Role.
+    // 'permission_id': Xác định tên cột trong bảng trung gian là khóa ngoại đến bảng Permission.
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permissions::class, 'permission_role', 'roleID', 'permissionID');
+    }
+
     public static function getRoles()
     {
-        return self::all(); // Trả về danh sách các vai trò
+        return self::where('name', '!=', 'admin')->get();
     }
 
     public static function getActiveRoles()
@@ -54,7 +65,7 @@ class Roles extends Model
             $Roles->name = $Rolesname;
             $Roles->status = 1;
             $Roles->save();
-            return true; // Trả về true nếu nhóm quyền được tạo thành công
+            return $Roles->id;
         }
     }
 
