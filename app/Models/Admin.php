@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class Admin extends Model
 {
@@ -15,19 +16,21 @@ class Admin extends Model
 
     public static function Authenticate($adminname, $adminpass)
     {
-        $adminpass = md5($adminpass);
-
-        return DB::table('tbladmin')
+        $admin = DB::table('tbladmin')
                     ->where('Name', $adminname)
-                    ->where('MatKhau', $adminpass)
                     ->first(); // Change this to first() if expecting a single record
+
+        if ($admin && Hash::check($adminpass, $admin->MatKhau)) {
+            return $admin;
+        }
+
+        return null;
     }
+
 
     public static function getAdmin()
     {
-        return self::select('tbladmin.*', 'roles.name as roleName')
-                    ->join('roles', 'tbladmin.roleID', '=', 'roles.id')
-                    ->get();
+        return self::all();
     }
 
     public static function getaccountByID($id)

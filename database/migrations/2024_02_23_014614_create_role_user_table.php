@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('role_user', function (Blueprint $table) {
-            $table->unsignedInteger('userID');
+        Schema::create('role_admin', function (Blueprint $table) {
+            $table->unsignedInteger('adminID');
             $table->unsignedBigInteger('roleID');
 
-            $table->foreign('userID')->references('IDUS')->on('tbluser')->onDelete('cascade');
+            $table->foreign('adminID')->references('IDAD')->on('tbladmin')->onDelete('cascade');
             $table->foreign('roleID')->references('id')->on('roles')->onDelete('cascade');
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('role_admin');
     }
 };

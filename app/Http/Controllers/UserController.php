@@ -62,15 +62,32 @@ class UserController extends Controller
     {
         return view('user.page.signup.signup');
     }
-    public function signup_action(CommentRequest $request)
+
+    public function signup_action(Request $request)
     {
-        $user =User::Signup($request);
+        // Xác thực dữ liệu đầu vào và đặt các thông báo tùy chỉnh
+        $validatedData = $request->validate([
+            'TenUS' => 'required|unique:tbluser,TenUS',
+            'MatKhauUS' => 'required',
+            'EmailUS' => 'required|email|unique:tbluser,EmailUS',
+        ], [
+            'TenUS.required' => 'Tên đăng nhập là trường bắt buộc.',
+            'TenUS.unique' => 'Tên đăng nhập đã được sử dụng, vui lòng chọn tên khác.',
+            'MatKhauUS.required' => 'Mật khẩu là trường bắt buộc.',
+            'EmailUS.required' => 'Địa chỉ email là trường bắt buộc.',
+            'EmailUS.email' => 'Địa chỉ email không hợp lệ.',
+            'EmailUS.unique' => 'Địa chỉ email đã được sử dụng, vui lòng sử dụng địa chỉ email khác.',
+        ]);
+
+        $user= User::Signup($request);
         if ($user) {
             $request->session()->flash('message', 'Đăng ký thành công');
+            return redirect()->to('/user/signin');
         } else {
-            $request->session()->flash('message', 'Có lỗi xảy ra trong quá trình đăng ký');
+            
+            return back();
         }
-        return redirect()->to('/user/signin');
+        
     }
 
     public function signin()
@@ -103,7 +120,7 @@ class UserController extends Controller
     }
 
     public function logout(){
-        session() -> flush();
+        Session::forget('admin_data');
         return back();
     }
     

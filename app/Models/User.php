@@ -22,15 +22,24 @@ class User extends Authenticatable
         'IDUS', 'TenUS', 'MatKhauUS', 'TrangThaiUS'
     ];
 
-
     public static function Signup($request)
     {
         try {
+            // Kiểm tra xem tên người dùng đã tồn tại trong cơ sở dữ liệu hay không
+            $existingUser = self::where('TenUS', $request->TenUS)->first();
+            
+            // Nếu tên người dùng đã tồn tại, trả về false
+            if ($existingUser) {
+                $request->session()->flash('message', 'Tên user đã tồn tại');
+                return false;
+            }
+            
+            // Nếu tên người dùng chưa tồn tại, tiến hành tạo mới người dùng
             $User = new self();
-            $User->TenUS = $request->name;
-            $User->MatKhauUS = Hash::make($request->password); 
-            $User-> EmailUS= $request->email;
-            $User-> TrangThaiUS = 1;
+            $User->TenUS = $request->TenUS;
+            $User->MatKhauUS = Hash::make($request->MatKhauUS); 
+            $User->EmailUS = $request->EmailUS;
+            $User->TrangThaiUS = 1;
             $User->save();
 
             return true;

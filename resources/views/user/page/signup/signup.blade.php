@@ -99,21 +99,21 @@ document.addEventListener("DOMContentLoaded", function() {
           <div style="background: rgba(35, 93, 183, 0.82);" class="w3layouts-main">
                <h2 style="color: white">Sign Up Now</h2>
 
-               <form action="{{ route('user.signup_action') }}" method="post" id="loginForm">
+               <form action="{{ route('user.signup_action') }}" method="POST" id="loginForm">
                     {{ csrf_field() }}
 
-                    <input type="text" class="ggg" name="name" placeholder="NAME" value="{{ old('name') }}">
-                    @error('name')
+                    <input type="text" class="ggg" name="TenUS" id="TenUS" placeholder="Nhập tên đăng nhập" value="{{ old('TenUS') }}">
+                    @error('TenUS')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
 
-                    <input type="password" class="ggg" name="password" placeholder="PASSWORD">
-                    @error('password')
+                    <input type="password" class="ggg" name="MatKhauUS" id="MatKhauUS" placeholder="Nhập mật khẩu">
+                    @error('MatKhauUS')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
 
-                    <input type="email" class="ggg" name="email" placeholder="EMAIL" value="{{ old('email') }}">
-                    @error('email')
+                    <input type="email" class="ggg" name="EmailUS" id="EmailUS" placeholder="Nhập địa chỉ email" value="{{ old('EmailUS') }}">
+                    @error('EmailUS')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
 

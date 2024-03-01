@@ -118,10 +118,10 @@
                 </div>
 
 
-                <!-- Modal ADĐ -->
+                <!-- Modal add -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                     aria-hidden="true">
-                    <form id="addForm" method="POST">
+                    <form id="addForm" method="POST" action="{{ route('admin.accounts.store') }}">
                         @csrf
                         @method('PUT')
                         <div class="modal-dialog" role="document">
@@ -136,23 +136,29 @@
                                     <!-- Input fields and other content go here -->
                                     <div class="mb-3">
                                         <label for="Name" class="form-label">Tên đăng nhập</label>
-                                        <input type="text" class="form-control" id="Name">
+                                        <input type="text" class="form-control" name="Name" id="Name" required>
+                                        @if ($errors->has('Name'))
+                                            <span class="help-block">{{ $errors->first('Name') }}</span>
+                                        @endif
                                     </div>
                                     <div class="mb-3">
                                         <label for="Hoten" class="form-label">Họ tên</label>
-                                        <input type="text" class="form-control" id="Hoten">
+                                        <input type="text" class="form-control" id="Hoten" required>
+                                        @if ($errors->has('Hoten'))
+                                            <span class="help-block">{{ $errors->first('Hoten') }}</span>
+                                        @endif
                                     </div>
                                     <div class="mb-3">
                                         <label for="Email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="Email">
+                                        <input type="email" class="form-control" id="Email" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="MatKhau" class="form-label">MatKhau</label>
-                                        <input type="text" class="form-control" id="MatKhau">
+                                        <input type="text" class="form-control" id="MatKhau" required>
                                     </div>
                                     <label class="control-label">Vai trò</label>
 
-                                    <select class="form-control" name="idvaitro" id="idvaitro">
+                                    <select class="form-control" name="idvaitro" id="idvaitro" required>
                                         @foreach ($dsroles as $key => $item)
                                             @if ($item->id != 1)
                                                 <option value="{{ $item->id }}"
@@ -163,27 +169,32 @@
                                         @endforeach
 
                                     </select>
-                                    @if ($errors->has('iddanhmuc'))
-                                        <span class="help-block">{{ $errors->first('iddanhmuc') }}</span>
-                                    @endif
 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
                                 </div>
                             </div>
                         </div>
                     </form>
                     {{-- ADD --}}
                     <script>
-                        document.getElementById('addForm').addEventListener('click', function() {
+                        document.getElementById('addForm').addEventListener('submit', function() {
+                            event.preventDefault();
+                            event.stopPropagation();
                             // Lấy giá trị mới của các trường input
                             var newName = document.getElementById('Name').value;
                             var newHoten = document.getElementById('Hoten').value;
                             var newEmail = document.getElementById('Email').value;
                             var newPass = document.getElementById('MatKhau').value;
                             var selectedRoleId = document.getElementById('idvaitro').value;
+
+                            // Kiểm tra dữ liệu ở phía client
+                            if (!newName || !newHoten || !newEmail || !newPass || !selectedRoleId) {
+                                alert('Vui lòng điền đầy đủ thông tin');
+                                return;
+                            }
 
                             // Gửi dữ liệu form đến route store
                             fetch('{{ route('admin.accounts.store') }}', {
@@ -202,20 +213,17 @@
                                 })
                                 .then(response => response.json())
                                 .then(data => {
-                                    // Xử lý kết quả trả về (nếu cần)
-                                    console.log(data);
-
-                                    // Đóng modal sau khi lưu thành công
-                                    $('#editModal').modal('hide');
-                                    renderRoleList();
-                                    alert('Thêm tài khoản thành công')
+                                    alert(data.message);
+                                    // Đóng modal sau khi lưu thành công         
+                                    $('#myModal').modal('hide');
+                                    location.reload();
                                 })
                                 .catch(error => console.error('Error:', error));
                         });
                     </script>
                 </div>
 
-                {{-- Script for handling Edit button click --}}
+                {{-- Hien thi popup edit --}}
                 <script>
                     $(document).ready(function() {
                         $('.btn-warning').click(function() {
@@ -245,14 +253,12 @@
                 {{-- edit model --}}
                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
                     aria-hidden="true">
+                    {{-- Hidden input to store adminId --}}
+                    <input type="text" id="adminId" value="{{ old('adminId') }}">
                     <form id="editForm" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="modal-dialog" role="document">
-
-                            {{-- Hidden input to store adminId --}}
-                            <input type="hidden" id="adminId" value="">
-
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="myModalLabel">Thêm tài khoản</h5>
@@ -300,7 +306,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" id="EditBtn">Lưu</button>
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>
                         </div>
@@ -310,7 +316,7 @@
                     <script>
                         $(document).ready(function() {
                             // Event listener for Save button click
-                            $('.btn-primary').click(function() {
+                            $('.btn-edit').click(function() {
                                 // Get the admin ID from the button's data attribute
                                 var adminId = $(this).data('id');
 
@@ -318,7 +324,8 @@
                                 $('#adminId').val(adminId);
                             });
 
-                            document.getElementById('EditBtn').addEventListener('click', function() {
+                            document.getElementById('editForm').addEventListener('submit', function() {
+                                event.preventDefault();
                                 // Get the adminId from the hidden input
                                 var adminIdget = document.getElementById('adminId').value;
 
@@ -333,7 +340,7 @@
                                 var TrangThaiAD = document.getElementById('TrangThai').checked ? 1 : 0;
 
                                 // Send form data to update route via AJAX
-                                fetch('{{ route('admin.accounts.update', ['id' => ':id']) }}'.replace(':id', 5), {
+                                fetch('{{ route('admin.accounts.update', ['id' => ':id']) }}'.replace(':id', adminIdget), {
                                         method: 'PUT',
                                         headers: {
                                             'Content-Type': 'application/json',
@@ -350,17 +357,19 @@
                                     })
                                     .then(response => response.json())
                                     .then(data => {
-                                        // Handle the response data if needed
-                                        console.log(data);
-                                        // Kiểm tra nếu cần làm mới trang
-                                        if (data.reload_page) {
-                                            location.reload(); // Làm mới trang
-                                        }
-                                        // Close the modal after successful update
-                                        $('#editModal').modal('hide');
+                                        // Kiểm tra nếu thêm tài khoản thành công
+                                        if (data.success) {
+                                            // Đóng modal sau khi thêm tài khoản thành công
+                                            alert(data.message);
+                                            $('#editModal').modal('hide');
+                                            location.reload();
 
+                                        } else {
+                                            alert(data.message);
+                                        }
                                     })
-                                    .catch(error => console.error('Error:', error));
+                                    .catch(error => console.error('Lỗi:', error));
+
                             });
                         });
                     </script>
@@ -418,7 +427,8 @@
                                                 <div class="col-md-3">
                                                     <a data-id="{{ $item->IDAD }}" data-toggle="modal"
                                                         data-target="#editModal" href="#"
-                                                        class="btn btn-warning"><i class="dw dw-edit"></i> Edit</a>
+                                                        class="btn btn-warning btn-edit"><i class="dw dw-edit"></i>
+                                                        Edit</a>
 
                                                 </div>
                                                 <div class="col-md-6">

@@ -20,18 +20,8 @@ class Roles extends Model
     protected $fillable = [
         'id',
         'name',
-        'displayName',
+        'status',
     ];
-
-    //Permission::class: Xác định mô hình mà quan hệ sẽ được thiết lập với, trong trường hợp này là mô hình Permission.
-    // 'role_permissions': Xác định tên của bảng trung gian mà sẽ chứa các khóa ngoại để thiết lập quan hệ giữa Role và Permission.
-    // 'role_id': Xác định tên cột trong bảng trung gian là khóa ngoại đến bảng Role.
-    // 'permission_id': Xác định tên cột trong bảng trung gian là khóa ngoại đến bảng Permission.
-
-    public function permissions()
-    {
-        return $this->belongsToMany(Permissions::class, 'permission_role', 'roleID', 'permissionID');
-    }
 
     public static function getRoles()
     {

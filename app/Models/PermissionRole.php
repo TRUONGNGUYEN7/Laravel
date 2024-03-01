@@ -15,16 +15,29 @@ class PermissionRole extends Model
     public $timestamps = false;
     public $incrementing = false;
 
-    public static function updatePermissionRole($roleId, $selectedActions)
+    public function permissions()
     {
-        $role = Roles::findOrFail($roleId);
+        return $this->belongsToMany(Permissions::class, 'permission_role', 'roleID', 'permissionID');
+    }
 
-        $role->permissions()->sync($selectedActions);
+    public static function updatePermissionRole($id, $selectedActions)
+    {
+        $role = PermissionRole::find($id);
+            if($role){
+                $role->permissions()->sync($selectedActions);
+            }else{
+                foreach ($selectedActions as $actionId) {
+                self::create([
+                    'roleID' => $id,
+                    'permissionID' => $actionId,
+                ]);
+            }
+        }
     }
 
     public static function addPermissionRole($resultaddrole, $selectedActions, $Status)
     {
-        self::where('roleID', $resultaddrole)->delete();
+        // self::where('roleID', $resultaddrole)->delete();
         foreach ($selectedActions as $actionId) {
             self::create([
                 'roleID' => $resultaddrole,

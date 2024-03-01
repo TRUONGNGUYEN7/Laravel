@@ -49,6 +49,17 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
+        // Thêm dữ liệu mẫu admin
+        DB::table('tbladmin')->insert([
+            'Name' => 'admin',
+            'Hoten' => 'Nguyễn Nhật Trường',
+            'Email' => 'nguyentruongtv2001@gmail.com',
+            'MatKhau' => '$2y$12$F69zIspA869u5FgIdL33KOILx9amtC65mkSh7EYdjiBEZ/Y.vq4Mm',
+            'TrangThai' => 1,
+            'roleID' => '1',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         // Tạo dữ liệu cho bảng grouppermission
         DB::table('grouppermission')->insert([

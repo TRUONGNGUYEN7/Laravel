@@ -8,14 +8,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Http\Requests\AdminLoginRequest;
+use App\Http\Requests\AdminAccountRequest;
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\Admin;
 use App\Models\Functionality;
 use App\Models\Routes;
 use App\Models\Roles;
 use App\Models\GroupPermission;
+use App\Models\RoleAdmin;
 
 class AdminController extends Controller
 {
+
+    public function error(){
+        return view('admin.pages.error');
+    }
 
     public function showhome(){
         return view('admin.pages.home');
@@ -27,19 +35,18 @@ class AdminController extends Controller
         return view('admin.taikhoan.lietke')->with('ds', $ds)->with('dsroles', $dsroles);
     }
 
-    public function store(Request $request)
+    public function store(AdminAccountRequest $request)
     {
-        // Validate dữ liệu đầu vào
-        $validatedData = $request->validate([
-            'Name' => 'required|string',
-            'Hoten' => 'required|string',
-            'MatKhau' => 'required|string',
-            'Email' => 'required|email',
-            'roleID' => 'required' // Đảm bảo role_id tồn tại trong bảng roles
-        ]);
-        $validatedData['TrangThai'] = 1;
+        $data = [
+            'Name' => $request->Name,
+            'Hoten' => $request->Hoten,
+            'MatKhau' => Hash::make($request->MatKhau),
+            'Email' => $request->Email,
+            'roleID' => $request->roleID,
+            'TrangThai' => 1 // Đặt TrangThai mặc định là 1
+        ];
         // Tạo tài khoản mới
-        $account = Admin::create($validatedData);
+        $account = Admin::create($data);
 
         // Phản hồi về thành công hoặc thất bại
         if ($account) {
@@ -69,6 +76,7 @@ class AdminController extends Controller
                 $adminData = [
                     'admin_username' => $authenticatedAdmin->Hoten,
                     'admin_id' => $authenticatedAdmin->IDAD,
+                    'admin_name' => $authenticatedAdmin->Name,
                 ];
                 
                 Session::put('admin_data', $adminData);
@@ -95,11 +103,11 @@ class AdminController extends Controller
 
         $admin = new Admin();
         $admin->updateAccount($id, $validatedData);
-
-        return response()->json([
-            'message' => 'Cập nhật thành công',
-            'reload_page' => true
-        ], 200);
+        if($admin){
+            return response()->json(['success' => true, 'message' => 'Sửa tài khoản thành công'], 200);
+        }else{
+            return response()->json(['success' => false, 'message' => 'Sửa tài khoản thất bại'], 500);
+        }
     }
 
     public function destroy($id)
@@ -115,8 +123,7 @@ class AdminController extends Controller
     }
 
     public function logout(){
-
-        session() -> flush();
+        Session::forget('admin_data');
         return redirect('/admin');
     }
 

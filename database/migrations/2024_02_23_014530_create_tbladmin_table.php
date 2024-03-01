@@ -22,17 +22,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Thêm dữ liệu mẫu
-        DB::table('tbladmin')->insert([
-            'Name' => 'admin',
-            'Hoten' => 'Nguyễn Nhật Trường',
-            'Email' => 'nguyentruongtv2001@gmail.com',
-            'MatKhau' => '202cb962ac59075b964b07152d234b70',
-            'TrangThai' => 1,
-            'roleID' => '1',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
     }
 
     /**

@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-md-3">
                 <!-- Danh sách dọc -->
-                <div style="margin-left: -50px" class="sidebar">
+                <div style="margin-left: 0px" class="sidebar">
                     <h3 style="color: #007bff">Nhóm quyền</h3>
                     <!-- Form thêm roles -->
 
@@ -415,7 +415,7 @@
 
                     <form style="margin-top: 10px; " id="addPermissonRoleForm" action="{{ route('admin.nhomquyen.store') }}"
                         method="POST">
-                        {{ csrf_field() }} <!-- CSRF protection token -->
+                        @csrf
                         <div class="input-group"
                             style="display: flex; align-items: center; margin-right: 10px; width: 600px;">
                             <label for="tennhomquyen" style="margin-right: 10px;">Tên nhóm quyền:</label>
@@ -443,6 +443,7 @@
                                 // Làm mới trường tên nhóm quyền
                                 $('#tennhomquyen').val('');
                                 // Làm mới trạng thái
+                                $('#selectedRoleID').val('');
                                 $('#trangthai').val('');
                                 $("#submitButton").text("Thêm");
                                 // Làm mới các checkbox
