@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class RoleAdmin extends Model
 {
     use HasFactory;
-    protected $table = 'role';
-    protected $primaryKey = 'roleID'; // Chỉ định trường roleID làm khóa chính
-    protected $fillable = ['roleID', 'permissionID'];
+    protected $table = 'role_admin';
+    protected $primaryKey = 'adminID'; // Chỉ định trường roleID làm khóa chính
+    protected $fillable = ['adminID','roleID'];
     public $timestamps = false;
     public $incrementing = false;
 }

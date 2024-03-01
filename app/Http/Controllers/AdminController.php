@@ -48,6 +48,18 @@ class AdminController extends Controller
         // Tạo tài khoản mới
         $account = Admin::create($data);
 
+        // Lấy ID của bản ghi vừa tạo
+        $newlyCreatedId = $account->IDAD;
+
+        // Data for RoleAdmin
+        $roleAdminData = [
+            'roleID' => $request->roleID,
+            'adminID' => $newlyCreatedId,
+        ];
+
+        // Create new entry in roleadmin table
+        RoleAdmin::create($roleAdminData);
+
         // Phản hồi về thành công hoặc thất bại
         if ($account) {
             return response()->json(['success' => true, 'message' => 'Thêm tài khoản thành công'], 200);
