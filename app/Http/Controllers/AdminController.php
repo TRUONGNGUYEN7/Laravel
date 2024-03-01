@@ -115,6 +115,16 @@ class AdminController extends Controller
 
         $admin = new Admin();
         $admin->updateAccount($id, $validatedData);
+
+        // Data for RoleAdmin
+        $roleAdminData = [
+            'roleID' => $request->roleID,
+            'adminID' => $id, // Assuming $id contains the admin ID you want to associate
+        ];
+
+        // Update role_admin khi cập nhật vai trò tài khoản
+        RoleAdmin::updateOrCreate(['adminID' => $id], $roleAdminData);
+
         if($admin){
             return response()->json(['success' => true, 'message' => 'Sửa tài khoản thành công'], 200);
         }else{
