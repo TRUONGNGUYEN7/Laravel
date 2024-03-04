@@ -58,12 +58,14 @@ class Subcategory extends Model
         self::where('IDCD', $id)->update(['TrangThaiCD' => !$value]);
     }
 
+    //mot chu de thuoc ve mot danh muc
     public function danhmuc()
     {
         return $this->belongsTo(Category::class, 'IDDM');
 
     }
 
+    //mot chude co nhieu bai viet
     public function baiviets()
     {
         return $this->hasMany(Post::class, 'ChuDeID');

@@ -94,6 +94,7 @@ class Category extends Model
         self::destroy($id);
     }
 
+    //mot danh muc co nhieu chu de
     public function chudes()
     {
         return $this->hasMany(Subcategory::class, 'DanhMucID');

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use App\Models\Permissions;
+use App\Models\Admin;
 
 class Roles extends Model
 {
@@ -16,6 +17,12 @@ class Roles extends Model
         'name',
         'status',
     ];
+
+    //mot vai tro co nhieu admin
+    public function admins()
+    {
+        return $this->hasMany(Admin::class, 'roleID', 'id');
+    }
 
     public static function getRoles()
     {

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Roles;
 
 class Admin extends Model
 {
@@ -13,6 +14,12 @@ class Admin extends Model
     protected $fillable = [
         'IDAD', 'Name', 'Hoten', 'Email', 'MatKhau', 'roleID', 'TrangThai'
     ];
+
+    //mot admin có 1 vai tro
+    public function roles()
+    {
+        return $this->belongsTo(Roles::class, 'roleID', 'id');
+    }
 
     public static function Authenticate($adminname, $adminpass)
     {

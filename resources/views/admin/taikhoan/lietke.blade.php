@@ -410,7 +410,7 @@
                                 @foreach ($ds as $key => $item)
                                     <tr style="">
                                         <td style="width: 5%;">{{ $item->Hoten }}</td>
-                                        <td style="width: 5%;">{{ $item->roleName }}</td>
+                                        <td style="width: 5%;">{{ $item->roles->name  }}</td>
                                         <td style="width: 5%;">{{ $item->Email }}</td>
                                         <td style="width: 5%;">
                                             <div style="width: 10px;">
@@ -450,21 +450,19 @@
                         </table>
 
                     </div>
-                    {{-- <footer class="panel-footer">
-               <div class="row">
-                    <div class="col-sm-5 text-center">
-                         <small class="text-muted inline m-t-sm m-b-sm">Showing
-                              {{ $ds->firstItem() }}-{{ $ds->lastItem() }} of
-                              {{ $ds->total() }} items | Page {{ $ds->currentPage() }} of
-                              {{ $ds->lastPage() }}</small>
-                    </div>
-                    <div class="col-sm-7 text-right text-center-xs">
-                         {{ $ds->links('pagination::bootstrap-4') }}
-                    </div>
-               </div>
-
-
-               </footer> --}}
+                    <footer class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-5 text-center">
+                                <small class="text-muted inline m-t-sm m-b-sm">Showing
+                                    {{ $ds->firstItem() }}-{{ $ds->lastItem() }} of
+                                    {{ $ds->total() }} items | Page {{ $ds->currentPage() }} of
+                                    {{ $ds->lastPage() }}</small>
+                            </div>
+                            <div class="col-sm-7 text-right text-center-xs">
+                                {{ $ds->links('pagination::bootstrap-4') }}
+                            </div>
+                        </div>
+                    </footer>
                 </div>
             </div>
 

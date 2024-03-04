@@ -30,7 +30,7 @@ class AdminController extends Controller
     }
 
     public function getAccounts(Request $request){
-        $ds = Admin::getAdmin();
+        $ds = Admin::paginate(5)->fragment('ds');
         $dsroles = Roles::getActiveRoles();
         return view('admin.taikhoan.lietke')->with('ds', $ds)->with('dsroles', $dsroles);
     }

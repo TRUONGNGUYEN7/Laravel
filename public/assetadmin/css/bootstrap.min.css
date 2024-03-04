@@ -24,7 +24,7 @@ body {
     display: flex;
     z-index: 3;
     height: 44px;
-    background: rgb(155, 153, 153);
+    background: rgb(210, 217, 232);
     border: 1px solid #a9a9a9;
     box-shadow: none;
     border-radius: 24px;
@@ -33,6 +33,10 @@ body {
     max-width: 359px;
     margin-bottom: 30px;
     margin-left: 37%;
+}
+/* For modern browsers */
+.searchbar input::placeholder {
+    color: #070707; /* Màu của văn bản placeholder */
 }
 
 .searchbar:hover {
@@ -110,14 +114,8 @@ body {
 
 /* Màu chữ của placeholder */
 .searchbar-input::placeholder {
-    color: #9aa0a6;
+    color: #000000;
 }
-
-
-.searchbar-clear-icon {
-    margin-right: 12px
-}
-
 
 article,
 aside,
