@@ -16,14 +16,10 @@ class Admin extends Model
 
     public static function Authenticate($adminname, $adminpass)
     {
-        $admin = DB::table('tbladmin')
-                    ->where('Name', $adminname)
-                    ->first(); // Change this to first() if expecting a single record
-
+        $admin = self::where('Name', $adminname)->first(); 
         if ($admin && Hash::check($adminpass, $admin->MatKhau)) {
             return $admin;
         }
-
         return null;
     }
 
@@ -48,10 +44,8 @@ class Admin extends Model
 
     public function updateAccount($id, $data)
     {
-        $admin = $this->findOrFail($id); // Find the account by ID
-
-        // Update account information
-        $admin->update([
+        // Update account information directly
+        $this->where('IDAD', $id)->update([
             'Name' => $data['Name'],
             'Hoten' => $data['Hoten'],
             'Email' => $data['Email'],
@@ -59,8 +53,6 @@ class Admin extends Model
             'roleID' => $data['roleID'],
             'TrangThai' => $data['TrangThai']
         ]);
-
-        return $admin;
     }
 
     public static function deleteAdminById($id)

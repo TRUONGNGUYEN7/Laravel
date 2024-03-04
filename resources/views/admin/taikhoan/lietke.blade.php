@@ -254,7 +254,7 @@
                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
                     aria-hidden="true">
                     {{-- Hidden input to store adminId --}}
-                    <input type="text" id="adminId" value="{{ old('adminId') }}">
+                    <input type="hidden" id="adminId" value="{{ old('adminId') }}">
                     <form id="editForm" method="POST">
                         @csrf
                         @method('PUT')

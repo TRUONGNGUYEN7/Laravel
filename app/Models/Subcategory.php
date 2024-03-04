@@ -19,21 +19,11 @@ class Subcategory extends Model
 
     public static function createNewSubcategory($request)
     {
-        $tenChuDe = $request->tenchude;
-        $subCategoryCheck = self::where('TenChuDe', $tenChuDe)->first();
-
-        if ($subCategoryCheck) {
-            Session::flash('message', 'Chủ đề đã tồn tại');
-        } else {
-            $subcategory = new self();
-            $subcategory->TrangThaiCD = $request->has('hienthi') ? 1 : 0;
-            $subcategory->TenChuDe = $tenChuDe;
-            $subcategory->DanhMucID = $request->iddanhmuc;
-            $subcategory->save();
-
-            Session::flash('message', 'Thêm thành công');
-            return back();
-        }
+        $subcategory = new self();
+        $subcategory->TrangThaiCD = $request->has('hienthi') ? 1 : 0;
+        $subcategory->TenChuDe = $request->tenchude;
+        $subcategory->DanhMucID = $request->iddanhmuc;
+        $subcategory->save();
     }
 
     public static function getSubmenuForCate($id)
@@ -49,28 +39,13 @@ class Subcategory extends Model
 
     public static function updateSubcategory($request, $id)
     {
-        $chuDe = self::find($id);
-        $tenChuDeMoi = $request->tenchude;
+        self::where('IDCD', $id)->update([
+            'TenChuDe' => $request->tenchude,
+            'DanhMucID' => $request->iddanhmuc,
+            'TrangThaiCD' => $request->has('hienthi') ? 1 : 0
+        ]);
 
-        if ($chuDe->TenChuDe == $tenChuDeMoi) {
-            $chuDe->TrangThaiCD = $request->has('hienthi') ? 1 : 0;
-            $chuDe->save();
-        }
-
-        $kiemTraTonTai = self::where('TenChuDe', $tenChuDeMoi)
-            ->where('IDCD', '<>', $id)
-            ->exists();
-
-        if ($kiemTraTonTai) {
-            Session::put('message', 'Tên danh mục đã tồn tại!!!');
-        } else {
-            $chuDe->TenChuDe = $tenChuDeMoi;
-            $chuDe->DanhMucID = $request->iddanhmuc;
-            $chuDe->TrangThaiCD = $request->has('hienthi') ? 1 : 0;
-            $chuDe->save();
-            Session::put('message', 'Cập nhật thành công!!!');
-            return back();
-        }
+        return back();
     }
 
     public static function deleteSubcategoryById($id)
@@ -78,17 +53,9 @@ class Subcategory extends Model
         self::destroy($id);
     }
 
-    public static function StatusSubcategoryById($id, $value)
+    public static function changeStatusSubcategory($id, $value)
     {
-        $subcategory = self::find($id);
-
-        if ($subcategory) {
-            // Toggle TrangThaiDM using a ternary operator
-            $subcategory->TrangThaiCD = ($value === 0 || $value === '0') ? 1 : 0;
-
-            // Save the changes
-            $subcategory->save();
-        }
+        self::where('IDCD', $id)->update(['TrangThaiCD' => !$value]);
     }
 
     public function danhmuc()

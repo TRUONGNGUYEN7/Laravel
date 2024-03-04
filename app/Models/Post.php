@@ -84,7 +84,7 @@ class Post extends Model
 
     public static function getPostsCate($id, $sobaiviet)
     {
-        return Post::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
+        return self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
         ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
         ->where('tbldanhmuc.IDDM', $id)
         ->orderByDesc('tblbaiviet.IDBV')
@@ -136,85 +136,61 @@ class Post extends Model
     public static function createNewPost($request)
     {
         $tenBaiViet = $request->tenbaiviet;
-        $postCheck = self::where('TenBV', $tenBaiViet)->first();
+        $post = new self();
 
-        if ($postCheck) {
-            Session::flash('message', 'Tên bài viết đã tồn tại');
-        } else {
-            $post = new self();
-
-            if ($request->hasFile('hinhanhthem')) {
-                $file = $request->file('hinhanhthem');
-                $filename = date('YmdHi') . $file->getClientOriginalName();
-                $file->move(public_path('hinhanh'), $filename);
-                $post->HinhAnh = $filename;
-            } 
-            if ($request->videolink) {
-                $post->HinhAnh = $request->videolink;
-            }
-
-            $adminData = session('admin_data');
-
-            $post->TrangThaiBV = $request->has('hienthi') ? 1 : 0;
-            $post->TenBV = $tenBaiViet;
-            $post->ChuDeID = $request->idchude;
-            $post->Mota = $request->mota;
-            $post->LuotXem = '0';
-            $post->ThoiGianBV = now();
-            $post->NoiDung = $request->noidung;
-            $post->NguoiDangBV = $adminData['admin_username'];
-            $post->save();
-
-            Session::flash('message', 'Thêm thành công');
-            return back();
+        if ($request->hasFile('hinhanhthem')) {
+            $file = $request->file('hinhanhthem');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $file->move(public_path('hinhanh'), $filename);
+            $post->HinhAnh = $filename;
+        } 
+        if ($request->videolink) {
+            $post->HinhAnh = $request->videolink;
         }
+
+        $adminData = session('admin_data');
+
+        $post->TrangThaiBV = $request->has('hienthi') ? 1 : 0;
+        $post->TenBV = $tenBaiViet;
+        $post->ChuDeID = $request->idchude;
+        $post->Mota = $request->mota;
+        $post->LuotXem = '0';
+        $post->ThoiGianBV = now();
+        $post->NoiDung = $request->noidung;
+        $post->NguoiDangBV = $adminData['admin_username'];
+        $post->save();
     }
 
     public static function updatePost($request, $id)
     {
-        $baiViet = self::find($id);
+        // Update directly at the given ID
+        self::where('IDBV', $id)->update([
+            'TenBV' => $request->tenbaiviet,
+            'ChuDeID' => $request->idchude,
+            'Mota' => $request->mota,
+            'NoiDung' => $request->noidung,
+            'ThoiGianBV' => now(),
+            'TrangThaiBv' => $request->filled('hienthi'),
+        ]);
 
-        if (!$baiViet) {
-            Session::flash('message', 'Bài viết không tồn tại!!!');
-            return back();
-        }
+        // Handle file upload
+        if ($request->hasFile('hinhanhsua')) {
+            $baiViet = self::find($id);
+            $currentImageName = $baiViet->HinhAnh;
 
-        $tenBaiVietMoi = $request->tenbaiviet;
-        $currentImageName = $request->hinhanhcurrent;
-        $kiemTraTonTai = self::where('TenBV', $tenBaiVietMoi)
-            ->where('IDBV', '<>', $id)
-            ->exists();
-        if ($kiemTraTonTai) {
-            Session::flash('message', 'Tên bài viết đã tồn tại!!!');
-        } else {
-            if ($request->hasFile('hinhanhsua')) {
-                $file = $request->file('hinhanhsua');
-                $filename = date('YmdHi') . $file->getClientOriginalName();
-                $file->move(public_path('hinhanh'), $filename);
-                $oldImagePath = public_path('hinhanh/') . $currentImageName;
-                if (File::exists($oldImagePath)) {
-                    File::delete($oldImagePath);
-                }
-                $baiViet->HinhAnh = $filename;
-            } 
-            if ($request->hasFile('hinhanhsua') == null && $request->videolink == null) {
-                $baiViet->HinhAnh = $request->has('image') ? $request->image : $currentImageName;
-            }
-            $video = $request->videolink;
-            if ($video) {
-                $baiViet->HinhAnh = $video;
+            $file = $request->file('hinhanhsua');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $file->move(public_path('hinhanh'), $filename);
+
+            // Xóa ảnh cũ nếu tồn tại
+            $oldImagePath = public_path('hinhanh/') . $currentImageName;
+            if (File::exists($oldImagePath)) {
+                File::delete($oldImagePath);
             }
 
-            $baiViet->TenBV = $tenBaiVietMoi;
-            $baiViet->ChuDeID = $request->idchude;
-            $baiViet->Mota = $request->mota;
-            $baiViet->NoiDung = $request->noidung;
-            $baiViet->ThoiGianBV = now();
-            $baiViet->TrangThaiBv = $request->has('hienthi') ? 1 : 0;
+            // Cập nhật tên file mới
+            $baiViet->HinhAnh = $filename;
             $baiViet->save();
-
-            Session::flash('message', 'Cập nhật thành công!!!');
-            return back();
         }
     }
     public static function deletePostById($id)
@@ -232,22 +208,9 @@ class Post extends Model
         }
     }
 
-    public static function StatusPostById($id, $value)
+    public static function changeStatusPost($id, $value)
     {
-        $post = self::find($id);
-
-        if ($post) {
-            if($value == 0)
-            {
-                $post->TrangThaiBV = 1;
-                $post->save();
-            }else
-            {
-                $post->TrangThaiBV = 0;
-                $post->save();
-            }
-
-        }
+        self::where('IDBV', $id)->update(['TrangThaiBV' => !$value]);
     }
 
     public function chude()

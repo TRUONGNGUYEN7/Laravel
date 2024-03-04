@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\File;
 use App\Models\Post;
 use App\Models\Subcategory;
 
-use App\Http\Requests\PostRequest;
+use App\Http\Requests\PostCreateRequest;
+use App\Http\Requests\PostUpdateRequest;
 
 class PostController extends Controller
 {
@@ -28,7 +29,7 @@ class PostController extends Controller
         return view('admin.baiviet.them', compact('dschude', 'dsdanhmuc'));
     }
 
-    public function store(PostRequest $request)
+    public function store(PostCreateRequest $request)
     {
         $request->validate($request->rules());
         Post::createNewPost($request);
@@ -37,7 +38,7 @@ class PostController extends Controller
     
     public function status($id, $value)
     {
-        Post::StatusPostById($id, $value);
+        Post::changeStatusPost($id, $value);
         return back();
     }
 
@@ -48,7 +49,7 @@ class PostController extends Controller
         return view('admin.baiviet.sua', compact('dsdanhmucsua', 'dsChude'));
     }
 
-    public function update(PostRequest $request, $id)
+    public function update(PostUpdateRequest $request, $id)
     {
         Post::updatePost($request, $id);
         return back();

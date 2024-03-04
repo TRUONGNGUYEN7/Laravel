@@ -50,13 +50,11 @@ class AdminController extends Controller
 
         // Lấy ID của bản ghi vừa tạo
         $newlyCreatedId = $account->IDAD;
-
         // Data for RoleAdmin
         $roleAdminData = [
             'roleID' => $request->roleID,
             'adminID' => $newlyCreatedId,
         ];
-
         // Create new entry in roleadmin table
         RoleAdmin::create($roleAdminData);
 
@@ -81,18 +79,15 @@ class AdminController extends Controller
 
         if ($authenticatedAdmin) {
             if ($authenticatedAdmin->TrangThai == 0) {
-                Session::put('message', 'Bạn chưa có quyền đăng nhập!!!');
+                Session::flash('message', 'Bạn chưa có quyền đăng nhập!!!');
                 return back();
             } else {
-
                 $adminData = [
                     'admin_username' => $authenticatedAdmin->Hoten,
                     'admin_id' => $authenticatedAdmin->IDAD,
                     'admin_name' => $authenticatedAdmin->Name,
                 ];
-                
                 Session::put('admin_data', $adminData);
-
                 return redirect()->to('/admin/index');
             }
         } else {
@@ -108,10 +103,9 @@ class AdminController extends Controller
             'Hoten' => 'required|string',
             'Email' => 'required|email',
             'MatKhau' => 'required|string',
-            'roleID' => 'required', // Đảm bảo role_id tồn tại trong bảng roles
+            'roleID' => 'required',
             'TrangThai' => 'required'
         ]);
-
 
         $admin = new Admin();
         $admin->updateAccount($id, $validatedData);

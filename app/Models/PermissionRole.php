@@ -37,7 +37,6 @@ class PermissionRole extends Model
 
     public static function addPermissionRole($resultaddrole, $selectedActions, $Status)
     {
-        // self::where('roleID', $resultaddrole)->delete();
         foreach ($selectedActions as $actionId) {
             self::create([
                 'roleID' => $resultaddrole,

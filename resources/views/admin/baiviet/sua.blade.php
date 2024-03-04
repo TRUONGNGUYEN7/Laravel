@@ -17,13 +17,41 @@
         </div>
     </div>
     <div class="panel-body">
-        <?php
-        $message = Session::get('message');
-        if ($message) {
-            echo '<div class="alert alert-danger" role="alert">' . $message . '</div>';
-            Session::put('message', null);
-        }
-        ?>
+<script>
+            $(document).ready(function() {
+                // Your code to fade out the alert after 1 second
+                setTimeout(function() {
+                    $('.alert').fadeOut('slow');
+                }, 1000); // hide the alerts after 1 second
+            });
+        </script>
+        <style>
+            /* Định dạng cho các alert */
+            .alert {
+                margin-bottom: 10px;
+                /* Khoảng cách giữa các alert */
+            }
+
+            /* Đặt vị trí fixed cho các alert */
+            .alert-fixed {
+                position: fixed;
+                top: 20px;
+                /* Vị trí đứng từ top */
+                left: 50%;
+                /* Canh giữa theo chiều ngang */
+                transform: translateX(-50%);
+                /* Canh giữa theo chiều ngang */
+                z-index: 9999;
+                /* Đảm bảo alert luôn nổi lên trên cùng */
+            }
+        </style>
+
+        @if (session('success'))
+            <div class="alert alert-success alert-fixed">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @foreach ($dsdanhmucsua as $key => $value)
             <form action="{{ route('admin.baiviet.update', ['id' => $value->IDBV]) }}" method="POST"
                 enctype="multipart/form-data" class="form-horizontal">

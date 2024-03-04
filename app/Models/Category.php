@@ -19,19 +19,12 @@ class Category extends Model
     public static function checkAndCreateCategory($request)
     {
         $categoryName = $request->tendanhmuc;
-
-        $categoryCheck = self::where('TenDanhMuc', $categoryName)->first();
-
-        if ($categoryCheck) {
-            Session::flash('message', 'Danh mục đã tồn tại!');
-        } else {
-            $category = new self();
-            $category->TrangThaiDM = $request->has('hienthi') ? 1 : 0;
-            $category->TenDanhMuc = $categoryName;
-            $category->save();
-            Session::flash('message', 'Thêm thành công!');
-        }
+        $category = new self();
+        $category->TrangThaiDM = $request->has('hienthi') ? 1 : 0;
+        $category->TenDanhMuc = $categoryName;
+        $category->save();
     }
+
     
     public static function getCategoryById($id) {
         return self::where('IDDM', $id)->get();
@@ -39,40 +32,13 @@ class Category extends Model
 
     public static function updateCategory($id, $request)
     {
-        $category = self::find($id);
-        $newCategoryName = $request->tendanhmuc;
-
-        if ($category->TenDanhMuc == $newCategoryName) {
-            $category->TrangThaiDM = $request->has('hienthi') ? 1 : 0;
-            $category->save();
-        } else {
-            $isNameExists = self::where('TenDanhMuc', $newCategoryName)
-                ->where('IDDM', '<>', $id)
-                ->exists();
-
-            if ($isNameExists) {
-                Session::flash('message', 'Tên danh mục đã tồn tại!!!');
-            } else {
-                $category->TenDanhMuc = $newCategoryName;
-                $category->TrangThaiDM = $request->has('hienthi') ? 1 : 0;
-                $category->save();
-                Session::flash('message', 'Cập nhật thành công!!!');
-                return back();
-            }
-        }
+        self::where('IDDM', $id)->update($request->validated());
+        return back();
     }
 
-    public static function StatusCategoryById($id, $value)
+    public static function changeStatusCategory($id, $value)
     {
-        $category = self::find($id);
-
-        if ($category) {
-            // Toggle TrangThaiDM using a ternary operator
-            $category->TrangThaiDM = ($value === 0 || $value === '0') ? 1 : 0;
-
-            // Save the changes
-            $category->save();
-        }
+        self::where('IDDM', $id)->update(['TrangThaiDM' => !$value]);
     }
 
     public static function getDanhMucData($id)

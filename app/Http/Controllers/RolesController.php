@@ -9,24 +9,13 @@ use App\Models\Functionality;
 use App\Models\Routes;
 use App\Models\Roles;
 use App\Models\GroupPermission;
+use App\Http\Requests\RolesUpdateRequest;
+use App\Http\Requests\RolesCreateRequest;
 
 class RolesController extends Controller
 {
-    // public function index()
-    // {
-    //     $dschucnang = Functionality::getActiveFunction();
-    //     $dsvaitro = Roles::getRoles();
-    //     return view('admin.nhomquyen.them')->with('dschucnang', $dschucnang)->with('dsvaitro', $dsvaitro);
-    // }
-    //     // nhomquyen
-    public function index()
-    {
-        $dsgrouppermission = GroupPermission::getActiveGroupPermission();
-        $dsvaitro = Roles::getRoles();
-        return view('admin.nhomquyen.them')->with('dsgrouppermission', $dsgrouppermission)->with('dsvaitro', $dsvaitro);
-    }
-    
-    public function store(Request $request)
+
+    public function store(RolesCreateRequest $request)
     {
         $result = Roles::checkAndCreateRoles($request);
 
@@ -36,24 +25,16 @@ class RolesController extends Controller
             return response()->json(['success' => false, 'message' => 'Danh mục đã tồn tại']);
         }
     }
-
-
-    public function update(Request $request, $id)
+    public function update(RolesUpdateRequest $request, $id)
     {
-        // Validate dữ liệu nếu cần
-        $request->validate([
-            'tennhomquyensua' => 'required|string|max:255', // Ví dụ: Yêu cầu tên mới là một chuỗi có độ dài tối đa 255 ký tự
-        ]);
-
-        // Lấy tên mới của vai trò từ request
-        $newName = $request->tennhomquyensua;
-
-        // Gọi phương thức updateRoleName từ model Role để cập nhật tên của vai trò
-        Roles::updateRoleName($id, $newName);
-
-        // Phản hồi về thành công hoặc bất kỳ thông báo nào khác nếu cần
-        return response()->json(['success' => true, 'message' => 'Cập nhật tên vai trò thành công']);
-        
+        // Kiểm tra xem request đã được validate chưa
+        if ($request->validated()) {
+            // Gọi phương thức updateRoles từ model để cập nhật vai trò
+            Roles::updateRoles($request, $id);
+            
+            // Trả về response JSON thông báo thành công
+            return response()->json(['message' => 'Cập nhật thành công']);
+        }
     }
 
     public function get(Request $request)

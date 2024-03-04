@@ -61,19 +61,17 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
           Route::get("$accounts/getaccountByID/{id}", [$adminController, 'getaccountByID'])->name("$adminRoutePrefix.$accounts.getaccountByID");
      });
 
-     $nhomquyenRoute = 'nhomquyen';
-     $nhomquyenController = 'App\Http\Controllers\RolesController';
-     Route::group(['middleware' => 'checkadminpermission'], function () use ($nhomquyenRoute, $nhomquyenController, $adminRoutePrefix) {
-          Route::get("$nhomquyenRoute", [$nhomquyenController, 'index'])->name("$adminRoutePrefix.$nhomquyenRoute.index");
-          Route::post("$nhomquyenRoute", [$nhomquyenController, 'store'])->name("$adminRoutePrefix.$nhomquyenRoute.store");
-          Route::get("$nhomquyenRoute/{id}/edit", [$nhomquyenController, 'edit'])->name("$adminRoutePrefix.$nhomquyenRoute.sua");
-          Route::put("$nhomquyenRoute/update/{id}", [$nhomquyenController, 'update'])->name("$adminRoutePrefix.$nhomquyenRoute.update");
-          Route::post("$nhomquyenRoute/{id}", [$nhomquyenController, 'destroy'])->name("$adminRoutePrefix.$nhomquyenRoute.xoa");
-          Route::get("$nhomquyenRoute/status/{id}/{value}", [$nhomquyenController, 'status'])->name("$adminRoutePrefix.$nhomquyenRoute.status");
-          Route::post("$nhomquyenRoute/updateDataroute/{id}", [$nhomquyenController, 'updateDataroute'])->name("$adminRoutePrefix.$nhomquyenRoute.update-dataroute");
-          Route::get("$nhomquyenRoute/get", [$nhomquyenController, 'get'])->name("$adminRoutePrefix.$nhomquyenRoute.get");
+     $vaitroRoute = 'vaitro';
+     $vaitroController = 'App\Http\Controllers\RolesController';
+     Route::group(['middleware' => 'checkadminpermission'], function () use ($vaitroRoute, $vaitroController, $adminRoutePrefix) {
+          Route::post("$vaitroRoute", [$vaitroController, 'store'])->name("$adminRoutePrefix.$vaitroRoute.store");
+          Route::get("$vaitroRoute/{id}/edit", [$vaitroController, 'edit'])->name("$adminRoutePrefix.$vaitroRoute.sua");
+          Route::put("$vaitroRoute/update/{id}", [$vaitroController, 'update'])->name("$adminRoutePrefix.$vaitroRoute.update");
+          Route::post("$vaitroRoute/{id}", [$vaitroController, 'destroy'])->name("$adminRoutePrefix.$vaitroRoute.xoa");
+          Route::get("$vaitroRoute/status/{id}/{value}", [$vaitroController, 'status'])->name("$adminRoutePrefix.$vaitroRoute.status");
+          Route::post("$vaitroRoute/updateDataroute/{id}", [$vaitroController, 'updateDataroute'])->name("$adminRoutePrefix.$vaitroRoute.update-dataroute");
+          Route::get("$vaitroRoute/get", [$vaitroController, 'get'])->name("$adminRoutePrefix.$vaitroRoute.get");
      });
-
 
      $permissions = 'permissions';
      $permissionsController = 'App\Http\Controllers\PermissionsController';
@@ -81,6 +79,7 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
 
      $permissionRole = 'permissionRole';
      $permissionRoleController = 'App\Http\Controllers\PermissionRoleController';
+     Route::get('$permissionRole', [$permissionRoleController, 'index'])->name("$adminRoutePrefix.$permissionRole.index");
      Route::post('$permissionRole/addPermissionRole', [$permissionRoleController, 'addPermissionRole'])->name("$adminRoutePrefix.$permissionRole.addPermissionRole");
      Route::post('$permissionRole/updatePermissionRole/{id}', [$permissionRoleController, 'updatePermissionRole'])->name("$adminRoutePrefix.$permissionRole.updatePermissionRole");
      Route::get('$permissionRole/getRoutesPermissionByID/{id}', [$permissionRoleController, 'getRoutesPermissionByID'])->name("$adminRoutePrefix.$permissionRole.getRoutesPermissionByID");

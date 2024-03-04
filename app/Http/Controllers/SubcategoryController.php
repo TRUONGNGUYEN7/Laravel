@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 
 use App\Models\Subcategory;
 use App\Models\Category;
-use App\Http\Requests\SubcategoryRequest;
+
+use App\Http\Requests\SubcategoryCreateRequest;
+use App\Http\Requests\SubcategoryUpdateRequest;
 
 class SubcategoryController extends Controller
 {
@@ -25,7 +27,7 @@ class SubcategoryController extends Controller
         return view('admin.chude.them')->with('dsdanhmuc', $dsdanhmuc);
     }
 
-    public function store(SubcategoryRequest $request)
+    public function store(SubcategoryCreateRequest $request)
     {
         Subcategory::createNewSubcategory($request);
         return back();
@@ -33,13 +35,11 @@ class SubcategoryController extends Controller
 
     public function status($id, $value)
     {
-        Subcategory::StatusSubcategoryById($id, $value);
+        Subcategory::changeStatusSubcategory($id, $value);
         return back();
     }
 
-    //suadm
-    //POST
-    public function update(SubcategoryRequest $request, $id){
+    public function update(SubcategoryUpdateRequest $request, $id){
         Subcategory::updateSubcategory($request, $id);
         return back();
     }

@@ -96,7 +96,7 @@
                             roleListElement.innerHTML = '';
 
                             // Gửi yêu cầu Ajax để lấy danh sách vai trò từ server
-                            fetch('{{ route('admin.nhomquyen.get') }}')
+                            fetch('{{ route('admin.vaitro.get') }}')
                                 .then(response => response.json())
                                 .then(data => {
                                     // Duyệt qua từng vai trò và thêm vào danh sách
@@ -201,7 +201,7 @@
                                         editButton.addEventListener('click', function() {
                                             let roleName = editButton.getAttribute('data-name');
                                             // Gán tên vai trò vào input trong form sửa
-                                            document.getElementById('tennhomquyensua').value = roleName;
+                                            document.getElementById('tenvaitro').value = roleName;
                                             // Hiển thị modal sửa
                                             let roleId = selectButton.getAttribute('data-id');
                                             document.getElementById('selectedRoleID').value = roleId;
@@ -221,7 +221,7 @@
                             var formData = new FormData(this);
 
                             // Gửi yêu cầu AJAX
-                            fetch('{{ route('admin.nhomquyen.store') }}', {
+                            fetch('{{ route('admin.vaitro.store') }}', {
                                     method: 'POST',
                                     headers: {
                                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -253,7 +253,7 @@
                             var confirmDelete = confirm("Bạn chắc chắn muốn xóa vai trò này?");
                             if (confirmDelete) {
                                 // Nếu người dùng xác nhận muốn xóa
-                                fetch('{{ route('admin.nhomquyen.xoa', ['id' => ':id']) }}'.replace(':id', roleId), {
+                                fetch('{{ route('admin.vaitro.xoa', ['id' => ':id']) }}'.replace(':id', roleId), {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',
@@ -286,9 +286,6 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Chỉnh sửa</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
                                 </div>
                                 <form id="editForm" method="POST">
                                     @csrf
@@ -296,44 +293,67 @@
                                     <div class="modal-body">
                                         <!-- Thêm input tennhomquyen -->
                                         <div class="form-group">
-                                            <label for="tennhomquyen">Tên vai trò</label>
-                                            <input type="text" value="" class="form-control" id="tennhomquyensua"
-                                                name="tennhomquyensua">
+                                            <label for="tenvaitro">Tên vai trò</label>
+                                            <input type="text" value="" class="form-control" id="tenvaitro"
+                                                name="tenvaitro">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                        <button type="button" class="btn btn-secondary" id="closeModal">Đóng</button>
                                         <button type="button" class="btn btn-primary" id="EditBtn">Lưu</button>
                                     </div>
                                 </form>
+
+                                <script>
+                                    // Đóng modal khi nhấn vào nút có id là 'closeModal'
+                                    document.getElementById('closeModal').addEventListener('click', function() {
+                                        $('#editModal').modal('hide');
+                                    });
+                                </script>
+
+                                {{-- Edit vai trò --}}
                                 <script>
                                     document.getElementById('EditBtn').addEventListener('click', function() {
                                         // Lấy giá trị mới của input
-                                        var newName = document.getElementById('tennhomquyensua').value;
+                                        var newName = document.getElementById('tenvaitro').value;
                                         // Lấy ID của vai trò từ input ẩn
                                         var roleId = document.getElementById('selectedRoleID').value;
                                         // Gửi dữ liệu form đến route update
-                                        fetch('{{ route('admin.nhomquyen.update', ['id' => ':id']) }}'.replace(':id', roleId), {
-                                                method: 'PUT',
-                                                headers: {
-                                                    'Content-Type': 'application/json',
-                                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                                },
-                                                body: JSON.stringify({
-                                                    tennhomquyensua: newName
-                                                })
-                                            })
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                // Xử lý kết quả trả về (nếu cần)
-                                                console.log(data);
+                                        var url = '{{ route('admin.vaitro.update', ['id' => ':id']) }}'.replace(':id', roleId);
 
+                                        // Dữ liệu JSON chứa tên mới của vai trò
+                                        var jsonData = JSON.stringify({
+                                            tenvaitro: newName
+                                        });
+
+                                        $.ajax({
+                                            url: url,
+                                            type: 'PUT', // Sử dụng phương thức PUT
+                                            dataType: 'json',
+                                            data: jsonData,
+                                            headers: {
+                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                            },
+                                            contentType: 'application/json',
+                                            success: function(response) {
                                                 // Đóng modal sau khi lưu thành công
                                                 $('#editModal').modal('hide');
                                                 renderRoleList();
-                                                alert('Cập nhật thành công')
-                                            })
-                                            .catch(error => console.error('Error:', error));
+                                                alert(response.message);
+                                            },
+                                            error: function(xhr, status, error) {
+                                                // Lấy thông báo lỗi từ phản hồi JSON
+                                                var errors = xhr.responseJSON.errors;
+
+                                                // Hiển thị thông báo lỗi
+                                                var errorMessage = "";
+                                                $.each(errors, function(key, value) {
+                                                    errorMessage += value + "\n";
+                                                });
+                                                alert(errorMessage);
+                                                console.log('Error:', error);
+                                            }
+                                        });
                                     });
                                 </script>
                             </div>
@@ -413,7 +433,7 @@
                         }
                     </style>
 
-                    <form style="margin-top: 10px; " id="addPermissonRoleForm" action="{{ route('admin.nhomquyen.store') }}"
+                    <form style="margin-top: 10px; " id="addPermissonRoleForm" action="{{ route('admin.vaitro.store') }}"
                         method="POST">
                         @csrf
                         <div class="input-group"
@@ -421,6 +441,9 @@
                             <label for="tennhomquyen" style="margin-right: 10px;">Tên nhóm quyền:</label>
                             <input type="text" name="tennhomquyen" id="tennhomquyen" placeholder="Nhập tên nhóm quyền"
                                 class="form-control" required style="flex: 1;">
+                            @if ($errors->has('tennhomquyen'))
+                                <span class="help-block">{{ $errors->first('tennhomquyen') }}</span>
+                            @endif
 
                             <select name="trangthai" id="trangthai" class="form-select" style="margin-left: 10px;" required>
                                 <option value="">Chọn trạng thái</option>
@@ -463,7 +486,9 @@
                                 <div style=" margin-top: 1rem; " id="list-example" class="list-group">
                                     @foreach ($dsgrouppermission as $key => $item)
                                         <a class="list-group-item list-group-item-action{{ $key === 0 ? ' active' : '' }}"
-                                            href="#list-item-{{ $key + 1 }}"><h6>{{ $item->displayName }}</h6></a>
+                                            href="#list-item-{{ $key + 1 }}">
+                                            <h6>{{ $item->displayName }}</h6>
+                                        </a>
                                     @endforeach
                                 </div>
                             </div>
@@ -552,9 +577,21 @@
                                 contentType: 'application/json',
                                 success: function(response) {
                                     renderRoleList();
+                                    $('#tennhomquyen').val('');
+                                    $('#trangthai').val('');
                                     alert(response.message);
+
                                 },
                                 error: function(xhr, status, error) {
+                                    // Lấy thông báo lỗi từ phản hồi JSON
+                                    var errors = xhr.responseJSON.errors;
+
+                                    // Hiển thị thông báo lỗi
+                                    var errorMessage = "";
+                                    $.each(errors, function(key, value) {
+                                        errorMessage += value + "\n";
+                                    });
+                                    alert(errorMessage);
                                     console.log('Error:', error);
                                 }
                             });

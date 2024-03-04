@@ -23,14 +23,44 @@
                 setTimeout(function() {
                     $('.alert').fadeOut('slow');
                 }, 1000); // hide the alerts after 1 second
-
-                // Display an alert message
-                var message = "<?php echo Session::get('message'); ?>";
-                if (message) {
-                    alert(message);
-                }
             });
         </script>
+        <style>
+            /* Định dạng cho các alert */
+            .alert {
+                margin-bottom: 10px;
+                /* Khoảng cách giữa các alert */
+            }
+
+            /* Đặt vị trí fixed cho các alert */
+            .alert-fixed {
+                position: fixed;
+                top: 20px;
+                /* Vị trí đứng từ top */
+                left: 50%;
+                /* Canh giữa theo chiều ngang */
+                transform: translateX(-50%);
+                /* Canh giữa theo chiều ngang */
+                z-index: 9999;
+                /* Đảm bảo alert luôn nổi lên trên cùng */
+            }
+        </style>
+
+        @if (session('success'))
+            <div class="alert alert-success alert-fixed">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- @if ($errors->any())
+            <div class="alert alert-danger alert-fixed">
+                @foreach ($errors->all() as $error)
+                    {{ $error }}<br>
+                @endforeach
+            </div>
+        @endif --}}
+
+
         <form action="{{ route('admin.danhmuc.store') }}" method="POST" class="form-horizontal ">
             {{ csrf_field() }}
             <div class="form-group has-success {{ $errors->has('tendanhmuc') ? 'has-error' : '' }}">

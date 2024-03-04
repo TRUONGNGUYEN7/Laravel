@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Category;
-use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CategoryCreateRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 
 class CategoryController extends Controller
 {
@@ -24,19 +25,19 @@ class CategoryController extends Controller
         return view('admin.danhmuc.them');
     }
 
-    public function store(CategoryRequest $request)
+    public function store(CategoryCreateRequest $request)
     {
-        Category::checkAndCreateCategory($request);
+        Category::checkAndCreateCategory($request); 
         return back();
     }
     
     public function status($id, $value)
     {
-        Category::StatusCategoryById($id, $value);
+        Category::changeStatusCategory($id, $value);
         return response()->json(['status' => $value]);
     }
 
-    public function update(CategoryRequest $request, $id){
+    public function update(CategoryUpdateRequest $request, $id){
         Category::updateCategory($id, $request);
         return back();
     }
