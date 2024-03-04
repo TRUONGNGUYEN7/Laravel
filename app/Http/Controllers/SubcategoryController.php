@@ -33,10 +33,10 @@ class SubcategoryController extends Controller
         return back();
     }
 
-    public function status($id, $value)
+    public function status($id)
     {
-        Subcategory::changeStatusSubcategory($id, $value);
-        return back();
+        $value = Subcategory::changeStatusSubcategory($id);
+        return response()->json(['status' => $value]);
     }
 
     public function update(SubcategoryUpdateRequest $request, $id){

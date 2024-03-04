@@ -208,10 +208,14 @@ class Post extends Model
         }
     }
 
-    public static function changeStatusPost($id, $value)
+    public static function changeStatusPost($id)
     {
-        self::where('IDBV', $id)->update(['TrangThaiBV' => !$value]);
+        $admin = self::findOrFail($id);
+        $oldTrangThai = $admin->TrangThaiBV;
+        $admin->update(['TrangThaiBV' => !$oldTrangThai]);
+        return $oldTrangThai;
     }
+
 
     public function chude()
     {

@@ -53,9 +53,12 @@ class Subcategory extends Model
         self::destroy($id);
     }
 
-    public static function changeStatusSubcategory($id, $value)
+    public static function changeStatusSubcategory($id)
     {
-        self::where('IDCD', $id)->update(['TrangThaiCD' => !$value]);
+        $Subcate = self::findOrFail($id);
+        $oldTrangThai = $Subcate->TrangThaiCD;
+        $Subcate->update(['TrangThaiCD' => !$oldTrangThai]);
+        return $oldTrangThai;
     }
 
     //mot chu de thuoc ve mot danh muc

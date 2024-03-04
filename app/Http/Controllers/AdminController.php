@@ -126,6 +126,12 @@ class AdminController extends Controller
         }
     }
 
+    public function status($id)
+    {
+        $value = Admin::changeStatusAdmin($id);
+        return response()->json(['status' => $value]);
+    }
+
     public function destroy($id)
     {
         Admin::deleteAdminById($id);

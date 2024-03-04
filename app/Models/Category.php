@@ -36,9 +36,12 @@ class Category extends Model
         return back();
     }
 
-    public static function changeStatusCategory($id, $value)
+    public static function changeStatusCategory($id)
     {
-        self::where('IDDM', $id)->update(['TrangThaiDM' => !$value]);
+        $cate = self::findOrFail($id);
+        $oldTrangThai = $cate->TrangThaiDM;
+        $cate->update(['TrangThaiDM' => !$oldTrangThai]);
+        return $oldTrangThai;
     }
 
     public static function getDanhMucData($id)

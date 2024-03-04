@@ -62,6 +62,14 @@ class Admin extends Model
         ]);
     }
 
+    public static function changeStatusAdmin($id)
+    {
+        $admin = Admin::findOrFail($id);
+        $oldTrangThai = $admin->TrangThai;
+        $admin->update(['TrangThai' => !$oldTrangThai]);
+        return $oldTrangThai;
+    }
+
     public static function deleteAdminById($id)
     {
         self::destroy($id);

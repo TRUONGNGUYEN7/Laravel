@@ -31,9 +31,9 @@ class CategoryController extends Controller
         return back();
     }
     
-    public function status($id, $value)
+    public function status($id)
     {
-        Category::changeStatusCategory($id, $value);
+        $value = Category::changeStatusCategory($id);
         return response()->json(['status' => $value]);
     }
 

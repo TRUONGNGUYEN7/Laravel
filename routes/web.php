@@ -54,10 +54,9 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
           Route::get("$accounts/get", [$adminController, 'getAccounts'])->name("$adminRoutePrefix.$accounts.get");
           Route::post("$accounts/store", [$adminController, 'store'])->name("$adminRoutePrefix.$accounts.store");
           Route::get("$accounts/{id}/edit", [$adminController, 'edit'])->name("$adminRoutePrefix.$accounts.sua");
-          
           Route::put("$accounts/update/{id}", [$adminController, 'update'])->name("$adminRoutePrefix.$accounts.update");
           Route::post("$accounts/xoa/{id}", [$adminController, 'destroy'])->name("$adminRoutePrefix.$accounts.xoa");
-          Route::get("$accounts/status/{id}/{value}", [$adminController, 'status'])->name("$adminRoutePrefix.$accounts.status");
+          Route::get("$accounts/status/{id}", [$adminController, 'status'])->name("$adminRoutePrefix.$accounts.status");
           Route::get("$accounts/getaccountByID/{id}", [$adminController, 'getaccountByID'])->name("$adminRoutePrefix.$accounts.getaccountByID");
      });
 
@@ -68,7 +67,7 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
           Route::get("$vaitroRoute/{id}/edit", [$vaitroController, 'edit'])->name("$adminRoutePrefix.$vaitroRoute.sua");
           Route::put("$vaitroRoute/update/{id}", [$vaitroController, 'update'])->name("$adminRoutePrefix.$vaitroRoute.update");
           Route::post("$vaitroRoute/{id}", [$vaitroController, 'destroy'])->name("$adminRoutePrefix.$vaitroRoute.xoa");
-          Route::get("$vaitroRoute/status/{id}/{value}", [$vaitroController, 'status'])->name("$adminRoutePrefix.$vaitroRoute.status");
+          Route::get("$vaitroRoute/status/{id}", [$vaitroController, 'status'])->name("$adminRoutePrefix.$vaitroRoute.status");
           Route::post("$vaitroRoute/updateDataroute/{id}", [$vaitroController, 'updateDataroute'])->name("$adminRoutePrefix.$vaitroRoute.update-dataroute");
           Route::get("$vaitroRoute/get", [$vaitroController, 'get'])->name("$adminRoutePrefix.$vaitroRoute.get");
      });
@@ -93,7 +92,7 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
           Route::get("$danhmucRoute/{id}/edit", [$categoryController, 'edit'])->name("$adminRoutePrefix.$danhmucRoute.sua");
           Route::put("$danhmucRoute/{id}", [$categoryController, 'update'])->name("$adminRoutePrefix.$danhmucRoute.update");
           Route::post("$danhmucRoute/{id}", [$categoryController, 'destroy'])->name("$adminRoutePrefix.$danhmucRoute.xoa");
-          Route::get("$danhmucRoute/status/{id}/{value}", [$categoryController, 'status'])->name("$adminRoutePrefix.$danhmucRoute.status");
+          Route::get("$danhmucRoute/status/{id}", [$categoryController, 'status'])->name("$adminRoutePrefix.$danhmucRoute.status");
      });
 
      $chudeRoute = 'chude';
@@ -105,7 +104,7 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
           Route::get("$chudeRoute/{id}/edit", [$subcategoryController, 'edit'])->name("$adminRoutePrefix.$chudeRoute.sua");
           Route::put("$chudeRoute/{id}", [$subcategoryController, 'update'])->name("$adminRoutePrefix.$chudeRoute.update");
           Route::post("$chudeRoute/{id}", [$subcategoryController, 'destroy'])->name("$adminRoutePrefix.$chudeRoute.xoa");
-          Route::get("$chudeRoute/status/{id}/{value}", [$subcategoryController, 'status'])->name("$adminRoutePrefix.$chudeRoute.status");
+          Route::get("$chudeRoute/status/{id}", [$subcategoryController, 'status'])->name("$adminRoutePrefix.$chudeRoute.status");
      });
 
      $baivietRoute = 'baiviet';
@@ -117,7 +116,7 @@ Route::group(['prefix' => "$adminRoutePrefix", 'middleware' => 'checkadminlogin'
           Route::put("$baivietRoute/{id}", [$postController, 'update'])->name("$adminRoutePrefix.$baivietRoute.update");
           Route::get("$baivietRoute/{id}/edit", [$postController, 'edit'])->name("$adminRoutePrefix.$baivietRoute.sua");
           Route::post("$baivietRoute/{id}", [$postController, 'destroy'])->name("$adminRoutePrefix.$baivietRoute.xoa");
-          Route::get("$baivietRoute/status/{id}/{value}", [$postController, 'status'])->name("$adminRoutePrefix.$baivietRoute.status");
+          Route::get("$baivietRoute/status/{id}", [$postController, 'status'])->name("$adminRoutePrefix.$baivietRoute.status");
      });
 
 });

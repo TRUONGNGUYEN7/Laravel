@@ -78,12 +78,10 @@
                             var id = link.data('id');
 
                             // Determine the current status based on the existing class
-                            var currentStatus = link.hasClass('show-link') ? 1 : 0;
+                            var currentStatus = link.hasClass('show-link') ? 0 : 1;
 
-                            var url = `{{ route('admin.danhmuc.status', ['id' => ':id', 'value' => ':value']) }}`
+                            var url = `{{ route('admin.accounts.status', ['id' => ':id']) }}`
                                 .replace(':id', id)
-                                .replace(':value', currentStatus);
-
                             $.ajax({
                                 url: url,
                                 type: 'GET',

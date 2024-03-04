@@ -36,10 +36,10 @@ class PostController extends Controller
         return back();
     }
     
-    public function status($id, $value)
+    public function status($id)
     {
-        Post::changeStatusPost($id, $value);
-        return back();
+        $value=Post::changeStatusPost($id);
+        return response()->json(['status' => $value]);
     }
 
     public function edit($id) {
