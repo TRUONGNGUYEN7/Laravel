@@ -5,8 +5,7 @@
     padding: 0;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    background-color: #a86565;
+    box-sizing: border-box
 }
 
 body,
@@ -14,8 +13,7 @@ html {
     font-family: Arial, sans-serif;
     font-size: 15px;
     color: #666;
-    height: 100%;
-    background-color: #000000;
+    background-color: #fafafa;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box
@@ -28,6 +26,7 @@ a:focus {
 a:hover {
     text-decoration: none
 }
+
 
 h1,
 h2,

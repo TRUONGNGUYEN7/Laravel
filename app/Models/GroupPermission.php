@@ -17,7 +17,7 @@ class GroupPermission extends Model
     ];
 
     public static function getActiveGroupPermission() {
-        return self::where('status', 1)->get();
+        return self::where('status', 'active')->get();
     }
 
 

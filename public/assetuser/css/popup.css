@@ -1,0 +1,189 @@
+#login-form-wrap {
+     display: none;
+     position: fixed;
+     top: 20%;
+     left: 40%;
+     width: 70%;
+     max-width: 505px;
+     height: auto;
+     /* Duy trì vị trí trung tâm */
+     background-color: #fff;
+     text-align: center;
+     transform: translate(-30%, 0%);
+     z-index: 1000;
+     padding: 20px 0 0 0;
+     border-radius: 4px;
+     box-shadow: 2px 14px 30px 20px rgba(0, 0, 0, 0.2);
+}
+
+#signup-form-wrap {
+     display: none;
+     position: fixed;
+     top: 20%;
+     left: 40%;
+     width: 70%;
+     max-width: 505px;
+     height: auto;
+     /* Duy trì vị trí trung tâm */
+     background-color: #fff;
+     text-align: center;
+     transform: translate(-30%, 0%);
+     z-index: 1000;
+     padding: 20px 0 0 0;
+     border-radius: 4px;
+     box-shadow: 2px 14px 30px 20px rgba(0, 0, 0, 0.2);
+}
+
+#signup-form {
+     padding: 0 20px;
+     /* Điều chỉnh theo nhu cầu */
+     margin-top: 60px;
+}
+.modal-header {
+    display: flex;
+    align-items: center;
+}
+
+.modal-title {
+    flex-grow: 1; /* Allow the title to grow to fill remaining space */
+    margin: 0; /* Reset margin to remove any unwanted spacing */
+    font-size: 20px;
+}
+
+.close-button {
+    margin-left: 10px; /* Add margin between the title and the close button */
+}
+
+.close-button {
+     background-color: transparent;
+     border: none;
+     color: #333;
+     font-size: 28px;
+     cursor: pointer;
+     z-index: 999;
+}
+
+.close-button:hover {
+     color: #e81818;
+}
+
+#login-form {
+     padding: 0 20px;
+     /* Điều chỉnh theo nhu cầu */
+     margin-top: 60px;
+}
+
+input {
+     display: block;
+     box-sizing: border-box;
+     width: 100%;
+     outline: none;
+     height: 40px;
+     /* Điều chỉnh chiều cao của input */
+     line-height: 40px;
+     border-radius: 4px;
+     margin-bottom: 25px;
+}
+
+
+input[type="text"],
+input[type="email"] {
+     width: 100%;
+     padding: 0 0 0 10px;
+     margin: 0;
+     color: #8a8b8e;
+     border: 1px solid #c2c0ca;
+     font-style: normal;
+     font-size: 16px;
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance: none;
+     position: relative;
+     display: inline-block;
+     background: none;
+     margin-bottom: 40px;
+     font-size: 15px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+     border-color: #3ca9e2;
+}
+
+input[type="text"]:focus:invalid,
+input[type="email"]:focus:invalid {
+     color: #cc1e2b;
+     border-color: #cc1e2b;
+}
+
+input[type="text"]:valid~.validation,
+input[type="email"]:valid~.validation {
+     display: block;
+     border-color: #0C0;
+}
+
+input[type="text"]:valid~.validation span,
+input[type="email"]:valid~.validation span {
+     background: #0C0;
+     position: absolute;
+     border-radius: 6px;
+}
+
+input[type="text"]:valid~.validation span:first-child,
+input[type="email"]:valid~.validation span:first-child {
+     top: 30px;
+     left: 14px;
+     width: 20px;
+     height: 3px;
+     -webkit-transform: rotate(-45deg);
+     transform: rotate(-45deg);
+}
+
+input[type="text"]:valid~.validation span:last-child,
+input[type="email"]:valid~.validation span:last-child {
+     top: 35px;
+     left: 8px;
+     width: 11px;
+     height: 3px;
+     -webkit-transform: rotate(45deg);
+     transform: rotate(45deg);
+}
+
+.validation {
+     display: none;
+     position: absolute;
+     content: " ";
+     height: 60px;
+     width: 30px;
+     right: 15px;
+     top: 0px;
+}
+
+input[type="submit"] {
+     border: none;
+     display: block;
+     background-color: #3ca9e2;
+     color: #fff;
+     font-weight: bold;
+     text-transform: uppercase;
+     cursor: pointer;
+     -webkit-transition: all 0.2s ease;
+     transition: all 0.2s ease;
+     font-size: 18px;
+     position: relative;
+     display: inline-block;
+     cursor: pointer;
+     text-align: center;
+}
+
+
+#dim-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    z-index: 999; /* Ensure the overlay appears above other content */
+}

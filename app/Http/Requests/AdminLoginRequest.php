@@ -22,18 +22,18 @@ class AdminLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'adminname' => ['required', 'regex:/^[a-zA-Z0-9]+$/i', 'min:5'],
-            'adminpass' => ['required', 'min:3'],
+            'name' => ['required', 'regex:/^[a-zA-Z0-9]+$/i', 'min:5'],
+            'password' => ['required', 'min:3'],
         ];
     }
     public function messages()
     {
         return [
-            'adminname.required' => 'Tên quản trị viên là bắt buộc.',
-            'adminname.regex' => 'Tên quản trị viên không được chứa ký tự đặc biệt.',
-            'adminname.min' => 'Tên quản trị viên phải có ít nhất 5 ký tự.',
-            'adminpass.required' => 'Mật khẩu là bắt buộc.',
-            'adminpass.min' => 'Mật khẩu phải có ít nhất 3 ký tự.',
+            'name.required' => 'Tên quản trị viên là bắt buộc.',
+            'name.regex' => 'Tên quản trị viên không được chứa ký tự đặc biệt.',
+            'name.min' => 'Tên quản trị viên phải có ít nhất 5 ký tự.',
+            'password.required' => 'Mật khẩu là bắt buộc.',
+            'password.min' => 'Mật khẩu phải có ít nhất 3 ký tự.',
         ];
     }
    

@@ -7,117 +7,176 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
 use DateTime;
-class Post extends Model
+use App\Models\AdminModel;
+use App\Models\FTPModel;
+use DB;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\DomCrawler\Crawler;
+class Post extends AdminModel
 {
     use HasFactory;
     public $timestamps = false;
+    protected $primaryKey = 'id';
+    protected $table = 'baiviet';
     protected $fillable = [
-          'IDBV',  'TenBV', 'Mota', 'NoiDung', 'HinhAnh', 'NguoiDangBV', 'ChuDeID', 'LuotXem', 'TrangThaiBV', 'ThoiGianBV'
+        'id',  'name', 'describe', 'content', 'image'. 'imageHash', 'created', 'chudeID', 'created', 'created_by', 'modified', 'modified_by'
     ];
-    protected $primaryKey = 'IDBV';
-    protected $table = 'tblbaiviet';
+
+    public static function getItem($params = null, $options = null)
+    {
+        $result = null;
+        if($options['task'] == 'get-item') {
+            $result = self::where('id', $params['id'])->first();
+        }
+        return $result;
+    }
+
+    public function saveItem($params = null, $options = null)
+    {
+        if ($options['task'] == 'add-item') {
+            if (isset($params['image'])) {
+                $image = $params['image'];
+                $params['imageHash'] = FTPModel::uploadImageToFTP($image);
+                // Lưu nội dung từ CKEditor
+                $content = $params['content']; // Đây là nội dung bạn nhận được từ CKEditor
+                // Tìm kiếm các hình ảnh trong nội dung CKEditor
+                preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
+                
+                // Duyệt qua từng hình ảnh trong nội dung
+                foreach ($matches as $match) {
+                    $imageUrl = $match[1];
+                    
+                    // Kiểm tra xem đường dẫn hình ảnh là base64 hay URL
+                    if (strpos($imageUrl, 'data:image') === 0) {                   
+                        // Xử lý hình ảnh dưới dạng base64
+                        $imageHashContent = FTPModel::uploadImageFromBase64ToFTP($imageUrl);
+                    } else {
+                        // Xử lý hình ảnh dưới dạng URL
+                        $imageHashContent = FTPModel::uploadImageFromURLToFTP($imageUrl);
+                    }
+                    
+                    // Thay thế đường dẫn hình ảnh trong nội dung CKEditor bằng đường dẫn trên FTP
+                    $content = str_replace($imageUrl, $imageHashContent, $content);
+                }
+                // Tiếp theo, lưu vào cơ sở dữ liệu
+                $params['content'] = $content;
+            }
+            $this->setCreatedHistory($params);
+            self::insert($this->prepareParams($params));
+        }
+        if ($options['task'] == 'edit-item') {
+            if (isset($params['image'])) {
+                $image = $params['image'];
+                $params['imageHash'] = FTPModel::uploadImageToFTP($image);
+                // Lưu nội dung từ CKEditor
+                $content = $params['content']; // Đây là nội dung bạn nhận được từ CKEditor
+                // Kiểm tra xem ảnh là base64 hay URL
+                if (preg_match('/data:image\/[^;]+;base64,/', $content)) {
+                    $content = FTPModel::processBase64Images($content);
+                } else {
+                    $content = FTPModel::processURLImages($content);
+                }
+                // Tiếp theo, lưu vào cơ sở dữ liệu
+                $params['content'] = $content;
+            }
+            $this->setModifiedHistory($params);
+            self::where('id', $params['id'])->update($this->prepareParams($params));
+        }
+    }
 
     public static function getFourPostsByChuDe($idchude)
     {
-        return self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
-            ->where('tblchude.IDCD', $idchude)
-            ->orderByDesc('tblbaiviet.IDBV')
+        return self::join('chude', 'baiviet.chudeID', '=', 'chude.id')
+            ->where('chude.id', $idchude)
+            ->orderByDesc('baiviet.id')
             ->take(4)
             ->get();
     }
 
-    public static function getFourPostsByCate()
-    {
-     
-    }
-
-    public static function getActivePosts() {
-        return self::where('TrangThaiBV', 1)
+    public static function getActivePosts($sl) {
+        return self::where('status', 'active')
+        ->take($sl)
         ->get();
     }
 
     public static function getPostForEdit($id) {
-        return self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
-            ->where('tblbaiviet.IDBV', $id)
+        return self::join('chude', 'baiviet.chudeID', '=', 'chude.id')
+            ->where('baiviet.id', $id)
             ->get();
     }
 
     public static function getViewsPosts($sl) {
-        return self::where('TrangThaiBV', 1)
-        ->orderByDesc('tblbaiviet.LuotXem')
+        return self::where('status', 'active')
+        ->orderByDesc('baiviet.views')
         ->take($sl)
         ->get();
     }
 
     public static function ViewPlusPost($id) {
         $post = self::find($id);
+
         if ($post) {
-            $lx = $post->LuotXem;
-            $post->LuotXem = $lx + 1;
+            $lx = $post->views;
+            $post->views = $lx + 1;
             $post->save();
         }
     }
 
     public static function getPostsWithChudeInfo() {
-         // Sử dụng Eloquent query ở đây, ví dụ:
-         return self::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
-         ->orderByDesc('tblbaiviet.IDBV')
-         ->select('tblbaiviet.*', 'tblchude.TenChuDe');
+        // Sử dụng Eloquent query ở đây, ví dụ:
+        return self::join('chude', 'chude.id', '=', 'baiviet.chudeID')
+        ->orderByDesc('baiviet.id')
+        ->select('baiviet.*', 'chude.name');
     }
 
-    public static function getLatestPosts($id= null)
+    public static function getPosts($id)
     {
-        if($id !== null)
-        {
-            return self::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
-            ->orderByDesc('tblbaiviet.IDBV')
-            ->take($id)
-            ->get();
-        }else{
-            return self::join('tblchude', 'tblchude.IDCD', '=', 'tblbaiviet.ChuDeID')
-            ->orderByDesc('tblbaiviet.IDBV')
-            ->take(4)
-            ->get();
-        }
-
+        return self::orderByDesc('baiviet.id')
+        ->take($id)
+        ->get();
+    }
+    public static function getCategoryById($id) {
+        return self::where('id', $id)->get();
     }
 
     public static function getPostsCate($id, $sobaiviet)
     {
-        return self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
-        ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
-        ->where('tbldanhmuc.IDDM', $id)
-        ->orderByDesc('tblbaiviet.IDBV')
-        ->take($sobaiviet)
-        ->get();
+        return self::select('baiviet.*')
+            ->join('chude', 'baiviet.chudeID', '=', 'chude.id')
+            ->join('danhmuc', 'chude.danhmucID', '=', 'danhmuc.id')
+            ->where('danhmuc.id', $id)
+            ->orderByDesc('baiviet.id')
+            ->take($sobaiviet)
+            ->get();
     }
 
-    public static function getPostSubCate($id, $iddm, $sobaiviet)
+    public static function getPostSubCate($id, $sobaiviet)
     {
-        return self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
-        ->where('tblchude.IDCD', $id)
-        ->orderByDesc('tblbaiviet.IDBV')
+        return self::select('baiviet.*')
+        ->join('chude', 'baiviet.chudeID', '=', 'chude.id')
+        ->where('chude.id', $id)
+        ->orderByDesc('baiviet.id')
         ->take($sobaiviet)
         ->get();
     }
 
     public static function getChuDeData($idchude, $idanhmuc)
     {
-        $maxViewPost = self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
-        ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
-        ->where('tbldanhmuc.IDDM', $idanhmuc)
-        ->orderByDesc('tblbaiviet.IDBV')
+        $maxViewPost = self::join('chude', 'baiviet.chudeID', '=', 'chude.id')
+        ->join('danhmuc', 'chude.danhmucID', '=', 'danhmuc.id')
+        ->where('danhmuc.id', $idanhmuc)
+        ->orderByDesc('baiviet.id')
         ->take(1)
         ->get();
 
         $fourPosts = collect(); // Tạo một Collection trống mặc định.
         if (!$maxViewPost->isEmpty()) {
             // Lấy 4 bài viết khác trong cùng danh mục
-            $fourPosts = self::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
-                ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
-                ->where('tbldanhmuc.IDDM', $idanhmuc)
-                ->where('tblbaiviet.IDBV', '<>', $maxViewPost->first()->IDBV)
-                ->orderByDesc('tblbaiviet.IDBV')
+            $fourPosts = self::join('chude', 'baiviet.chudeID', '=', 'chude.id')
+                ->join('danhmuc', 'chude.danhmucID', '=', 'danhmuc.id')
+                ->where('danhmuc.id', $idanhmuc)
+                ->where('baiviet.id', '<>', $maxViewPost->first()->id)
+                ->orderByDesc('baiviet.id')
                 ->take(4)
                 ->get();
         }
@@ -150,11 +209,11 @@ class Post extends Model
 
         $adminData = session('admin_data');
 
-        $post->TrangThaiBV = $request->has('hienthi') ? 1 : 0;
+        $post->status = $request->has('hienthi') ? 1 : 0;
         $post->TenBV = $tenBaiViet;
-        $post->ChuDeID = $request->idchude;
+        $post->chudeID = $request->idchude;
         $post->Mota = $request->mota;
-        $post->LuotXem = '0';
+        $post->views = '0';
         $post->ThoiGianBV = now();
         $post->NoiDung = $request->noidung;
         $post->NguoiDangBV = $adminData['admin_username'];
@@ -164,13 +223,13 @@ class Post extends Model
     public static function updatePost($request, $id)
     {
         // Update directly at the given ID
-        self::where('IDBV', $id)->update([
+        self::where('id', $id)->update([
             'TenBV' => $request->tenbaiviet,
-            'ChuDeID' => $request->idchude,
+            'chudeID' => $request->idchude,
             'Mota' => $request->mota,
             'NoiDung' => $request->noidung,
             'ThoiGianBV' => now(),
-            'TrangThaiBv' => $request->filled('hienthi'),
+            'status' => $request->filled('hienthi'),
         ]);
 
         // Handle file upload
@@ -193,33 +252,39 @@ class Post extends Model
             $baiViet->save();
         }
     }
-    public static function deletePostById($id)
-    {
-        $baiViet = self::find($id);
 
-        if ($baiViet) {
-            $imagePath = public_path('hinhanh/') . $baiViet->HinhAnh;
-            
+    public function deleteItem($params = null, $options = null)
+    {
+        if($options['task'] == 'delete-item') {
+            $record = self::find($params['id']);
+            if (!$record) {
+                return false;
+            }
+
+            $imagePath = public_path('hinhanh/') . $record->HinhAnh;
             if (File::exists($imagePath)) {
                 File::delete($imagePath);
             }
-
-            self::destroy($id);
+            $record->delete();
         }
     }
 
     public static function changeStatusPost($id)
     {
         $admin = self::findOrFail($id);
-        $oldTrangThai = $admin->TrangThaiBV;
-        $admin->update(['TrangThaiBV' => !$oldTrangThai]);
+        $oldTrangThai = $admin->status;
+        $admin->update(['status' => !$oldTrangThai]);
         return $oldTrangThai;
     }
 
 
     public function chude()
     {
-        return $this->belongsTo(Subcategory::class, 'ChuDeID');
-        
+        return $this->belongsTo(Subcategory::class, 'chudeID');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(AdminModel::class, 'created_by');
     }
 }

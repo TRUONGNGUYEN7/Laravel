@@ -5,67 +5,85 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
+use App\Models\AdminModel;
+use DB;
 
-class Category extends Model
+class Category extends AdminModel
 {
     public $timestamps = false;
-    protected $primaryKey = 'IDDM';
-    protected $table = 'tbldanhmuc';
+    protected $primaryKey = 'id';
+    protected $table = 'danhmuc';
     public $incrementing = false;
     protected $fillable = [
-          'IDDM',  'TenDanhMuc',  'TrangThaiDM'
+          'id',  'name', 'status', 'created', 'created_by','modified',	'modified_by'
     ];
+
+    public static function getItem($params = null, $options = null)
+    {
+        $result = null;
+        if($options['task'] == 'get-item') {
+            $result = self::where('id', $params['id'])->first();
+        }
+        return $result;
+    }
+
+    public function saveItem($params = null, $options = null)
+    {
+        if ($options['task'] == 'add-item') {
+            $this->setCreatedHistory($params);
+            self::create($params);
+        }
+
+        if ($options['task'] == 'edit-item') {
+            $this->setModifiedHistory($params);
+            self::where('id', $params['id'])->update($this->prepareParams($params));
+        }
+    }
 
     public static function checkAndCreateCategory($request)
     {
-        $categoryName = $request->tendanhmuc;
+        $categoryName = $request->TenDanhMuc;
         $category = new self();
-        $category->TrangThaiDM = $request->has('hienthi') ? 1 : 0;
+        $category->status = $request->has('hienthi') ? 1 : 0;
         $category->TenDanhMuc = $categoryName;
         $category->save();
     }
 
     
     public static function getCategoryById($id) {
-        return self::where('IDDM', $id)->get();
-    }
-
-    public static function updateCategory($id, $request)
-    {
-        self::where('IDDM', $id)->update($request->validated());
-        return back();
+        return self::where('id', $id)->get();
     }
 
     public static function changeStatusCategory($id)
     {
         $cate = self::findOrFail($id);
-        $oldTrangThai = $cate->TrangThaiDM;
-        $cate->update(['TrangThaiDM' => !$oldTrangThai]);
+        $oldTrangThai = $cate->status;
+        $cate->update(['status' => !$oldTrangThai]);
         return $oldTrangThai;
     }
 
     public static function getDanhMucData($id)
     {
-        $maxViewPost = Post::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
-            ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
-            ->where('tbldanhmuc.IDDM', $id)
-            ->orderByDesc('tblbaiviet.IDBV')
+        $maxViewPost = Post::join('chude', 'baiviet.chudeID', '=', 'chude.id')
+            ->join('danhmuc', 'chude.danhmucID', '=', 'danhmuc.id')
+            ->where('danhmuc.id', $id)
+            ->orderByDesc('baiviet.id')
             ->take(1)
             ->get();
 
         $fourPosts = collect(); // Tạo một Collection trống mặc định.
         if (!$maxViewPost->isEmpty()) {
             // Lấy 4 bài viết khác trong cùng danh mục
-            $fourPosts = Post::join('tblchude', 'tblbaiviet.ChuDeID', '=', 'tblchude.IDCD')
-                ->join('tbldanhmuc', 'tblchude.DanhMucID', '=', 'tbldanhmuc.IDDM')
-                ->where('tbldanhmuc.IDDM', $id)
-                ->where('tblbaiviet.IDBV', '<>', $maxViewPost->first()->IDBV)
-                ->orderByDesc('tblbaiviet.IDBV')
+            $fourPosts = Post::join('chude', 'baiviet.chudeID', '=', 'chude.id')
+                ->join('danhmuc', 'chude.danhmucID', '=', 'danhmuc.id')
+                ->where('danhmuc.id', $id)
+                ->where('baiviet.id', '<>', $maxViewPost->first()->id)
+                ->orderByDesc('baiviet.id')
                 ->take(4)
                 ->get();
         }
 
-        $menuCategory = Category::where('TrangThaiDM', 1)->get();
+        $menuCategory = Category::where('status', 1)->get();
         $ttdanhmuc = Category::find($id);
 
         return [
@@ -77,30 +95,35 @@ class Category extends Model
     }
     public function getCategoriesById($id)
     {
-        return $this->where('IDDM', $id)->get();
+        return $this->where('id', $id)->get();
     }
     public static function getActiveCategories()
     {
-        return self::where('TrangThaiDM', 1)->get();
+        return self::where('status', 'active')->get();
     }
 
     public static function getCategories($sl)
     {
-        return self::where('TrangThaiDM', 1)
-        ->orderByDesc('tbldanhmuc.IDDM')
+        return self::where('status', 'active')
+        ->orderByDesc('danhmuc.id')
         ->take($sl)
         ->get(); 
     }
 
-    public static function deleteCategoryById($id)
+    public function deleteItem($params = null, $options = null)
     {
-        self::destroy($id);
+        if($options['task'] == 'delete-item') {
+            $record = self::find($params['id']);
+            if (!$record) {
+                return false;
+            }
+            $record->delete();
+        }
     }
-
     //mot danh muc co nhieu chu de
     public function chudes()
     {
-        return $this->hasMany(Subcategory::class, 'DanhMucID');
+        return $this->hasMany(Subcategory::class, 'danhmucID');
     }
 
 

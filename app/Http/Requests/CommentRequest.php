@@ -22,7 +22,7 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'noidung' => ['required', 'min:4'],
+            'content' => ['required', 'min:4'],
             'email' => ['required', 'min:3'],
         ];
     }
@@ -30,8 +30,8 @@ class CommentRequest extends FormRequest
     public function messages()
     {
         return [
-            'noidung.required' => 'Tên là bắt buộc.',
-            'noidung.min' => 'Tên phải có ít nhất 3 ký tự.',
+            'content.required' => 'Tên là bắt buộc.',
+            'content.min' => 'Tên phải có ít nhất 3 ký tự.',
 
             'email.required' => 'Email là bắt buộc.',
             'email.min' => 'Email phải có ít nhất 5 ký tự.',

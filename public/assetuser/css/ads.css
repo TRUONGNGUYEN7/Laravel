@@ -1,0 +1,18 @@
+                        .banner-container {
+                            overflow: hidden;
+                        }
+
+                        .banner-images {
+                            display: flex;
+                            transition: transform 1s ease-in-out;
+                            width: 1020px;
+                            /* Total width of three images (250px each) */
+                            height: 530px;
+                        }
+
+                        .banner-images img {
+                            width: 340px;
+                            height: 530px;
+                            margin-right: 20px;
+
+                        }

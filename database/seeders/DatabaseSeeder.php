@@ -13,18 +13,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Thêm dữ liệu mẫu
+        DB::table('roles')->insert([
+            'name' => 'admin',
+            'status' => 'active',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         // Tạo dữ liệu cho bảng grouppermission
         DB::table('grouppermission')->insert([
             [
                 'name' => 'danhmuc',
                 'displayName' => 'Danh mục',
-                'status' => '1'
+                'status' => 'active'
             ],
         ]);
-
-        // Lấy ID của group permission vừa thêm
         $groupPermissionID = DB::table('grouppermission')->where('name', 'danhmuc')->value('id');
-
         // Thêm dữ liệu cho bảng permissions và liên kết với group permission
         DB::table('permissions')->insert([
             [
@@ -50,15 +55,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Thêm dữ liệu mẫu admin
-        DB::table('tbladmin')->insert([
-            'Name' => 'admin',
-            'Hoten' => 'Nguyễn Nhật Trường',
-            'Email' => 'nguyentruongtv2001@gmail.com',
-            'MatKhau' => '$2y$12$F69zIspA869u5FgIdL33KOILx9amtC65mkSh7EYdjiBEZ/Y.vq4Mm',
-            'TrangThai' => 1,
+        DB::table('admin')->insert([
+            'name' => 'admin',
+            'fullName' => 'Nguyễn Nhật Trường',
+            'email' => 'nguyentruongtv2001@gmail.com',
+            'password' => '$2y$12$F69zIspA869u5FgIdL33KOILx9amtC65mkSh7EYdjiBEZ/Y.vq4Mm',
+            'status' => 'active',
             'roleID' => '1',
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         // Tạo dữ liệu cho bảng grouppermission
@@ -66,7 +69,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'chude',
                 'displayName' => 'Chủ đề',
-                'status' => '1'
+                'status' => 'active'
             ],
         ]);
 
@@ -102,7 +105,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'baiviet',
                 'displayName' => 'Bài viết',
-                'status' => '1'
+                'status' => 'active'
             ],
         ]);
 

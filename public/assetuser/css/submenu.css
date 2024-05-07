@@ -1,0 +1,35 @@
+
+.margin {
+     margin-bottom: 20px;
+}
+
+.menuchude {
+     list-style-type: none;
+     padding: 0;
+     height: 100%;
+     display: flex;
+     align-items: center;
+     background-color: #f8f8f8;
+     border-bottom: 1px solid #ddd;
+     padding-left: 17px;
+     font-family: 'Roboto-Bold';
+
+}
+
+.menuchude li {
+     margin-right: 15px;
+}
+
+.menuchude a {
+
+     color: #333;
+     transition: color 0.3s ease;
+}
+
+.menuchude a.active {
+     color: #2667e4;
+}
+
+.nav-link.active {
+     color: blue;
+}

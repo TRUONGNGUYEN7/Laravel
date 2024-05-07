@@ -1,0 +1,24 @@
+/* alert */
+#ntg-notification {
+     position: fixed;
+     bottom: 5%;
+     right: 20px;
+     z-index: 9999;
+     display: true;
+}
+
+.cardshadow {
+     background-color: #ffffff;
+     /* Màu nền trắng */
+     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+     /* Hiệu ứng shadow */
+     padding: 20px;
+     /* Khoảng cách padding */
+     border-radius: 8px;
+     /* Bo tròn viền */
+}
+
+.invalid {
+     color: red;
+}
+

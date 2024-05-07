@@ -29,7 +29,11 @@ return [
     */
 
     'disks' => [
-
+        'ntg_storage' => [
+            'driver' => 'local',
+            'root' => base_path('fileUpload'),
+        ],
+        
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -54,6 +58,19 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
+        ],
+
+        'ftp' => [
+            'driver'   => 'ftp',
+            'host'     => '127.0.0.1',
+            'username' => 'admin',
+            'password' => 'admin123',
+            'root' => '/FTPNNT'
+            // Optional FTP Settings...
+            //'port'     => 14148,
+            // 'passive'  => true,
+            // 'ssl'      => true,
+            // 'timeout'  => 30,
         ],
 
     ],

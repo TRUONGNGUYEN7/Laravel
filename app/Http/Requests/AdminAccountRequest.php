@@ -23,10 +23,10 @@ class AdminAccountRequest extends FormRequest
     public function rules()
     {
         return [
-            'Name' => 'required|string',
-            'Hoten' => 'required|string',
-            'MatKhau' => 'required|string',
-            'Email' => 'required|email',
+            'name' => 'required|string',
+            'fullName' => 'required|string',
+            'password' => 'required|string',
+            'email' => 'required|email',
             'roleID' => 'required'
         ];
     }
@@ -34,11 +34,11 @@ class AdminAccountRequest extends FormRequest
     public function messages()
     {
         return [
-            'Name.required' => 'Tên đăng nhập là bắt buộc',
-            'Hoten.required' => 'Họ tên là bắt buộc',
-            'MatKhau.required' => 'Mật khẩu là bắt buộc',
-            'Email.required' => 'Email là bắt buộc',
-            'Email.email' => 'Email không hợp lệ',
+            'name.required' => 'Tên đăng nhập là bắt buộc',
+            'fullName.required' => 'Họ tên là bắt buộc',
+            'password.required' => 'Mật khẩu là bắt buộc',
+            'email.required' => 'email là bắt buộc',
+            'email.email' => 'email không hợp lệ',
             'roleID.required' => 'Vai trò là bắt buộc'
         ];
     }

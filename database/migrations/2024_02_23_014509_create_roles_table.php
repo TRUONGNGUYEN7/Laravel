@@ -14,17 +14,10 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
-            $table->string('status', 50)->default('1');
+            $table->string('status', 50)->nullable();
             $table->timestamps();
         });
 
-        // Thêm dữ liệu mẫu
-        DB::table('roles')->insert([
-            'name' => 'admin',
-            'status' => '1',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
     }
 
     /**

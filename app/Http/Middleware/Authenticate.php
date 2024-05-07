@@ -2,16 +2,20 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Http\Request;
-
-class Authenticate extends Middleware
+use Closure;
+use Illuminate\Support\Facades\Auth as Auth;
+class Authenticate
 {
-    /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     */
-    protected function redirectTo(Request $request): ?string
+    public function handle($request, Closure $next)
     {
-        return $request->expectsJson() ? null : route('login');
+        // Kiểm tra xem người dùng có được xác thực bởi guard 'admin' hay không
+        if (Auth::guard('user')->check()) {
+            // Nếu có, lấy thông tin người dùng quản trị
+            $admin = Auth::guard('user')->user();
+            return $next($request);
+        }
+
+        // Nếu không xác thực, chuyển hướng người dùng đến trang đăng nhập cho quản trị viên
+        return redirect()->route('auth/signin');
     }
 }
