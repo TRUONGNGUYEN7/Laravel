@@ -1,8 +1,7 @@
-CKEDITOR.replace('ckeditor')
-//alert
+
 setTimeout(function () {
      $('#ntg-notification').fadeOut('fast');
-}, 3000); // 2 giây
+}, 3000);
 
 document.getElementById('logoInput').addEventListener('change', function (event) {
      var logoInput = event.target;

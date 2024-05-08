@@ -11,7 +11,80 @@ use DB;
 class FTPModel extends Model
 {
     use HasFactory;
-    
+
+    // public static function processGetFileName($content)
+    // {
+    //     // Tìm và thay thế các URL hình ảnh đầy đủ bằng tên tệp ảnh
+    //     $content = preg_replace_callback('/<img[^>]+src="([^">]+)"/', function($matches) {
+    //         $imageUrl = $matches[1];
+    //         $fileName = basename($imageUrl); // Lấy tên tệp ảnh từ URL
+    //         return '<img src="' . $fileName . '"'; // Trả về thẻ img với đường dẫn tệp ảnh là tên tệp
+    //     }, $content);
+
+    //     return $content;
+    // }
+
+    public static function processImagesInContent($content)
+    {
+        // Tìm kiếm các hình ảnh trong nội dung CKEditor
+        preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
+
+        // Duyệt qua từng hình ảnh trong nội dung
+        foreach ($matches as $match) {
+            $imageUrl = $match[1];
+            // Kiểm tra xem đường dẫn hình ảnh là base64 hay URL
+            if (strpos($imageUrl, 'data:image') === 0) {
+                // Xử lý hình ảnh dưới dạng base64
+                $imageHashContent = self::uploadImageFromBase64ToFTP($imageUrl);
+            } else {
+                // Xử lý hình ảnh dưới dạng URL
+                $imageHashContent = self::uploadImageFromURLToFTP($imageUrl);
+            }
+            
+            // Thay thế đường dẫn hình ảnh trong nội dung CKEditor bằng đường dẫn trên FTP
+            $content = str_replace($imageUrl, $imageHashContent, $content);
+        }
+
+        return $content;
+    }
+
+    public static function deleteImagesFromFTP($content, $imageHash)
+    {
+        // Tìm kiếm các hình ảnh trong nội dung CKEditor
+        preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
+
+        // Duyệt qua từng hình ảnh trong nội dung để xóa
+        foreach ($matches as $match) {
+            $imageUrl = $match[1];
+            // Lấy tên tệp từ URL
+            $fileName = basename($imageUrl);
+            // Xóa tệp trên FTP
+            Storage::disk('ftp')->delete($fileName);
+        }
+
+        Storage::disk('ftp')->delete($imageHash);
+    }
+
+    public static function deleteImagesContentFTP($content)
+    {
+        // Tìm kiếm các hình ảnh trong nội dung CKEditor
+        preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
+
+        // Duyệt qua từng hình ảnh trong nội dung để xóa
+        foreach ($matches as $match) {
+            $imageUrl = $match[1];
+            // Lấy tên tệp từ URL
+            $fileName = basename($imageUrl);
+            // Xóa tệp trên FTP
+            Storage::disk('ftp')->delete($fileName);
+        }
+    }
+
+    public static function deleteImagesLogoFTP($logo)
+    {
+        Storage::disk('ftp')->delete($logo);
+    }
+
     public static function downloadImagesFromFTP($ds)
     {
         foreach ($ds as $post) {
@@ -58,44 +131,6 @@ class FTPModel extends Model
             return false;
         }
     }
-
-    public static function processURLImages($content)
-    {
-        // Tìm kiếm các hình ảnh dạng URL trong nội dung CKEditor
-        preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
-
-        // Duyệt qua từng hình ảnh URL và thực hiện tải lên FTP
-        foreach ($matches as $match) {
-            $imageUrl = $match[1];
-            $imageHashContent = self::uploadImageFromURLToFTP($imageUrl); // Tải hình ảnh lên FTP và nhận lại đường dẫn hoặc mã hash
-            $content = str_replace($imageUrl, $imageHashContent, $content); // Thay thế đường dẫn hình ảnh trong nội dung CKEditor bằng đường dẫn trên FTP
-        }
-
-        return $content;
-    }
-
-    public static function processBase64Images($content)
-    {
-        // Tìm kiếm các hình ảnh dạng base64 trong nội dung
-        preg_match_all('/<img[^>]+src="data:image\/[^;]+;base64,([^">]+)"/', $content, $base64Matches);
-
-        // Lấy ra danh sách các đoạn mã base64
-        $base64Images = $base64Matches[1];
-
-        // Duyệt qua từng đoạn mã base64 và thực hiện tải ảnh lên FTP
-        foreach ($base64Images as $base64Image) {
-            // Thực hiện tải ảnh lên FTP từ base64
-            $imageHashContent = self::uploadImageFromBase64ToFTP($base64Image);
-
-            // Thay thế đoạn mã base64 trong nội dung CKEditor bằng đường dẫn trên FTP
-            $content = str_replace('data:image/jpeg;base64,' . $base64Image, $imageHashContent, $content);
-            $content = str_replace('data:image/png;base64,' . $base64Image, $imageHashContent, $content);
-            $content = str_replace('data:image/gif;base64,' . $base64Image, $imageHashContent, $content);
-        }
-
-        return $content;
-    }
-
 
     public static function uploadImageFromBase64ToFTP($base64Image)
     {

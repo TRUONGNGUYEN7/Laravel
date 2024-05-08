@@ -1,101 +1,6 @@
 @extends('layout')
 @section('contentuser')
-    <style>
-        .csstieude12 {
-            background-color: #000000bd;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            display: table;
-            font-size: 20px;
-        }
 
-        .csstieude12:hover {
-            background-color: black;
-        }
-
-        .csstieude34 {
-            background-color: #00000094;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            display: block;
-
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            max-width: 230px;
-        }
-
-        .csstieude34:hover {
-            background-color: black;
-        }
-
-        .fontsizebv {
-            font-size: 17px;
-        }
-
-        /* Main container */
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -15px;
-            /* Add negative margin to account for column padding */
-        }
-
-        /* Left and Right columns */
-        .col-6 {
-            flex: 0 0 50%;
-            max-width: 50%;
-            padding: 0 15px;
-        }
-
-        /* Category box */
-        .cate-news-24h-r {
-            margin-top: 0px;
-            border: 1px solid #e0e0e0;
-            border-radius: 0px;
-            overflow: hidden;
-        }
-
-        /* Category title */
-        .cate-news-24h-r__tit h2 {
-            color: #78B43D;
-            font-weight: bold;
-            text-transform: uppercase;
-            padding: 15px;
-            margin: 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        /* Style the header section */
-        .box-t {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .cate-news-24h-r__tit {
-            color: #24B43D;
-            /* Change the color as needed */
-            margin-right: 15px;
-        }
-
-        .cate-news-24h-r_cate {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .cate-news-24h-r_cate li {
-            margin-right: 15px;
-            /* Adjust the spacing between list items as needed */
-        }
-    </style>
     @php
         $folderUpload = config('ntg.folderUpload.mainFolder');
         $fileUploadPath = '../' . $folderUpload . '/';
@@ -112,7 +17,10 @@
                             $PostTemp = $Post[0];
                         @endphp
                         <div class="bg-img1 size-a-3 how1 pos-relative "
-                            style="background-image: url('{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $PostTemp->imageHash) ? asset('fileUpload/' . $PostTemp->imageHash) : route('displayImages', ['fileName' => $PostTemp->imageHash]) }}'); width: 98%">
+                            style="background-image: url('{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $PostTemp->imageHash) 
+                            ? asset('fileUpload/' . $PostTemp->imageHash) 
+                            : route('displayImages', ['fileName' => $PostTemp->imageHash]) }}'); width: 98%">
+                            
                             <a href="{{ route("$moduleName/detail", ['id' => $PostTemp->id]) }}"
                                 class="dis-block how1-child1 trans-03"></a>
 
@@ -128,20 +36,6 @@
                                         {{ $PostTemp->name }}
                                     </a>
                                 </h3>
-
-                                <style>
-                                    @keyframes blink {
-                                        100% {
-                                            color: rgb(241, 63, 63);
-                                            /* or specify the ending color */
-                                        }
-                                    }
-
-                                    .play-button {
-                                        animation: blink 2s infinite;
-                                        /* Adjust the duration as needed */
-                                    }
-                                </style>
 
                                 @php
                                     // Check if the content contains a video tag
@@ -499,52 +393,6 @@
                         <div class="p-l-10 p-rl-0-sr991 p-b-20">
                             <!-- Xem nhiều-->
                             @include("$moduleName.elements.viewest")
-
-                            <style>
-                                .banner-container {
-                                    overflow: hidden;
-                                }
-
-                                .banner-images {
-                                    display: flex;
-                                    transition: transform 1s ease-in-out;
-                                    width: 1020px;
-                                    /* Total width of three images (250px each) */
-                                    height: 530px;
-                                }
-
-                                .banner-images img {
-                                    width: 340px;
-                                    height: 530px;
-                                    margin-right: 20px;
-
-                                }
-                            </style>
-
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const bannerImages = document.querySelector('.banner-images');
-                                    const images = document.querySelectorAll('.banner-images img');
-
-                                    let currentIndex = 0;
-
-                                    function showNextImage() {
-                                        currentIndex = (currentIndex + 1) % images.length;
-                                        const translateValue = -currentIndex * 340;
-                                        bannerImages.style.transform = `translateX(${translateValue}px)`;
-                                    }
-
-                                    setInterval(function() {
-                                        showNextImage();
-                                        setTimeout(function() {
-                                            bannerImages.style.transition = 'none';
-                                            setTimeout(function() {
-                                                bannerImages.style.transition = 'transform 1s ease-in-out';
-                                            }, 10);
-                                        }, 3000);
-                                    }, 6000);
-                                });
-                            </script>
                             @include("$moduleName.elements.ads")
 
                         </div>
@@ -626,7 +474,6 @@
                                     </div>
                                 @endforeach
                             </div>
-
                         </div>
                     </div>
 

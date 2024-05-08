@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-use DateTime;
+use App\Helpers\FTPHelper;
 use App\Models\AdminModel;
 use App\Models\FTPModel;
+use DateTime;
 use DB;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\DomCrawler\Crawler;
+
 class Post extends AdminModel
 {
     use HasFactory;
@@ -32,62 +33,54 @@ class Post extends AdminModel
     }
 
     public function saveItem($params = null, $options = null)
-    {
+    { 
         if ($options['task'] == 'add-item') {
-            if (isset($params['image'])) {
-                $image = $params['image'];
-                $params['imageHash'] = FTPModel::uploadImageToFTP($image);
-                // Lưu nội dung từ CKEditor
-                $content = $params['content']; // Đây là nội dung bạn nhận được từ CKEditor
-                // Tìm kiếm các hình ảnh trong nội dung CKEditor
-                preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
-                
-                // Duyệt qua từng hình ảnh trong nội dung
-                foreach ($matches as $match) {
-                    $imageUrl = $match[1];
-                    
-                    // Kiểm tra xem đường dẫn hình ảnh là base64 hay URL
-                    if (strpos($imageUrl, 'data:image') === 0) {                   
-                        // Xử lý hình ảnh dưới dạng base64
-                        $imageHashContent = FTPModel::uploadImageFromBase64ToFTP($imageUrl);
-                    } else {
-                        // Xử lý hình ảnh dưới dạng URL
-                        $imageHashContent = FTPModel::uploadImageFromURLToFTP($imageUrl);
-                    }
-                    
-                    // Thay thế đường dẫn hình ảnh trong nội dung CKEditor bằng đường dẫn trên FTP
-                    $content = str_replace($imageUrl, $imageHashContent, $content);
-                }
-                // Tiếp theo, lưu vào cơ sở dữ liệu
-                $params['content'] = $content;
-            }
+            $contentreplace = FTPModel::processImagesInContent($params['content']);
+            $params['content'] = $contentreplace;
+            $params['imageHash'] = FTPModel::uploadImageToFTP($params['image']); //upload image logo
             $this->setCreatedHistory($params);
             self::insert($this->prepareParams($params));
         }
         if ($options['task'] == 'edit-item') {
+            $contentreplace = FTPModel::processImagesInContent($params['content']);
+            $params['content'] = $contentreplace;
+            $item = self::find($params['id']);
+            FTPModel::deleteImagesContentFTP($item->content);
             if (isset($params['image'])) {
-                $image = $params['image'];
-                $params['imageHash'] = FTPModel::uploadImageToFTP($image);
-                // Lưu nội dung từ CKEditor
-                $content = $params['content']; // Đây là nội dung bạn nhận được từ CKEditor
-                // Kiểm tra xem ảnh là base64 hay URL
-                if (preg_match('/data:image\/[^;]+;base64,/', $content)) {
-                    $content = FTPModel::processBase64Images($content);
-                } else {
-                    $content = FTPModel::processURLImages($content);
-                }
-                // Tiếp theo, lưu vào cơ sở dữ liệu
-                $params['content'] = $content;
-            }
+                FTPModel::deleteImagesLogoFTP($item->imageHash);
+                $params['imageHash'] = FTPModel::uploadImageToFTP($params['image']); //upload image logo
+            }         
             $this->setModifiedHistory($params);
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
+        // Xóa các tệp trong thư mục public/media
+        File::deleteDirectory(public_path('media'));
+    }
+    
+    public function deleteItem($params = null, $options = null)
+    {
+        if($options['task'] == 'delete-item') {
+            $record = self::find($params['id']);
+            if (!$record) {
+                return false;
+            }
+
+            FTPModel::deleteImagesFromFTP($record->content, $record->imageHash);
+            $record->delete();
+        }
     }
 
+    public static function changeStatusPost($id)
+    {
+        $admin = self::findOrFail($id);
+        $oldTrangThai = $admin->status;
+        $admin->update(['status' => !$oldTrangThai]);
+        return $oldTrangThai;
+    }
     public static function getFourPostsByChuDe($idchude)
     {
         return self::join('chude', 'baiviet.chudeID', '=', 'chude.id')
-            ->where('chude.id', $idchude)
+        ->where('chude.id', $idchude)
             ->orderByDesc('baiviet.id')
             ->take(4)
             ->get();
@@ -192,90 +185,6 @@ class Post extends AdminModel
         ];
     }
 
-    public static function createNewPost($request)
-    {
-        $tenBaiViet = $request->tenbaiviet;
-        $post = new self();
-
-        if ($request->hasFile('hinhanhthem')) {
-            $file = $request->file('hinhanhthem');
-            $filename = date('YmdHi') . $file->getClientOriginalName();
-            $file->move(public_path('hinhanh'), $filename);
-            $post->HinhAnh = $filename;
-        } 
-        if ($request->videolink) {
-            $post->HinhAnh = $request->videolink;
-        }
-
-        $adminData = session('admin_data');
-
-        $post->status = $request->has('hienthi') ? 1 : 0;
-        $post->TenBV = $tenBaiViet;
-        $post->chudeID = $request->idchude;
-        $post->Mota = $request->mota;
-        $post->views = '0';
-        $post->ThoiGianBV = now();
-        $post->NoiDung = $request->noidung;
-        $post->NguoiDangBV = $adminData['admin_username'];
-        $post->save();
-    }
-
-    public static function updatePost($request, $id)
-    {
-        // Update directly at the given ID
-        self::where('id', $id)->update([
-            'TenBV' => $request->tenbaiviet,
-            'chudeID' => $request->idchude,
-            'Mota' => $request->mota,
-            'NoiDung' => $request->noidung,
-            'ThoiGianBV' => now(),
-            'status' => $request->filled('hienthi'),
-        ]);
-
-        // Handle file upload
-        if ($request->hasFile('hinhanhsua')) {
-            $baiViet = self::find($id);
-            $currentImageName = $baiViet->HinhAnh;
-
-            $file = $request->file('hinhanhsua');
-            $filename = date('YmdHi') . $file->getClientOriginalName();
-            $file->move(public_path('hinhanh'), $filename);
-
-            // Xóa ảnh cũ nếu tồn tại
-            $oldImagePath = public_path('hinhanh/') . $currentImageName;
-            if (File::exists($oldImagePath)) {
-                File::delete($oldImagePath);
-            }
-
-            // Cập nhật tên file mới
-            $baiViet->HinhAnh = $filename;
-            $baiViet->save();
-        }
-    }
-
-    public function deleteItem($params = null, $options = null)
-    {
-        if($options['task'] == 'delete-item') {
-            $record = self::find($params['id']);
-            if (!$record) {
-                return false;
-            }
-
-            $imagePath = public_path('hinhanh/') . $record->HinhAnh;
-            if (File::exists($imagePath)) {
-                File::delete($imagePath);
-            }
-            $record->delete();
-        }
-    }
-
-    public static function changeStatusPost($id)
-    {
-        $admin = self::findOrFail($id);
-        $oldTrangThai = $admin->status;
-        $admin->update(['status' => !$oldTrangThai]);
-        return $oldTrangThai;
-    }
 
 
     public function chude()

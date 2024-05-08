@@ -49,40 +49,38 @@
                                 @endif
                             </div>
                         </div>
-
                         <div class="mb-4 row">
                             <label for="content" class="col-sm-1 col-form-label">Nội dung</label>
                             <div class="col-sm-10">
-                                <textarea name="content" placeholder="" id="ckeditor" class="form-control">
-                                    @if (isset($item))
-@php
-    $content = $item->content;
-    $pattern = '/<img[^>]+src="([^">]+)"/';
-    preg_match_all($pattern, $content, $matches);
-    $imageUrls = $matches[1];
-    foreach ($imageUrls as $imageUrl) {
-        $content = str_replace($imageUrl, route('displayImages', ['fileName' => $imageUrl]), $content);
-    }
-@endphp
-                                            {{ $content }}
-@else
-{{ old('content') }}
-@endif
-                                </textarea>
 
-                                <script>
-                                    CKEDITOR.replace('ckeditor', {
-                                        extraPlugins: 'clipboard',
-                                        on: {
-                                            // Xử lý sự kiện paste
-                                            paste: function(event) {
-                                                // Hiển thị thông báo
-                                                alert('Bạn đã paste nội dung vào CKEditor.');
+                                <textarea name="content" id="content"> 
+                                    @if (isset($item))
+                                        @php
+                                            $content = $item->content;
+                                            $pattern = '/<img[^>]+src="([^">]+)"/';
+                                            preg_match_all($pattern, $content, $matches);
+                                            $imageUrls = $matches[1];
+                                            foreach ($imageUrls as $imageUrl) {
+                                                $content = str_replace($imageUrl, route('displayImages', ['fileName' => $imageUrl]), $content);
                                             }
-                                        }
-                                    });
+                                        @endphp
+                                                                                    {{ $content }}
+                                        @else
+                                        {{ old('content') }}
+                                        @endif
+                                    </textarea>
+                                <script>
+                                    ClassicEditor
+                                        .create(document.querySelector('#content'), {
+                                            ckfinder: {
+                                                uploadUrl: "{{ route('ckeditor.upload', ['_token' => csrf_token()]) }}",
+                                            },
+                                        })
+                                        .catch(error => {
+                                            console.error(error);
+                                        });
                                 </script>
-                                {{-- <textarea name="content" placeholder="" id="ckeditor" class="form-control">{{ isset($item) ? $item->content : old('content') }}</textarea> --}}
+
                                 @if ($errors->has('content'))
                                     <div class="invalid">{{ $errors->first('content') }}</div>
                                 @endif
@@ -147,5 +145,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('assets/admin/js/form.js') }}"></script>
+
 @endsection

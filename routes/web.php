@@ -6,6 +6,17 @@ $prefixFrontEnd  = config('ntg.url.prefix_frontEnd');
 $prefix = '';
 $controllerName = 'Admin\Post';
 $controller = ucfirst($controllerName) . 'Controller@';
+
+Route::post($prefix . 'ckeditor/upload', [
+    'as' => 'ckeditor.upload',
+    'uses' => $controller . 'upload'
+]);
+
+Route::post($prefix . 'ckeditor/delete', [
+    'as' => 'ckeditor.delete',
+    'uses' => $controller . 'deleteCkeditor'
+]);
+
 Route::get($prefix . 'displayimg/{fileName}', [
     'as' => 'displayImages',
     'uses' => $controller . 'displayImage'

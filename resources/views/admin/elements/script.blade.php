@@ -35,6 +35,5 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('assets/dist/js/pages/dashboard.js') }}"></script>
 
-<script src="{{ asset('assets/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('assets/admin/js/form.js') }}"></script>
 

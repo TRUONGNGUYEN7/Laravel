@@ -104,6 +104,113 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
     transform: translate(-50%, -50%);
 }
 
+.csstieude12 {
+    background-color: #000000bd;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: table;
+    font-size: 20px;
+}
+
+.csstieude12:hover {
+    background-color: black;
+}
+
+.csstieude34 {
+    background-color: #00000094;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: block;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 230px;
+}
+
+.csstieude34:hover {
+    background-color: black;
+}
+
+@keyframes blink {
+    100% {
+        color: rgb(241, 63, 63);
+        /* or specify the ending color */
+    }
+}
+
+.play-button {
+    animation: blink 2s infinite;
+    /* Adjust the duration as needed */
+}
+
+.fontsizebv {
+    font-size: 17px;
+}
+
+/* Main container */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+    /* Add negative margin to account for column padding */
+}
+
+/* Left and Right columns */
+.col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 15px;
+}
+
+/* Category box */
+.cate-news-24h-r {
+    margin-top: 0px;
+    border: 1px solid #e0e0e0;
+    border-radius: 0px;
+    overflow: hidden;
+}
+
+/* Category title */
+.cate-news-24h-r__tit h2 {
+    color: #78B43D;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px;
+    margin: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Style the header section */
+.box-t {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.cate-news-24h-r__tit {
+    color: #24B43D;
+    /* Change the color as needed */
+    margin-right: 15px;
+}
+
+.cate-news-24h-r_cate {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.cate-news-24h-r_cate li {
+    margin-right: 15px;
+    /* Adjust the spacing between list items as needed */
+}
+
 .loader05 {
     width: 56px;
     height: 56px;
