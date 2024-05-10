@@ -73,6 +73,19 @@ return [
             // 'timeout'  => 30,
         ],
 
+        'ftpDeleteImg' => [
+            'driver'   => 'ftp',
+            'host'     => '127.0.0.1',
+            'username' => 'admin',
+            'password' => 'admin123',
+            'root' => '/FTPNNT/imagesPost'
+            // Optional FTP Settings...
+            //'port'     => 14148,
+            // 'passive'  => true,
+            // 'ssl'      => true,
+            // 'timeout'  => 30,
+        ],
+
     ],
 
     /*

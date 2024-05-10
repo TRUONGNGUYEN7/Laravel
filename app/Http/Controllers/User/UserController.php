@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Subcategory;
-use App\Models\FTPModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Auth as Auth;
+use App\Helpers\FTPHelper;
 class UserController extends HomeController
 {
     protected $moduleName = 'user';
@@ -40,14 +40,14 @@ class UserController extends HomeController
         $fourCategoryContent = Category::getActiveCategories();
         $ttdanhmuc = collect();
         $Post = Post::getActivePosts(6);
-        FTPModel::downloadImagesFromFTP($Post);
-
+        $imagesFTP = FTPHelper::downloadImagesFromFTP($Post);
         return view($this->pathViewController .'index', [
             'menuCategory' => $menuCategory,
             'subCategory' => $subCategory,
             'fourCategoryContent' => $fourCategoryContent,
             'CategoriesWithPosts' => $CategoriesWithPosts,
             'Post' => $Post,
+            'imagesFTP' => $imagesFTP
         ]);
     }
 

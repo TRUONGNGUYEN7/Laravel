@@ -6,29 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Post;
 use DB;
+use App\Jobs\DownloadImageFromFTP;
 
 class FTPModel extends Model
 {
     use HasFactory;
 
-    // public static function processGetFileName($content)
-    // {
-    //     // Tìm và thay thế các URL hình ảnh đầy đủ bằng tên tệp ảnh
-    //     $content = preg_replace_callback('/<img[^>]+src="([^">]+)"/', function($matches) {
-    //         $imageUrl = $matches[1];
-    //         $fileName = basename($imageUrl); // Lấy tên tệp ảnh từ URL
-    //         return '<img src="' . $fileName . '"'; // Trả về thẻ img với đường dẫn tệp ảnh là tên tệp
-    //     }, $content);
-
-    //     return $content;
-    // }
-
     public static function processImagesInContent($content)
     {
         // Tìm kiếm các hình ảnh trong nội dung CKEditor
         preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
-
+ 
         // Duyệt qua từng hình ảnh trong nội dung
         foreach ($matches as $match) {
             $imageUrl = $match[1];
@@ -44,7 +34,6 @@ class FTPModel extends Model
             // Thay thế đường dẫn hình ảnh trong nội dung CKEditor bằng đường dẫn trên FTP
             $content = str_replace($imageUrl, $imageHashContent, $content);
         }
-
         return $content;
     }
 
@@ -65,16 +54,17 @@ class FTPModel extends Model
         Storage::disk('ftp')->delete($imageHash);
     }
 
-    public static function deleteImagesContentFTP($content)
+    public static function deleteImagesContentFTP($contentold)
     {
         // Tìm kiếm các hình ảnh trong nội dung CKEditor
-        preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
-
+        preg_match_all('/<img[^>]+src="([^">]+)"/', $contentold, $matches, PREG_SET_ORDER);
+        
         // Duyệt qua từng hình ảnh trong nội dung để xóa
         foreach ($matches as $match) {
             $imageUrl = $match[1];
             // Lấy tên tệp từ URL
             $fileName = basename($imageUrl);
+
             // Xóa tệp trên FTP
             Storage::disk('ftp')->delete($fileName);
         }
@@ -87,47 +77,47 @@ class FTPModel extends Model
 
     public static function downloadImagesFromFTP($ds)
     {
+        $imagesFTP = [];
         foreach ($ds as $post) {
             if (isset($post->imageHash)) {
                 // Nếu có imageHash
                 $imageHashList = $post->imageHash;
-
-                // Kiểm tra xem tệp đã tồn tại trong thư mục fileUpload hay không
+                
+                // Kiểm tra xem tệp đã tồn tại trong thư mục fileUpload
                 if (!Storage::disk('ntg_storage')->exists($imageHashList)) {
-                    // Nếu không tồn tại, thực hiện tải và lưu tệp
-                    $imageData = Storage::disk('ftp')->get($imageHashList);
-                    if($imageData)
-                    {
-                        Storage::disk('ntg_storage')->put($imageHashList, $imageData);
-                    }
+                    $imagesFTP[] = $imageHashList; 
+                    DownloadImageFromFTP::dispatch($imageHashList);             
                 }
             }
         }
 
+        return $imagesFTP;
     }
 
-    public static function uploadImageToFTP($image)
+    public static function uploadImageToFTP($image, $id = null)
     {
-        // Kiểm tra xem file đã được upload thành công chưa
-        if ($image->isValid()) {
-            // Lấy tên file gốc của file
-            $filenamewithextension = $image->getClientOriginalName();
-            // Lấy tên file không kèm extension
-            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-            // Lấy extension của file
-            $extension = $image->getClientOriginalExtension();
-            // Tạo tên file mới để lưu trữ trên server
-            $filenametostore = 'logo'.$filename.'_'.uniqid().'.'.$extension;
-            // Thực hiện upload file lên máy chủ FTP
-            if (Storage::disk('ftp')->put($filenametostore, fopen($image->path(), 'r+'))) {
-                // Nếu upload thành công, trả về tên file mới
-                return $filenametostore;
-            } else {
-                // Nếu upload thất bại, trả về false
-                return false;
-            }
+
+        // Lấy tên file gốc của file
+        $filenamewithextension = $image->getClientOriginalName();
+        // Lấy tên file không kèm extension
+        $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+        // Lấy extension của file
+        $extension = $image->getClientOriginalExtension();
+        // Tạo tên file mới để lưu trữ trên server
+        $filenametostore = 'logo'.$filename.'_'.uniqid().'.'.$extension;
+        // Thực hiện upload file lên máy chủ FTP
+        if (Storage::disk('ftp')->put($filenametostore, fopen($image->path(), 'r+'))) {
+            // Nếu upload thành công, trả về tên file mới
+            return $filenametostore;
+
+            if($id)
+            {
+                $item = Post::find($id);
+                self::deleteImagesLogoFTP($item->content);
+            } 
+
         } else {
-            // Nếu file không hợp lệ, trả về false
+            // Nếu upload thất bại, trả về false
             return false;
         }
     }
@@ -170,7 +160,6 @@ class FTPModel extends Model
         }
     }
 
-
     public static function uploadImageFromURLToFTP($imageUrl)
     {
         // Kiểm tra extension của file hình ảnh từ URL
@@ -181,11 +170,10 @@ class FTPModel extends Model
 
         // Tải dữ liệu hình ảnh từ URL
         $imageData = file_get_contents($imageUrl);
-
         // Kiểm tra nếu tải dữ liệu thành công
         if ($imageData !== false) {
-            // Thực hiện upload file lên máy chủ FTP
             if (Storage::disk('ftp')->put($filename, $imageData)) {
+
                 // Nếu upload thành công, trả về tên file mới
                 return $filename;
             } else {

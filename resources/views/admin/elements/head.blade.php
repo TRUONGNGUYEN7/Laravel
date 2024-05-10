@@ -26,4 +26,7 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
-    <script src="{{ asset('assets/ckeditor5/ckeditor.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/summernote/summernote-lite.min.css') }}">
+
+    <script src="{{ asset('assets/summernote/jquery3.4.1.slim.min.js') }}"></script>
+    <script src="{{ asset('assets/summernote/summernote-lite.min.js') }}"></script>

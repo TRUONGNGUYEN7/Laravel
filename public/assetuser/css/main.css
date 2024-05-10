@@ -112,6 +112,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
     text-decoration: none;
     display: table;
     font-size: 20px;
+    margin-bottom: -19px;
 }
 
 .csstieude12:hover {
@@ -130,6 +131,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 230px;
+    margin-bottom: -7px;
 }
 
 .csstieude34:hover {
@@ -1635,7 +1637,7 @@ a.breadcrumb-item:hover {
 
 .size-a-7 {
     max-width: 100%;
-    max-height: 54px;
+    max-height: 90px;
 }
 
 .size-a-8 {

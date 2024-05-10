@@ -47,43 +47,43 @@
                                     {{ $ttbaiviet->describe }}
                                 </p>
                                 <div class="noidung">
-                                   <?php
-$content = $ttbaiviet->content;
-
-// Tìm tất cả các đường dẫn hình ảnh trong nội dung
-if (preg_match_all('/<img[^>]+src="([^">]+)"/i', $content, $matches)) {
-    $imageUrls = $matches[1];
-    
-    // Thay thế mỗi đường dẫn hình ảnh bằng đường dẫn từ route displayImages
-    foreach ($imageUrls as $imageUrl) {
-        $newImageUrl = route('displayImages', ['fileName' => basename($imageUrl)]);
-        $content = str_replace($imageUrl, $newImageUrl, $content);
-    }
-}
-
-// Áp dụng các kiểu dáng cho mỗi hình ảnh, video, hoặc iframe
-if (preg_match_all('/<(img|iframe|video)[^>]+>/i', $content, $matches)) {
-    $mediaElements = $matches[0];
-    
-    // Áp dụng kiểu dáng cho mỗi phần tử media
-    foreach ($mediaElements as $mediaElement) {
-        if (strpos($mediaElement, '<video') !== false) {
-            // Nếu là video, thêm thuộc tính autoplay
-            $styledMediaElement = str_replace('<video', '<video autoplay style="max-width:100%; height:auto; border: 1px solid #061041"', $mediaElement);
-        } else {
-            // Đối với hình ảnh và iframe, áp dụng kiểu dáng
-            $styledMediaElement = str_replace('<' . $matches[1][0], '<' . $matches[1][0] . ' style="max-width:670px; height:auto;"', $mediaElement);
-        }
-        $content = str_replace($mediaElement, $styledMediaElement, $content);
-    }
-}
-
-// Áp dụng kiểu dáng cho các đoạn văn bản
-$content = str_replace('<p>', '<p style="margin-bottom: -15px; margin-left: 1px">', nl2br($content));
-
-// Hiển thị nội dung đã được xử lý
-echo '<div style="line-height:;">' . $content . '</div>';
-?>
+                                    <?php
+                                    $content = $ttbaiviet->content;
+                                    
+                                    // Tìm tất cả các đường dẫn hình ảnh trong nội dung
+                                    if (preg_match_all('/<img[^>]+src="([^">]+)"/i', $content, $matches)) {
+                                        $imageUrls = $matches[1];
+                                    
+                                        // Thay thế mỗi đường dẫn hình ảnh bằng đường dẫn từ route displayImages
+                                        foreach ($imageUrls as $imageUrl) {
+                                            $newImageUrl = route('displayImages', ['fileName' => basename($imageUrl)]);
+                                            $content = str_replace($imageUrl, $newImageUrl, $content);
+                                        }
+                                    }
+                                    
+                                    // Áp dụng các kiểu dáng cho mỗi hình ảnh, video, hoặc iframe
+                                    if (preg_match_all('/<(img|iframe|video)[^>]+>/i', $content, $matches)) {
+                                        $mediaElements = $matches[0];
+                                    
+                                        // Áp dụng kiểu dáng cho mỗi phần tử media
+                                        foreach ($mediaElements as $mediaElement) {
+                                            if (strpos($mediaElement, '<video') !== false) {
+                                                // Nếu là video, thêm thuộc tính autoplay
+                                                $styledMediaElement = str_replace('<video', '<video autoplay style="max-width:100%; height:auto; border: 1px solid #061041"', $mediaElement);
+                                            } else {
+                                                // Đối với hình ảnh và iframe, áp dụng kiểu dáng
+                                                $styledMediaElement = str_replace('<' . $matches[1][0], '<' . $matches[1][0] . ' style="max-width:670px; height:auto;"', $mediaElement);
+                                            }
+                                            $content = str_replace($mediaElement, $styledMediaElement, $content);
+                                        }
+                                    }
+                                    
+                                    // Áp dụng kiểu dáng cho các đoạn văn bản
+                                    $content = str_replace('<p>', '<p style="margin-bottom: 15px; margin-left: 1px">', nl2br($content));
+                                    
+                                    // Hiển thị nội dung đã được xử lý
+                                    echo '<div style="line-height:;">' . $content . '</div>';
+                                    ?>
 
                                 </div>
 

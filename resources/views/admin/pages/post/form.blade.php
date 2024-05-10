@@ -53,7 +53,9 @@
                             <label for="content" class="col-sm-1 col-form-label">Nội dung</label>
                             <div class="col-sm-10">
 
-                                <textarea name="content" id="content"> 
+
+
+                                <textarea id="content" name="content">
                                     @if (isset($item))
                                         @php
                                             $content = $item->content;
@@ -64,23 +66,11 @@
                                                 $content = str_replace($imageUrl, route('displayImages', ['fileName' => $imageUrl]), $content);
                                             }
                                         @endphp
-                                                                                    {{ $content }}
+                                        {{ $content }}
                                         @else
                                         {{ old('content') }}
-                                        @endif
-                                    </textarea>
-                                <script>
-                                    ClassicEditor
-                                        .create(document.querySelector('#content'), {
-                                            ckfinder: {
-                                                uploadUrl: "{{ route('ckeditor.upload', ['_token' => csrf_token()]) }}",
-                                            },
-                                        })
-                                        .catch(error => {
-                                            console.error(error);
-                                        });
-                                </script>
-
+                                    @endif</textarea>
+       
                                 @if ($errors->has('content'))
                                     <div class="invalid">{{ $errors->first('content') }}</div>
                                 @endif
@@ -145,5 +135,4 @@
             </div>
         </div>
     </div>
-
 @endsection

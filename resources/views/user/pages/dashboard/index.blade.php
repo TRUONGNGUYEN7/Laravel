@@ -15,15 +15,15 @@
                     @if (isset($Post[0]))
                         @php
                             $PostTemp = $Post[0];
+                            $imageUrl = in_array($PostTemp->imageHash, $imagesFTP) 
+                            ? route('displayImages', ['fileName' => $PostTemp->imageHash])
+                            : asset($fileUploadPath . $PostTemp->imageHash);
                         @endphp
                         <div class="bg-img1 size-a-3 how1 pos-relative "
-                            style="background-image: url('{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $PostTemp->imageHash) 
-                            ? asset('fileUpload/' . $PostTemp->imageHash) 
-                            : route('displayImages', ['fileName' => $PostTemp->imageHash]) }}'); width: 98%">
-                            
+                            style="background-image: url('{{ $imageUrl }}')">
+
                             <a href="{{ route("$moduleName/detail", ['id' => $PostTemp->id]) }}"
                                 class="dis-block how1-child1 trans-03"></a>
-
 
                             <div class="flex-col-e-s s-full p-rl-25 p-tb-20 ">
                                 <a href="#" style="box-shadow: inset;"
@@ -32,7 +32,7 @@
                                 </a>
 
                                 <h3 class="how1-child2 m-t-14 m-b-10">
-                                    <a href="#" class="csstieude12 how-txt1 size-a-6 f1-l-1 cl0 hov-cl10 trans-03">
+                                    <a href="#" class=" hov-cl10 csstieude12">
                                         {{ $PostTemp->name }}
                                     </a>
                                 </h3>
@@ -61,12 +61,12 @@
                             @if (isset($Post[1]))
                                 @php
                                     $PostTemp = $Post[1];
+                                    $imageUrl = in_array($PostTemp->imageHash, $imagesFTP) 
+                                    ? route('displayImages', ['fileName' => $PostTemp->imageHash])
+                                    : asset($fileUploadPath . $PostTemp->imageHash);
                                 @endphp
                                 <div class="bg-img1 size-a-4 how1 pos-relative"
-                                    style="background-image: 
-                                    url('{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $PostTemp->imageHash)
-                                        ? asset('fileUpload/' . $PostTemp->imageHash)
-                                        : route('displayImages', ['fileName' => $PostTemp->imageHash]) }}')">
+                                    style="background-image: url('{{ $imageUrl }}')">
 
                                     <a href="{{ route("$moduleName/detail", ['id' => $PostTemp->id]) }}"
                                         class="dis-block how1-child1 trans-03"></a>
@@ -84,7 +84,7 @@
 
                                         <h3 class="how1-child2 m-t-14">
                                             <a href="#"
-                                                class="how-txt1 size-a-7 f1-l-2 cl0 hov-cl10 trans-03 csstieude12">
+                                                class="hov-cl10 csstieude12">
                                                 {{ $PostTemp->name }}
                                             </a>
                                         </h3>
@@ -106,12 +106,13 @@
                         @if (isset($Post[2]))
                             @php
                                 $PostTemp = $Post[2];
+                                $imageUrl = in_array($PostTemp->imageHash, $imagesFTP) 
+                                    ? route('displayImages', ['fileName' => $PostTemp->imageHash])
+                                    : asset($fileUploadPath . $PostTemp->imageHash);
                             @endphp
                             <div class="col-sm-6 p-rl-1 p-b-2">
                                 <div class="bg-img1 size-a-5 how1 pos-relative"
-                                    style="background-image: url('{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $PostTemp->imageHash) 
-                                    ? asset('fileUpload/' . $PostTemp->imageHash) 
-                                    : route('displayImages', ['fileName' => $PostTemp->imageHash]) }}')">
+                                    style="background-image: url('{{ $imageUrl }}')">
                                     <a href="{{ route("$moduleName/detail", ['id' => $Post[2]->id]) }}"
                                         class="dis-block how1-child1 trans-03"></a>
 
@@ -123,12 +124,12 @@
                                     <div class="flex-col-e-s s-full p-rl-25 p-tb-20">
                                         <a href="#"
                                             class="dis-block how1-child2 f1-s-2 cl0 bo-all-1 bocl0 hov-btn1 trans-03 p-rl-5 p-t-2">
-                                            {{ $Post->isEmpty() ? 'No Category' : $PostTemp->chude->name }}
+                                            {{ $PostTemp->chude->name }}
                                         </a>
                                         <h3 class="how1-child2 m-t-14">
                                             <a href="#"
-                                                class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03 csstieude34">
-                                                {{ $Post->isEmpty() ? 'No Title' : $PostTemp->name }}
+                                                class="hov-cl10 csstieude34">
+                                                {{ $PostTemp->name }}
                                             </a>
                                         </h3>
 
@@ -150,10 +151,14 @@
                         @if (isset($Post[3]))
                             @php
                                 $PostTemp = $Post[3];
+                                $imageUrl = in_array($PostTemp->imageHash, $imagesFTP) 
+                                ? route('displayImages', ['fileName' => $PostTemp->imageHash])
+                                : asset($fileUploadPath . $PostTemp->imageHash);
                             @endphp
                             <div class="col-sm-6 p-rl-1 p-b-2">
                                 <div class="bg-img1 size-a-5 how1 pos-relative"
-                                    style="background-image: url('{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $PostTemp->imageHash) ? asset('fileUpload/' . $PostTemp->imageHash) : route('displayImages', ['fileName' => $PostTemp->imageHash]) }}')">
+                                    style="background-image: url('{{ $imageUrl }}')">
+
                                     <a href="{{ route("$moduleName/detail", ['id' => $PostTemp->id]) }}"
                                         class="dis-block how1-child1 trans-03"></a>
 
@@ -169,7 +174,7 @@
                                         </a>
                                         <h3 class="how1-child2 m-t-14">
                                             <a href="#"
-                                                class="how-txt1 size-h-1 f1-m-1 cl0 hov-cl10 trans-03 csstieude34">
+                                                class="hov-cl10 csstieude34">
                                                 {{ $PostTemp->name }}
                                             </a>
                                         </h3>

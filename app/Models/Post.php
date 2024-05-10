@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Helpers\FTPHelper;
 use App\Models\AdminModel;
-use App\Models\FTPModel;
 use DateTime;
 use DB;
 
@@ -20,7 +19,7 @@ class Post extends AdminModel
     protected $primaryKey = 'id';
     protected $table = 'baiviet';
     protected $fillable = [
-        'id',  'name', 'describe', 'content', 'image'. 'imageHash', 'created', 'chudeID', 'created', 'created_by', 'modified', 'modified_by'
+        'id',  'name', 'describe', 'content', 'image', 'imageHash', 'created', 'chudeID', 'created', 'created_by', 'modified', 'modified_by'
     ];
 
     public static function getItem($params = null, $options = null)
@@ -34,22 +33,23 @@ class Post extends AdminModel
 
     public function saveItem($params = null, $options = null)
     { 
-        if ($options['task'] == 'add-item') {
-            $contentreplace = FTPModel::processImagesInContent($params['content']);
+        if ($options['task'] == 'add-item') {     
+            
+            $contentreplace = FTPHelper::processImagesInContent($params['content']);
             $params['content'] = $contentreplace;
-            $params['imageHash'] = FTPModel::uploadImageToFTP($params['image']); //upload image logo
+            //dd($contentreplace);
+            $params['imageHash'] = FTPHelper::uploadImageToFTP($params['image']); //upload image logo
             $this->setCreatedHistory($params);
-            self::insert($this->prepareParams($params));
+            self::create($this->prepareParams($params));
         }
         if ($options['task'] == 'edit-item') {
-            $contentreplace = FTPModel::processImagesInContent($params['content']);
+            $contentreplace = FTPHelper::processImagesInContent($params['content']);
+            $item = Post::find($params['id']);
+            FTPHelper::deleteImagesContentFTP($item->content);
             $params['content'] = $contentreplace;
-            $item = self::find($params['id']);
-            FTPModel::deleteImagesContentFTP($item->content);
-            if (isset($params['image'])) {
-                FTPModel::deleteImagesLogoFTP($item->imageHash);
-                $params['imageHash'] = FTPModel::uploadImageToFTP($params['image']); //upload image logo
-            }         
+            if (isset($params['image'])) {       
+                $params['imageHash'] = FTPHelper::uploadImageToFTP($params['image'], $params['id']); //upload image logo
+            }
             $this->setModifiedHistory($params);
             self::where('id', $params['id'])->update($this->prepareParams($params));
         }
@@ -65,7 +65,7 @@ class Post extends AdminModel
                 return false;
             }
 
-            FTPModel::deleteImagesFromFTP($record->content, $record->imageHash);
+            FTPHelper::deleteImagesFromFTP($record->content, $record->imageHash);
             $record->delete();
         }
     }
