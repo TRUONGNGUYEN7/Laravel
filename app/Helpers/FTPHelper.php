@@ -12,7 +12,7 @@ use App\Jobs\DownloadImageFromFTP;
 use Illuminate\Support\Facades\Response;
 class FTPHelper
 {    
-   public static function processImagesInContent($content)
+   public static function processImagesInContent($content, $type)
     {
         // Tìm kiếm các hình ảnh trong nội dung CKEditor
         preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
@@ -23,10 +23,10 @@ class FTPHelper
             // Kiểm tra xem đường dẫn hình ảnh là base64 hay URL
             if (strpos($imageUrl, 'data:image') === 0) {
                 // Xử lý hình ảnh dưới dạng base64
-                $imageHashContent = self::uploadImageFromBase64ToFTP($imageUrl);
+                $imageHashContent = self::uploadImageFromBase64ToFTP($imageUrl, $type);
             } else {
                 // Xử lý hình ảnh dưới dạng URL
-                $imageHashContent = self::uploadImageFromURLToFTP($imageUrl);
+                $imageHashContent = self::uploadImageFromURLToFTP($imageUrl, $type);
             }
             
             // Thay thế đường dẫn hình ảnh trong nội dung CKEditor bằng đường dẫn trên FTP
@@ -104,11 +104,12 @@ class FTPHelper
         // Tạo tên file mới để lưu trữ trên server
         $filenametostore = 'imagesPost/logo'.$filename.'_'.uniqid().'.'.$extension;
         $filenamesql = str_replace('imagesPost/', '', $filenametostore);
+        $routeName = route('displayImages', ['fileName' => $filenamesql]);
 
         // Thực hiện upload file lên máy chủ FTP
         if (Storage::disk('ftp')->put($filenametostore, fopen($image->path(), 'r+'))) {
             // Nếu upload thành công, trả về tên file mới
-            return $filenamesql;
+            return $routeName;
 
             if($id)
             {
@@ -122,8 +123,9 @@ class FTPHelper
         }
     }
 
-    public static function uploadImageFromBase64ToFTP($base64Image)
+    public static function uploadImageFromBase64ToFTP($base64Image, $type)
     {
+
         // Tách dữ liệu hình ảnh từ chuỗi base64
         $base64Data = explode(',', $base64Image);
         $imageData = base64_decode($base64Data[1]); // Dữ liệu hình ảnh sẽ ở phần tử thứ hai
@@ -137,12 +139,15 @@ class FTPHelper
         }
 
         // Tạo tên tệp duy nhất
-        $fileName = 'imagesPost/base' . uniqid() . '.' . $imageType;
-        $fileNamesql = str_replace('imagesPost/', '', $fileName);
+        $fileName = $type. '/base' . uniqid() . '.' . $imageType;
+        $fileNamesql = str_replace($type.'/', '', $fileName);
+
+        $routeName = route('displayImages', ['fileName' => $fileNamesql]);
+
         // Lưu tệp vào đĩa FTP
         if (Storage::disk('ftp')->put($fileName, $imageData)) {
             // Nếu upload thành công, trả về đường dẫn đầy đủ của tệp
-            return $fileNamesql;
+            return $routeName;
         } else {
             // Nếu không upload thành công, trả về false hoặc thực hiện xử lý phù hợp
             return false;
@@ -160,15 +165,16 @@ class FTPHelper
         }
     }
 
-    public static function uploadImageFromURLToFTP($imageUrl)
+    public static function uploadImageFromURLToFTP($imageUrl, $type)
     {
         // Kiểm tra extension của file hình ảnh từ URL
         $extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
         
         // Tạo tên file mới để lưu trữ trên máy chủ FTP
-        $filename = 'imagesPost/url' . uniqid() . '.' . $extension;
+        $filename = $type.'/url' . uniqid() . '.' . $extension;
+        $filenamesql = str_replace($type.'/', '', $filename);
+        $routeName = route('displayImages', ['fileName' => $filenamesql]);
 
-        $filenamesql = str_replace('imagesPost/', '', $filename);
         // Tải dữ liệu hình ảnh từ URL
         $imageData = file_get_contents($imageUrl);
         // Kiểm tra nếu tải dữ liệu thành công
@@ -177,7 +183,7 @@ class FTPHelper
             if (Storage::disk('ftp')->put($filename, $imageData)) {
 
                 // Nếu upload thành công, trả về tên file mới
-                return $filenamesql;
+                return $routeName;
             } else {
                 // Nếu upload thất bại, trả về false
                 return false;

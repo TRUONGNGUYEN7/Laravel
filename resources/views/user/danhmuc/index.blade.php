@@ -106,7 +106,7 @@
                                         <img style="width: 250px; height: 160px; object-fit: cover; object-position: top;"
                                             src="{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $post->image) 
                                             ? asset('fileUpload/' . $post->image) 
-                                            : route('displayImages', ['fileName' => $post->image]) }}" alt="IMG">
+                                            : $post->image }}" alt="IMG">
                                     </a>
 
                                     <div class="p-t-16 ml-3">

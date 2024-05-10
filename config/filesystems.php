@@ -65,7 +65,7 @@ return [
             'host'     => '127.0.0.1',
             'username' => 'admin',
             'password' => 'admin123',
-            'root' => '/FTPNNT'
+            'root' => '/FTP'
             // Optional FTP Settings...
             //'port'     => 14148,
             // 'passive'  => true,

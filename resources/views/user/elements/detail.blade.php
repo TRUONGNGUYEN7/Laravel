@@ -49,18 +49,7 @@
                                 <div class="noidung">
                                     <?php
                                     $content = $ttbaiviet->content;
-                                    
-                                    // Tìm tất cả các đường dẫn hình ảnh trong nội dung
-                                    if (preg_match_all('/<img[^>]+src="([^">]+)"/i', $content, $matches)) {
-                                        $imageUrls = $matches[1];
-                                    
-                                        // Thay thế mỗi đường dẫn hình ảnh bằng đường dẫn từ route displayImages
-                                        foreach ($imageUrls as $imageUrl) {
-                                            $newImageUrl = route('displayImages', ['fileName' => basename($imageUrl)]);
-                                            $content = str_replace($imageUrl, $newImageUrl, $content);
-                                        }
-                                    }
-                                    
+                                     
                                     // Áp dụng các kiểu dáng cho mỗi hình ảnh, video, hoặc iframe
                                     if (preg_match_all('/<(img|iframe|video)[^>]+>/i', $content, $matches)) {
                                         $mediaElements = $matches[0];

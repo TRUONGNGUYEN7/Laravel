@@ -35,7 +35,7 @@ class Post extends AdminModel
     { 
         if ($options['task'] == 'add-item') {     
             
-            $contentreplace = FTPHelper::processImagesInContent($params['content']);
+            $contentreplace = FTPHelper::processImagesInContent($params['content'], 'imagesPost');
             $params['content'] = $contentreplace;
             //dd($contentreplace);
             $params['image'] = FTPHelper::uploadImageToFTP($params['image']); //upload image logo
@@ -43,7 +43,7 @@ class Post extends AdminModel
             self::create($this->prepareParams($params));
         }
         if ($options['task'] == 'edit-item') {
-            $contentreplace = FTPHelper::processImagesInContent($params['content']);
+            $contentreplace = FTPHelper::processImagesInContent($params['content'], 'imagesPost');
             $item = Post::find($params['id']);
             FTPHelper::deleteImagesContentFTP($item->content);
             $params['content'] = $contentreplace;

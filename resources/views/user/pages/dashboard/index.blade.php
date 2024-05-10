@@ -16,7 +16,7 @@
                         @php
                             $PostTemp = $Post[0];
                             $imageUrl = in_array($PostTemp->image, $imagesFTP) 
-                            ? route('displayImages', ['fileName' => $PostTemp->image])
+                            ? $PostTemp->image
                             : asset($fileUploadPath . $PostTemp->image);
                         @endphp
                         <div class="bg-img1 size-a-3 how1 pos-relative "
@@ -62,7 +62,7 @@
                                 @php
                                     $PostTemp = $Post[1];
                                     $imageUrl = in_array($PostTemp->image, $imagesFTP) 
-                                    ? route('displayImages', ['fileName' => $PostTemp->image])
+                                    ? $PostTemp->image
                                     : asset($fileUploadPath . $PostTemp->image);
                                 @endphp
                                 <div class="bg-img1 size-a-4 how1 pos-relative"
@@ -107,7 +107,7 @@
                             @php
                                 $PostTemp = $Post[2];
                                 $imageUrl = in_array($PostTemp->image, $imagesFTP) 
-                                    ? route('displayImages', ['fileName' => $PostTemp->image])
+                                    ? $PostTemp->image
                                     : asset($fileUploadPath . $PostTemp->image);
                             @endphp
                             <div class="col-sm-6 p-rl-1 p-b-2">
@@ -152,7 +152,7 @@
                             @php
                                 $PostTemp = $Post[3];
                                 $imageUrl = in_array($PostTemp->image, $imagesFTP) 
-                                ? route('displayImages', ['fileName' => $PostTemp->image])
+                                ? $PostTemp->image
                                 : asset($fileUploadPath . $PostTemp->image);
                             @endphp
                             <div class="col-sm-6 p-rl-1 p-b-2">

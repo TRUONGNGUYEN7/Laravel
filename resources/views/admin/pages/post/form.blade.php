@@ -57,7 +57,7 @@
 
                                 <textarea id="content" name="content">
                                     @if (isset($item))
-                                        @php
+                                        {{-- @php
                                             $content = $item->content;
                                             $pattern = '/<img[^>]+src="([^">]+)"/';
                                             preg_match_all($pattern, $content, $matches);
@@ -65,8 +65,8 @@
                                             foreach ($imageUrls as $imageUrl) {
                                                 $content = str_replace($imageUrl, route('displayImages', ['fileName' => $imageUrl]), $content);
                                             }
-                                        @endphp
-                                        {{ $content }}
+                                        @endphp --}}
+                                        {{ $item->content }}
                                         @else
                                         {{ old('content') }}
                                     @endif</textarea>
@@ -87,7 +87,7 @@
                                     alt="Hãy thêm hình!"> --}}
 
                                     <img style="width: 200px"
-                                        src="{{ route('displayImages', ['fileName' => $item->image]) }}"
+                                        src="{{ $item->image }}"
                                         alt="Image">
                                 @endif
                                 @if ($errors->has('image'))
