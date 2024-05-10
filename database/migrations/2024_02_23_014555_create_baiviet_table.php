@@ -17,9 +17,8 @@ return new class extends Migration
             $table->text('describe');
             $table->text('content');
             $table->text('image');
-            $table->text('imageHash');
             $table->integer('views')->default(0);
-            $table->string('status', 50)->nullable();
+            $table->string('status', 50)->nullable()->default('active');
             $table->unsignedBigInteger('chudeID');
             $table->dateTime('created')->nullable();
             $table->integer('created_by')->nullable();

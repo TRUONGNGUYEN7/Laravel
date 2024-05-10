@@ -77,9 +77,9 @@ class FTPHelper
     {
         $imagesFTP = [];
         foreach ($ds as $post) {
-            if (isset($post->imageHash)) {
+            if (isset($post->image)) {
                 // Nếu có imageHash
-                $imageHashList = $post->imageHash;
+                $imageHashList = $post->image;
                 
                 // Kiểm tra xem tệp đã tồn tại trong thư mục fileUpload
                 if (!Storage::disk('ntg_storage')->exists($imageHashList)) {
@@ -164,10 +164,11 @@ class FTPHelper
     {
         // Kiểm tra extension của file hình ảnh từ URL
         $extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
-
+        
         // Tạo tên file mới để lưu trữ trên máy chủ FTP
         $filename = 'imagesPost/url' . uniqid() . '.' . $extension;
-        $filenamesql = str_replace('imagesPost/', '', $fileName);
+
+        $filenamesql = str_replace('imagesPost/', '', $filename);
         // Tải dữ liệu hình ảnh từ URL
         $imageData = file_get_contents($imageUrl);
         // Kiểm tra nếu tải dữ liệu thành công

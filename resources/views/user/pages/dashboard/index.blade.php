@@ -15,9 +15,9 @@
                     @if (isset($Post[0]))
                         @php
                             $PostTemp = $Post[0];
-                            $imageUrl = in_array($PostTemp->imageHash, $imagesFTP) 
-                            ? route('displayImages', ['fileName' => $PostTemp->imageHash])
-                            : asset($fileUploadPath . $PostTemp->imageHash);
+                            $imageUrl = in_array($PostTemp->image, $imagesFTP) 
+                            ? route('displayImages', ['fileName' => $PostTemp->image])
+                            : asset($fileUploadPath . $PostTemp->image);
                         @endphp
                         <div class="bg-img1 size-a-3 how1 pos-relative "
                             style="background-image: url('{{ $imageUrl }}')">
@@ -61,9 +61,9 @@
                             @if (isset($Post[1]))
                                 @php
                                     $PostTemp = $Post[1];
-                                    $imageUrl = in_array($PostTemp->imageHash, $imagesFTP) 
-                                    ? route('displayImages', ['fileName' => $PostTemp->imageHash])
-                                    : asset($fileUploadPath . $PostTemp->imageHash);
+                                    $imageUrl = in_array($PostTemp->image, $imagesFTP) 
+                                    ? route('displayImages', ['fileName' => $PostTemp->image])
+                                    : asset($fileUploadPath . $PostTemp->image);
                                 @endphp
                                 <div class="bg-img1 size-a-4 how1 pos-relative"
                                     style="background-image: url('{{ $imageUrl }}')">
@@ -106,9 +106,9 @@
                         @if (isset($Post[2]))
                             @php
                                 $PostTemp = $Post[2];
-                                $imageUrl = in_array($PostTemp->imageHash, $imagesFTP) 
-                                    ? route('displayImages', ['fileName' => $PostTemp->imageHash])
-                                    : asset($fileUploadPath . $PostTemp->imageHash);
+                                $imageUrl = in_array($PostTemp->image, $imagesFTP) 
+                                    ? route('displayImages', ['fileName' => $PostTemp->image])
+                                    : asset($fileUploadPath . $PostTemp->image);
                             @endphp
                             <div class="col-sm-6 p-rl-1 p-b-2">
                                 <div class="bg-img1 size-a-5 how1 pos-relative"
@@ -151,9 +151,9 @@
                         @if (isset($Post[3]))
                             @php
                                 $PostTemp = $Post[3];
-                                $imageUrl = in_array($PostTemp->imageHash, $imagesFTP) 
-                                ? route('displayImages', ['fileName' => $PostTemp->imageHash])
-                                : asset($fileUploadPath . $PostTemp->imageHash);
+                                $imageUrl = in_array($PostTemp->image, $imagesFTP) 
+                                ? route('displayImages', ['fileName' => $PostTemp->image])
+                                : asset($fileUploadPath . $PostTemp->image);
                             @endphp
                             <div class="col-sm-6 p-rl-1 p-b-2">
                                 <div class="bg-img1 size-a-5 how1 pos-relative"
@@ -249,7 +249,7 @@
                                                         <a onclick=""
                                                             href="{{ route("$moduleName/detail", ['id' => $baiviet->id]) }}">
                                                             <img style="width: 195px; height: 210px; object-fit: cover; object-position: top;"
-                                                                src='{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $baiviet->imageHash) ? asset('fileUpload/' . $baiviet->imageHash) : route('displayImages', ['fileName' => $baiviet->imageHash]) }}'
+                                                                src='{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $baiviet->image) ? asset('fileUpload/' . $baiviet->image) : route('displayImages', ['fileName' => $baiviet->image]) }}'
                                                                 class="width-100 loaded" data-was-processed="true">
                                                         </a>
                                                     </figure>
@@ -349,13 +349,13 @@
 
                                                             <a href="{{ route("$moduleName/detail", ['id' => $baiviet->id]) }}"
                                                                 class="wrap-pic-w hov1 trans-03">
-                                                                @if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $baiviet->imageHash))
+                                                                @if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $baiviet->image))
                                                                     <img style="width: 195px; height: 210px; object-fit: cover; object-position: top;"
-                                                                        src='{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $baiviet->imageHash) ? asset('fileUpload/' . $baiviet->imageHash) : route('displayImages', ['fileName' => $baiviet->imageHash]) }}'>
+                                                                        src='{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $baiviet->image) ? asset('fileUpload/' . $baiviet->image) : route('displayImages', ['fileName' => $baiviet->image]) }}'>
                                                                 @else
                                                                     <video
                                                                         style="width: 196px; height: 210px; object-fit: cover; object-position: top; position: absolute; top: 0; left: 0;">
-                                                                        <source src="{{ $Post[0]->imageHash }}"
+                                                                        <source src="{{ $Post[0]->image }}"
                                                                             type="video/mp4">
                                                                         Your browser does not support the video tag.
                                                                     </video>
@@ -428,7 +428,7 @@
                                         <a href="{{ route("$moduleName/detail", ['id' => $post->id]) }}"
                                             class="wrap-pic-w hov1 trans-03">
                                             <img style="width: 300px; height: 250px; object-fit: cover; object-position: top;"
-                                                src="{{ asset($fileUploadPath . $post->imageHash) }}" alt="IMG">
+                                                src="{{ asset($fileUploadPath . $post->image) }}" alt="IMG">
                                         </a>
 
                                         <div class="p-t-16">
@@ -458,7 +458,7 @@
                                         <a href="{{ route("$moduleName/detail", ['id' => $post->id]) }}"
                                             class="wrap-pic-w hov1 trans-03">
                                             <img style="width: 300px; height: 250px; object-fit: cover; object-position: top;"
-                                                src="{{ asset($fileUploadPath . $post->imageHash) }}" alt="IMG">
+                                                src="{{ asset($fileUploadPath . $post->image) }}" alt="IMG">
                                         </a>
 
                                         <div class="p-t-16">

@@ -26,7 +26,7 @@ class DownloadImageFromFTP implements ShouldQueue
     public function handle(): void
     {
         // Thực hiện tải và lưu hình ảnh từ FTP xuống local
-        $imageData = Storage::disk('ftp')->get($this->imageHashList);
+        $imageData = Storage::disk('ftp')->get('imagesPost/' .$this->imageHashList);
         if ($imageData) {
             Storage::disk('ntg_storage')->put($this->imageHashList, $imageData);
         }

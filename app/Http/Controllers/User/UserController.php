@@ -40,7 +40,9 @@ class UserController extends HomeController
         $fourCategoryContent = Category::getActiveCategories();
         $ttdanhmuc = collect();
         $Post = Post::getActivePosts(6);
+
         $imagesFTP = FTPHelper::downloadImagesFromFTP($Post);
+
         return view($this->pathViewController .'index', [
             'menuCategory' => $menuCategory,
             'subCategory' => $subCategory,

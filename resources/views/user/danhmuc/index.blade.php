@@ -15,9 +15,9 @@
                     @foreach ($getPosts->slice(1, 2) as $post)
                         <div class="card mb-3">
                             <div class="bg-img1 size-a-14 how1 pos-relative"
-                                style="background-image: url({{ Storage::disk('ntg_storage')->exists('fileUpload/' . $post->imageHash) 
-                                    ? asset('fileUpload/' . $post->imageHash) 
-                                    : route('displayImages', ['fileName' => $post->imageHash]) }}); height: 125px">
+                                style="background-image: url({{ Storage::disk('ntg_storage')->exists('fileUpload/' . $post->image) 
+                                    ? asset('fileUpload/' . $post->image) 
+                                    : route('displayImages', ['fileName' => $post->image]) }}); height: 125px">
                                     
                                 <a href="{{ route("$moduleName/detail", ['id' => $post->id]) }}"
                                     class="dis-block how1-child1 trans-03"></a>
@@ -40,9 +40,9 @@
                         @endphp
                         <div class="card mb-3">
                             <div class="bg-img1 size-a-3 how1 pos-relative"
-                                style="background-image: url({{ Storage::disk('ntg_storage')->exists('fileUpload/' . $PostTemp->imageHash) 
-                                    ? asset('fileUpload/' . $PostTemp->imageHash) 
-                                    : route('displayImages', ['fileName' => $PostTemp->imageHash]) }}); height: 366px">
+                                style="background-image: url({{ Storage::disk('ntg_storage')->exists('fileUpload/' . $PostTemp->image) 
+                                    ? asset('fileUpload/' . $PostTemp->image) 
+                                    : route('displayImages', ['fileName' => $PostTemp->image]) }}); height: 366px">
                                 <a href="{{ route("$moduleName/detail", ['id' => $PostTemp->id]) }}"
                                     class="dis-block how1-child1 trans-03"></a>
                             </div>
@@ -62,9 +62,9 @@
                     @foreach ($getPosts->slice(3, 2) as $post)
                         <div class="card mb-3">
                             <div class="bg-img1 size-a-14 how1 pos-relative"
-                                style="background-image: url({{ Storage::disk('ntg_storage')->exists('fileUpload/' . $post->imageHash) 
-                                    ? asset('fileUpload/' . $post->imageHash) 
-                                    : route('displayImages', ['fileName' => $post->imageHash]) }}); height: 150px">
+                                style="background-image: url({{ Storage::disk('ntg_storage')->exists('fileUpload/' . $post->image) 
+                                    ? asset('fileUpload/' . $post->image) 
+                                    : route('displayImages', ['fileName' => $post->image]) }}); height: 150px">
                                 <a href="{{ route("$moduleName/detail", ['id' => $post->id]) }}"
                                     class="dis-block how1-child1 trans-03"></a>
                             </div>
@@ -104,9 +104,9 @@
                                     <a href="{{ route("$moduleName/detail", ['id' => $post->id]) }}"
                                         class="wrap-pic-w hov1 trans-03">
                                         <img style="width: 250px; height: 160px; object-fit: cover; object-position: top;"
-                                            src="{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $post->imageHash) 
-                                            ? asset('fileUpload/' . $post->imageHash) 
-                                            : route('displayImages', ['fileName' => $post->imageHash]) }}" alt="IMG">
+                                            src="{{ Storage::disk('ntg_storage')->exists('fileUpload/' . $post->image) 
+                                            ? asset('fileUpload/' . $post->image) 
+                                            : route('displayImages', ['fileName' => $post->image]) }}" alt="IMG">
                                     </a>
 
                                     <div class="p-t-16 ml-3">
@@ -258,7 +258,7 @@
                                                     <a onclick=""
                                                         href="{{ route("$moduleName/detail", ['id' => $baiviet->id]) }}">
                                                         <img style="width: 195px; height: 210px; object-fit: cover; object-position: top;"
-                                                            src='{{ asset($fileUploadPath.$baiviet->imageHash) }}'
+                                                            src='{{ asset($fileUploadPath.$baiviet->image) }}'
                                                             class="width-100 loaded" data-was-processed="true">
                                                     </a>
                                                 </figure>

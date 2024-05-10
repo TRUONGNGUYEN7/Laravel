@@ -306,7 +306,7 @@
                                     @foreach ($Post as $key)
                                         <a href="#" class="size-w-10 wrap-pic-w hov1 trans-03">
                                             <img style="margin-bottom: 10px"
-                                                src='{{ asset($fileUploadPath . $key->imageHash) }}' alt="IMG">
+                                                src='{{ asset($fileUploadPath . $key->image) }}' alt="IMG">
                                         </a>
 
                                         <div class="size-w-11">

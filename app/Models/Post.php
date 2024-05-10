@@ -19,7 +19,7 @@ class Post extends AdminModel
     protected $primaryKey = 'id';
     protected $table = 'baiviet';
     protected $fillable = [
-        'id',  'name', 'describe', 'content', 'image', 'imageHash', 'created', 'chudeID', 'created', 'created_by', 'modified', 'modified_by'
+        'id',  'name', 'describe', 'content', 'image', 'created', 'chudeID', 'created', 'created_by', 'modified', 'modified_by'
     ];
 
     public static function getItem($params = null, $options = null)
@@ -38,7 +38,7 @@ class Post extends AdminModel
             $contentreplace = FTPHelper::processImagesInContent($params['content']);
             $params['content'] = $contentreplace;
             //dd($contentreplace);
-            $params['imageHash'] = FTPHelper::uploadImageToFTP($params['image']); //upload image logo
+            $params['image'] = FTPHelper::uploadImageToFTP($params['image']); //upload image logo
             $this->setCreatedHistory($params);
             self::create($this->prepareParams($params));
         }
@@ -48,7 +48,7 @@ class Post extends AdminModel
             FTPHelper::deleteImagesContentFTP($item->content);
             $params['content'] = $contentreplace;
             if (isset($params['image'])) {       
-                $params['imageHash'] = FTPHelper::uploadImageToFTP($params['image'], $params['id']); //upload image logo
+                $params['image'] = FTPHelper::uploadImageToFTP($params['image'], $params['id']); //upload image logo
             }
             $this->setModifiedHistory($params);
             self::where('id', $params['id'])->update($this->prepareParams($params));
@@ -65,7 +65,7 @@ class Post extends AdminModel
                 return false;
             }
 
-            FTPHelper::deleteImagesFromFTP($record->content, $record->imageHash);
+            FTPHelper::deleteImagesFromFTP($record->content, $record->image);
             $record->delete();
         }
     }

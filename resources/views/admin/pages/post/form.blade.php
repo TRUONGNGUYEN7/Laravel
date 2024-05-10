@@ -82,12 +82,12 @@
                             <div class="col-sm-10">
                                 <input type="file" class="form-control" name="image" id="image"
                                     value="{{ isset($item) ? $item->image : old('image') }}">
-                                @if (isset($item) && $item->imageHash)
-                                    {{-- <img style="width: 100px;" id="qrCodeImage" src="{{ asset($fileUploadPath . $item['imageHash']) }}"
+                                @if (isset($item) && $item->image)
+                                    {{-- <img style="width: 100px;" id="qrCodeImage" src="{{ asset($fileUploadPath . $item['image']) }}"
                                     alt="Hãy thêm hình!"> --}}
 
                                     <img style="width: 200px"
-                                        src="{{ route('displayImages', ['fileName' => $item->imageHash]) }}"
+                                        src="{{ route('displayImages', ['fileName' => $item->image]) }}"
                                         alt="Image">
                                 @endif
                                 @if ($errors->has('image'))
