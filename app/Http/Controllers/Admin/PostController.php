@@ -36,16 +36,20 @@ class PostController extends BaseController
     {
         // Xây dựng đường dẫn tới tệp hình ảnh trong thư mục 'imagesPost/'
         $filePath = 'imagesPost/' . $fileName;
-
+        $imageExtension = pathinfo($filePath, PATHINFO_EXTENSION);
         // Đọc dữ liệu của file hình ảnh từ máy chủ FTP
         $imageData = Storage::disk('ftp')->get($filePath);
 
-        // Thiết lập các header cho loại nội dung của hình ảnh
+        if ($imageExtension === 'jpg' || $imageExtension === 'jpeg') {
+            $contentType = 'image/jpeg';
+        } elseif ($imageExtension === 'png') {
+            $contentType = 'image/png';
+        }
+
         $headers = [
-            'Content-Type' => 'image/jpeg', // Thay 'image/jpeg' bằng loại nội dung tương ứng của hình ảnh của bạn
+            'Content-Type' => $contentType,
         ];
 
-        // Trả về phản hồi có dữ liệu của hình ảnh và các header được thiết lập
         return Response::make($imageData, 200, $headers);
     }
 
