@@ -62,15 +62,10 @@ return [
 
         'ftp' => [
             'driver'   => 'ftp',
-            'host'     => '127.0.0.1',
+            'host'     => '192.168.1.103',
             'username' => 'admin',
             'password' => 'admin123',
-            'root' => '/FTP'
-            // Optional FTP Settings...
-            //'port'     => 14148,
-            // 'passive'  => true,
-            // 'ssl'      => true,
-            // 'timeout'  => 30,
+            'root' => '/FTPNNT'
         ],
 
         'ftpDeleteImg' => [
@@ -78,12 +73,7 @@ return [
             'host'     => '127.0.0.1',
             'username' => 'admin',
             'password' => 'admin123',
-            'root' => '/FTPNNT/imagesPost'
-            // Optional FTP Settings...
-            //'port'     => 14148,
-            // 'passive'  => true,
-            // 'ssl'      => true,
-            // 'timeout'  => 30,
+            'root' => '/FTP'
         ],
 
     ],

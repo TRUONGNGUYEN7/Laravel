@@ -23,10 +23,14 @@ class FTPHelper
             // Kiểm tra xem đường dẫn hình ảnh là base64 hay URL
             if (strpos($imageUrl, 'data:image') === 0) {
                 // Xử lý hình ảnh dưới dạng base64
+          
                 $imageHashContent = self::uploadImageFromBase64ToFTP($imageUrl, $type);
+
             } else {
+     
                 // Xử lý hình ảnh dưới dạng URL
                 $imageHashContent = self::uploadImageFromURLToFTP($imageUrl, $type);
+
             }
             
             // Thay thế đường dẫn hình ảnh trong nội dung CKEditor bằng đường dẫn trên FTP
@@ -35,8 +39,9 @@ class FTPHelper
         return $content;
     }
 
-    public static function deleteImagesFromFTP($content, $imageHash)
+    public static function deleteImagesFromFTP($content, $image, $type)
     {
+
         // Tìm kiếm các hình ảnh trong nội dung CKEditor
         preg_match_all('/<img[^>]+src="([^">]+)"/', $content, $matches, PREG_SET_ORDER);
 
@@ -46,13 +51,13 @@ class FTPHelper
             // Lấy tên tệp từ URL
             $fileName = basename($imageUrl);
             // Xóa tệp trên FTP
-            Storage::disk('ftp')->delete('/imagesPost/' .$fileName);
+            Storage::disk('ftp')->delete( $type.'/'.$fileName);
         }
-
-        Storage::disk('ftp')->delete('/imagesPost/' .$imageHash);
+        $image = basename($image);
+        Storage::disk('ftp')->delete( $type.'/'.$image);
     }
 
-    public static function deleteImagesContentFTP($contentold)
+    public static function deleteImagesContentFTP($contentold, $type)
     {
         // Tìm kiếm các hình ảnh trong nội dung CKEditor
         preg_match_all('/<img[^>]+src="([^">]+)"/', $contentold, $matches, PREG_SET_ORDER);
@@ -64,13 +69,13 @@ class FTPHelper
             $fileName = basename($imageUrl);
 
             // Xóa tệp trên FTP
-            Storage::disk('ftp')->delete('/imagesPost/' .$fileName);
+            Storage::disk('ftp')->delete( $type.'/' .$fileName);
         }
     }
 
     public static function deleteImagesLogoFTP($logo)
     {
-        Storage::disk('ftp')->delete('/imagesPost/' .$logo);
+        Storage::disk('ftp')->delete( $type.'/' .$logo);
     }
 
     public static function downloadImagesFromFTP($ds)
@@ -143,10 +148,10 @@ class FTPHelper
         $fileNamesql = str_replace($type.'/', '', $fileName);
 
         $routeName = route('displayImages', ['fileName' => $fileNamesql]);
-
+        // Nếu upload thành công, trả về đường dẫn đầy đủ của tệp
         // Lưu tệp vào đĩa FTP
         if (Storage::disk('ftp')->put($fileName, $imageData)) {
-            // Nếu upload thành công, trả về đường dẫn đầy đủ của tệp
+           
             return $routeName;
         } else {
             // Nếu không upload thành công, trả về false hoặc thực hiện xử lý phù hợp

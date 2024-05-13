@@ -32,10 +32,12 @@ class Post extends AdminModel
     }
 
     public function saveItem($params = null, $options = null)
-    { 
-        if ($options['task'] == 'add-item') {     
-            
-            $contentreplace = FTPHelper::processImagesInContent($params['content'], 'imagesPost');
+    {   
+        $type = 'imagesPost';
+        if ($options['task'] == 'add-item') {
+                 
+            $contentreplace = FTPHelper::processImagesInContent($params['content'], $type);
+
             $params['content'] = $contentreplace;
             //dd($contentreplace);
             $params['image'] = FTPHelper::uploadImageToFTP($params['image']); //upload image logo
@@ -43,9 +45,9 @@ class Post extends AdminModel
             self::create($this->prepareParams($params));
         }
         if ($options['task'] == 'edit-item') {
-            $contentreplace = FTPHelper::processImagesInContent($params['content'], 'imagesPost');
+            $contentreplace = FTPHelper::processImagesInContent($params['content'], $type);
             $item = Post::find($params['id']);
-            FTPHelper::deleteImagesContentFTP($item->content);
+            FTPHelper::deleteImagesContentFTP($item->content, $type);
             $params['content'] = $contentreplace;
             if (isset($params['image'])) {       
                 $params['image'] = FTPHelper::uploadImageToFTP($params['image'], $params['id']); //upload image logo
@@ -65,7 +67,7 @@ class Post extends AdminModel
                 return false;
             }
 
-            FTPHelper::deleteImagesFromFTP($record->content, $record->image);
+            FTPHelper::deleteImagesFromFTP($record->content, $record->image, 'imagesPost');
             $record->delete();
         }
     }
